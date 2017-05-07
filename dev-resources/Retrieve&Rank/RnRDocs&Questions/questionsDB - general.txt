@@ -1,0 +1,78 @@
+Can I track the accounts of my family members from one device?
+I have savings as well as current account with Open Finance, which of the two will be synchronized to the application?
+How can I inquire about my deposit balance?
+Can I pay someone else's bill? 
+Is there any upper limit?
+Any upper limit is there?
+What if bill amount is greater than autopay amount set?
+What are the consequences of not paying a bill that is presented to me? 
+What happens if I have a dispute with a Biller on the bills paid over Bill Payment (Digital Bank)? 
+Can I perform transaction from other accounts
+Can I select more than one nominee
+Can more than one nominee be selected?
+On editing nominee, can I go for Nominee who is not relative
+On closure of FD, I want to credit the proceeds to different account than my saving account
+I was reviewing the close FD page and unknowingly clicked on Confirm. Immediately I got the POP up regarding closure of FD, Can I reverse the close FD ?
+Once I put the age of my son who is 10 years old name of guardian appears. What is that?
+At any stage in any steps in creation of fixed deposit , I decide not to  create it. What should I do?
+Earlier I have closed the process of creating fixed deposit , can I resume from the step where I closed?
+What is Hide nominee option, what is its importance?
+What are the types of accounts from which I can debit an amount for the deposit? 
+My beneficiary's account is not yet credited with the amount I have transferred
+From the list of beneficiaries, I am not able to see the name of beneficiary I have added earlier
+I tried looking for the IFSC code of HDFC, Lower parel branch. It is not appearing in the search result.
+I have transferred an amount of Rs.XXX to a beneficiary. However, the same has been rejected and credited back to my account. What could be the reason?
+What if I don’t have a virtual payment address. App is not allowing me to transfer funds using UPI since I don’t have a VPA
+If a transaction is not credited to the beneficiary account, does the remitter get back the money?
+What should be done if customer does not find old transaction on the screen?
+What should be done if customer does not find transaction older than 3 years?
+Customer says money got dispensed but account not updated. Where should the request be put in raise query?
+Money is debited but account is not updated?
+Customer do not understand the narration in transaction like Bulk posting/Correction posting/other banking jargons
+Customer raised the query but don’t know what happened next
+Customer raised the query but don't Track ID 
+Customer is not satisfied with the reply to query
+Customer wants to go through videos but unable to see due to any reason
+What to do if there is discrepency in last login information?
+Does customer needs to have the registered mobile number for registering the app?
+Is a registered mobile number required for registering in the app?
+How to proceed for app registration?
+Can a user register the app without Internet Banking and Account/Debit card details?
+Can a user register the app using Internet Banking but INB credentials are not active or incorrect
+Can I enter alphanumeric values as mPIN?
+Can numbers and alphabets entered as mPin?
+Which debit card must a customer use to register?
+Which debit card should I use to register?
+Can I proceed ahead without uploading the image of the Dream?
+Can I choose the account from which the Dream should be funded?
+Can I edit the account from which the monthly contribution is debited?
+Can I fund the Dream anytime/mutiple times in a month?
+Where can I choose the day of funding the Dream?
+While funding the Dream, where can I check the interest rate offered by bank?
+What are detailed terms and conditions of this product?
+From where can I close the Dream?
+Can senior citizen avail additional rate of interest on recurring deposit? 
+How TDS will be calculated for e-RD?
+How TDS will be computed for e-recurring deposit 
+My Occupation is not given in the list. What should I do?
+I am not able to upload my image.
+If I update my Contact details on the App. Will I need to update them again in the branch?
+The changes I have made in my profile are not being saved
+I am unable to view the modified/changed information in my profile
+The account for which I want to create a VPA is not in the list.
+My VPA is not appearing in the list
+I am not able to edit VPA
+Will I have different QR Codes for Different accounts or different VPAs?
+Can I change my Primary account multiple times?
+Can I avail Overdraft against TSFD like other FD
+Will TSFD get renewed automatically ?
+Can I close my e-TDR/e-STDR under Tax Saving Scheme through Internet banking ?
+Can I set the maturity instruction for e-TDR/e-STDR under Tax Saving Scheme through Internet banking ?
+Can I open online term deposit a/c in any other name(s), not belonging to debit a/c from which term deposit a/c is funded ?
+Can senior citizen avail additional rate of interest on term deposit under Tax Saving Scheme ?
+Why am I not able to request statement beyond 2 years?
+How to search any past transaction?
+How to search for a past transaction?
+How to search for an old transaction?
+Can i search a transaction I made three years ago?
+If I create a new category, will it automatically show on my Internet, Tablet and Mobile Banking?

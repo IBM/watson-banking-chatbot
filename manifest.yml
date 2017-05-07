@@ -1,0 +1,30 @@
+---
+declared-services:
+  retrieve-and-rank-service:
+    label: retrieve_and_rank
+    plan: standard
+  Document Conversion-ab:
+    label: document_conversion
+    plan: standard
+  Conversation-av:
+    label: conversation
+    plan: standard
+  Natural Language Understanding-ub:
+    label: natural_language_understanding
+    plan: free plan
+  Tone Analyzer-l4:
+    label: tone_analyzer
+    plan: standard
+applications:
+- path: .
+  memory: 1024M
+  instances: 1
+  name: onebanking
+  host: onebanking
+  disk_quota: 256M
+  services:
+  - retrieve-and-rank-service
+  - Document Conversion-ab
+  - Conversation-av
+  - Tone Analyzer-l4
+  - Natural Language Understanding-ub
