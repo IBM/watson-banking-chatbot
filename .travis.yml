@@ -1,0 +1,28 @@
+language: node_js
+dist: trusty
+sudo: required
+node_js: 6
+script:
+- npm run test
+
+cache:
+  directories:
+  - node_modules
+env:
+  global:
+  - CF_APP=ConversationalBanking
+  - CF_API=https://api.ng.bluemix.net
+  - CF_ORGANIZATION=saurav.raiguru@in.ibm.com
+  - CF_SPACE=dev
+before_deploy: npm install -g cf-blue-green
+deploy:
+  provider: script
+  script:
+  - cf-blue-green-travis
+  on:
+    branch: master
+    repo: IBM/conversational-banking
+  skip_cleanup: true
+notifications:
+  email:
+    - saurav.raiguru@in.ibm.com

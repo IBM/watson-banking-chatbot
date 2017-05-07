@@ -1,0 +1,61 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 61 63.72">
+    <defs>
+        <style>
+            .headCls-1,.headCls-2{
+                fill:none;
+            }
+            .headCls-2{
+                clip-rule:evenodd;
+            }
+            .headCls-3{
+                clip-path:url(#clip-path);
+            }
+            .headCls-4{
+                clip-path:url(#clip-path-2);
+            }
+            .headCls-5{
+                isolation:isolate;
+            }
+            .headCls-6{
+                clip-path:url(#clip-path-3);
+            }
+            .headCls-7{
+                fill:#00b4a0;
+            }
+            .headCls-8{
+                clip-path:url(#clip-path-5);
+            }
+            .headCls-9{
+                fill:#fff;
+            }
+        </style>
+        <clipPath id="clip-path" transform="translate(-12.88 -1.42)">
+            <circle class="headCls-1" cx="43.38" cy="31.92" r="25.5"/>
+        </clipPath>
+        <clipPath id="clip-path-2" transform="translate(-12.88 -1.42)">
+            <rect class="headCls-1" x="-17.12" y="-547.58" width="1024" height="768"/>
+        </clipPath>
+        <clipPath id="clip-path-3" transform="translate(-12.88 -1.42)">
+            <rect class="headCls-1" x="17.88" y="6.42" width="51" height="51"/>
+        </clipPath>
+        <clipPath id="clip-path-5" transform="translate(-12.88 -1.42)">
+            <path class="headCls-2" d="M33.3,55.6c2.18-10.82-2-16.26-2-16.26A16.26,16.26,0,1,1,59.1,27.84a2.09,2.09,0,0,1-.58,1.08,1.33,1.33,0,0,0-.33,1.17l4.11,5.8s2.25,2.58-2.14,2.58l-2,.08v6.62s0.63,3.47-3.25,3.47h-3.8s-2.67-.16-2.67,1.7v9.78"/></clipPath>
+    </defs>
+    <title>head icon</title>
+    <g class="headCls-3">
+        <g class="headCls-4">
+            <g class="headCls-5">
+                <g class="headCls-6">
+                    <g class="headCls-6">
+                        <rect class="headCls-7" width="61" height="61"/>
+                    </g>
+                    <g class="headCls-8">
+                        <g class="headCls-6">
+                            <rect class="headCls-9" x="8.71" y="5.17" width="46.29" height="58.55"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

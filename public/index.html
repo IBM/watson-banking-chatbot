@@ -1,0 +1,235 @@
+<!--
+ * Copyright 2017 IBM Corp. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the 'License'); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an 'AS IS' BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+-->
+<html>
+<head>
+  <base href="/">
+  <title>Open Financial Cognitive Conversation</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta property="og:image" content="conversation.svg" />
+  <meta property="og:title" content="Conversation Chat Simple" />
+  <meta property="og:description" content="Sample application that shows how to use the Conversation API to identify user intents" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css"  rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <style type="text/css">
+
+
+.stepwizard-step p {
+	margin-top: 10px;
+}
+
+.stepwizard-row {
+	display: table-row;
+}
+
+.stepwizard {
+	display: table;
+	width: 100%;
+	position: relative;
+}
+
+.stepwizard-step button[disabled] {
+	opacity: 1 !important;
+	filter: alpha(opacity = 100) !important;
+}
+
+.stepwizard-step {
+	display: table-cell;
+	text-align: center;
+	position: relative;
+}
+ 
+.btn-circle {
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	padding: 6px 0;
+	font-size: 12px;
+	line-height: 1.428571429;
+	border-radius: 15px;
+}
+
+
+.modal-header {
+	padding-bottom: 5px;
+}
+
+.nextBtn {
+    padding: 10px 16px;
+    font-size: 18px;
+}
+
+</style>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.debug.js"></script>
+</head>
+<body>
+  <div id="contentParent" class="responsive-columns-wrapper">
+    <div id="chat-column-holder" class="responsive-column content-column">
+      <div class="chat-column">
+        <div id="scrollingChat"></div>
+        <label for="textInput" class="inputOutline">
+          <input id="textInput" class="input responsive-column"
+            placeholder="Type something" type="text"
+            onkeydown="/*globals CanvasJS */
+            ConversationPanel.inputKeyDown(event, this)">
+        </label>
+      </div>
+    </div>
+</div>
+
+
+<!-- line modal -->
+<div class="modal fade" id="squarespaceModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+			<h3 class="modal-title" id="lineModalLabel">Home Loan Application</h3>
+		</div>
+		<div class="modal-body">
+			
+            <!-- content goes here -->
+            <div class="stepwizard">
+				<div class="stepwizard-row setup-panel">
+					<div class="stepwizard-step">
+						<a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+						<p>Applicant Details</p>
+					</div>
+					<div class="stepwizard-step">
+						<a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+						<p>Loan Details</p>
+					</div>
+					<div class="stepwizard-step">
+						<a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+						<p>Aadhaar eKYC</p>
+					</div>
+					<div class="stepwizard-step">
+						<a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+						<p>eSign Application form</p>
+					</div>
+				</div>
+			</div>
+			<form role="form" id="form1">
+			<div class="row setup-content" id="step-1">
+				<div class="col-xs-12">
+					<div class="col-md-12">
+						<h3>Applicant Details</h3>
+						<div class="form-group">
+							<label class="control-label">Full Name</label> 
+							<input maxlength="50" type="text" id="nameInput" required="required" class="form-control" placeholder="Enter Full Name" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">PAN number (10 character alphanumeric)</label> 
+							<input maxlength="10" minlength="10" type="text" required="required" class="form-control" placeholder="Enter PAN number" pattern="[a-zA-Z0-9]+"/>
+						</div>
+						<div class="form-group">
+							<label class="control-label">Aadhaar number (12 digit)</label> 
+							<input min="100000000000" max="999999999999" type="number" id="aadharInput" required="required" class="form-control" placeholder="Enter Aadhaar number" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Mobile number (10 digit)</label> 
+							<input min="1000000000" max="9999999999" type="number" id="phoneInput" required="required" class="form-control" placeholder="Enter Mobile number" />
+						</div>
+						<button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Next</button>
+					</div>
+				</div>
+			</div>
+			<div class="row setup-content" id="step-2">
+				<div class="col-xs-12">
+					<div class="col-md-12">
+						<h3>Loan Details</h3>
+						<div class="form-group">
+							<label class="control-label">Loan Amount (in the range 10 to 40 lakhs)</label> 
+							<input min="1000000" max="4000000" type="number" required="required" class="form-control" placeholder="Amount in Rs" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Loan tenure (in the range 5 to 20 years)</label> 
+							<input min="5" max="20" type="number" required="required" class="form-control" placeholder="Tenure in years" />
+						</div>
+						<div class="form-group">
+							<label class="control-label">Interest rate</label> 
+							<input maxlength="100" type="text" class="form-control" placeholder="8.25%" disabled="disabled"/>
+						</div>
+						<button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Next</button>
+					</div>
+				</div>
+			</div>
+			<div class="row setup-content" id="step-3">
+				<div class="col-xs-12">
+					<div class="col-md-12">
+						<h3>Aadhaar eKYC</h3>
+						<div class="form-group">
+							<label class="control-label">Aadhaar No.</label> 
+							<input type="text" class="form-control aadhaarBox" placeholder="Aadhaar No." readonly="readonly"/>
+							<button class="btn btn-primary" type="button" onclick="eKYCOTP()">Get OTP</button>
+						</div>
+						<div class="form-group">
+							<label class="control-label">OTP (6 digit)</label> 
+							<input min="100000" max="999999" type="number" class="form-control" id="ekycOtp" placeholder="OTP" required="required" readonly="readonly"/>
+						</div>
+						<hr>
+						<label class="control-label">CONSENT FOR AADHAAR AUTHENTICATION</label> 
+						<div class="checkbox">
+						  <label><input type="checkbox" required="required">I am the holder of above Aadhaar Number. I hereby agree to authenticate myself using Aadhaar through Open Financial Bank, and provide my consent to collect my Aadhaar and OTP, to retrieve my details along with my email ID / mobile number (if available) from UIDAI. I have understood Open Financial Bank's declaration that, my identity information will only be used for subscribing the service. I have understood that, my biometrics / OTP is encrypted and will not be stored / shared and will be submitted to UIDAI (CIDR) only for the purpose of this transaction.</label>
+						</div>
+						<button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Next</button>
+					</div>
+				</div>
+			</div>
+			<div class="row setup-content" id="step-4">
+				<div class="col-xs-12">
+					<div class="col-md-12">
+						<h3>Review Application form and eSign</h3>
+        				<object type="application/pdf" data="" width="98%" height="500px" id="embedPdf" download='FileName'>No Support
+        				</object>
+						<hr>
+						<div class="form-group">
+							<label class="control-label">Aadhaar No.</label> 
+							<input type="text" class="form-control aadhaarBox" placeholder="Aadhaar No." readonly="readonly"/>
+							<button class="btn btn-primary" type="button" onclick="eSignOTP()">Get OTP</button>
+						</div>
+						<div class="form-group">
+							<label class="control-label">OTP (6 digit)</label> 
+							<input min="100000" max="999999" type="number" class="form-control" id="esignOtp" placeholder="OTP" required="required" readonly="readonly"/>
+						</div>
+						<hr>
+						<label class="control-label">CONSENT FOR AADHAAR AUTHENTICATION</label> 
+						<div class="checkbox">
+						  <label><input type="checkbox" required="required">I am the holder of above Aadhaar Number. I hereby agree to authenticate myself using Aadhaar through Open Financial Bank, and provide my consent to collect my Aadhaar and OTP, to retrieve my details along with my email ID / mobile number (if available) from UIDAI. I have understood Open Financial Bank's declaration that, my identity information will only be used for subscribing the service. I have understood that, my biometrics / OTP is encrypted and will not be stored / shared and will be submitted to UIDAI (CIDR) only for the purpose of this transaction.</label>
+						</div>
+						
+						<button class="btn btn-success btn-lg pull-right" id="finalBtn" type="button">eSign</button>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		</div>
+	</div>
+  </div>
+</div>
+
+  <script src="js/modal.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/conversation.js"></script>
+  <script src="js/global.js"></script>
+</body>
+</html>
