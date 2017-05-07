@@ -1,11 +1,15 @@
+<!--
 [![Build Status](https://travis-ci.org/IBM/watson-online-store.svg?branch=master)](https://travis-ci.org/IBM/watson-online-store)
 ![Bluemix Deployments](https://deployment-tracker.mybluemix.net/stats/5fd641e32af04e4adb16f26c46de3587/badge.svg)
+-->
 
 # Multi - Domain Enterprise Digital Assistant
+
 In this developer journey we will create a Watson Conversation, NLU & RnR based chatbot for multiple domains.
-that provides users with:</br>
-1) Answers important FAQs queries from the multiple domains such as across business lines of Loans, Account Opening, Market Place & Digital Banking of Banking industry. </br>
-2) Also the chatbot solves transactional queries such as view transactions, balances, pay utility bills etc.
+that provides users with:
+
+* Answers important FAQs queries from the multiple domains such as across business lines of Loans, Account Opening, Market Place & Digital Banking of Banking industry.
+* Also the chatbot solves transactional queries such as view transactions, balances, pay utility bills etc.
 
 When the reader has completed this journey, they will understand how to:
 
@@ -16,40 +20,38 @@ When the reader has completed this journey, they will understand how to:
 
 
 ## Technical Architecture - Enterprise Digital Assistant
-<b>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img src="readme_images/Banking-Architecture.png" width="800" height="350" align="center">
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
+[](readme_images/Banking-Architecture.png)
 
-- The user writes a query about a service to the chatbot
-- The orchestrator accepts query, saves the user context & starts a REST call with the Cognitive APIs.
-- Depending on the nature of the query (long /Short tail), the answer is provided by either Watson Conversation API or Watson Retrieve and Rank
-- Further to answering user queries, the agent can also be connected to Third party APIs such as India Stack(Aadhaar) for authentication required for verifying identify, e-sign, purchases etc. ;language translation APIs for localization.
-- Orchestrator can be further exposed to enterprise systems such as CRM, warehouses, ERP etc. for contextual content.
+## Flow
+
+* The user writes a query about a service to the chatbot
+* The orchestrator accepts query, saves the user context & starts a REST call with the Cognitive APIs.
+* Depending on the nature of the query (long /Short tail), the answer is provided by either Watson Conversation API or Watson Retrieve and Rank
+* Further to answering user queries, the agent can also be connected to Third party APIs such as India Stack(Aadhaar) for authentication required for verifying identify, e-sign, purchases etc. ;language translation APIs for localization.
+* Orchestrator can be further exposed to enterprise systems such as CRM, warehouses, ERP etc. for contextual content.
 
 ## Features
-- State & Context Management
-- Large Information retrieval
-- Personal Information Protection
-- Recommendation Engine
-- Enhanced Natural Language Understanding
-- Enterprise Integration
+* State & Context Management
+* Large Information retrieval
+* Personal Information Protection
+* Recommendation Engine
+* Enhanced Natural Language Understanding
+* Enterprise Integration
 
 ## Included Components
-- Bluemix Watson Conversation
-- Bluemix Watson Retrieve n Rank
-- Bluemix Watson Tone Analyzer
-- Bluemix Watson Natural Language Understanding
-- Node JS Runtime
+* Bluemix Watson Conversation
+* Bluemix Watson Retrieve n Rank
+* Bluemix Watson Tone Analyzer
+* Bluemix Watson Natural Language Understanding
+* Node JS Runtime
 
 ## Deploy the App
-<b>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Lab Document Download](http://ibm.biz/Bdru7G)</b>
+[Lab Document Download](http://ibm.biz/Bdru7G)
 
 a. Click on the 'Deploy to Bluemix' button below.
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.ibm.com/IBMDigital/ConversationalBanking)
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/ibm/watson-banking-chatbot)
 
 <i>Note: If you do not want to know the deploy steps below. Jump to after step 'f'.</i>
 
