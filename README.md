@@ -21,7 +21,7 @@ When the reader has completed this journey, they will understand how to:
 
 ## Technical Architecture - Enterprise Digital Assistant
 
-[](readme_images/Banking-Architecture.png)
+![](readme_images/Banking-Architecture.png)
 
 ## Flow
 
