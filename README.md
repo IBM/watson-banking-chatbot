@@ -23,6 +23,7 @@ When the reader has completed this journey, they will understand how to:
 
 ![](doc/source/images/Banking-Architecture.png)
 
+
 ## Flow
 
 * The user writes a query about a service to the chatbot
