@@ -21,7 +21,8 @@ When the reader has completed this journey, they will understand how to:
 
 ## Technical Architecture - Enterprise Digital Assistant
 
-![](readme_images/Banking-Architecture.png)
+![](doc/source/images/Banking-Architecture.png)
+
 
 ## Flow
 
@@ -47,50 +48,39 @@ When the reader has completed this journey, they will understand how to:
 * Node JS Runtime
 
 ## Deploy the App
-[Lab Document Download](http://ibm.biz/Bdru7G)
 
-a. Click on the 'Deploy to Bluemix' button below.
+NOTE: Perform steps 1-6 OR click the Deploy to Bluemix button to do it all at once!
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/ibm/watson-banking-chatbot)
 
-<i>Note: If you do not want to know the deploy steps below. Jump to after step 'f'.</i>
+1. Log in with your Bluemix account.
+![](doc/source/images/deploy.PNG)
 
-b. Log in with your Bluemix account.
+2. *Optional:* If you are asked to choose an alias, enter a unique alias name and click create.
+![](doc/source/images/alias.PNG)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![](readme_images/deploy.PNG)
+3. *Optional:* If you are asked to choose an alias, verify your alias name and click continue.
+![](doc/source/images/cont.PNG)
 
-c. If you are asked to choose an alias, then follow these instructions. Otherwise, proceed to [step 4](#4_view) in this section.
+4. Name your app, and then select the Region, Organization and Space where the app will be deployed. Click 'DEPLOY'.
+![](doc/source/images/deploy1.PNG)
 
-c.1 Enter a unique alias name and click create.
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![](readme_images/alias.PNG)
+5. Wait for the deployment to complete, the following actions will be performed:
 
+  * Creates the application.
+  * Creates a Conversation and Tone Analyzer service instance.
 
-c.2 Verify your alias name and click continue.
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![](readme_images/cont.PNG)
+  ![](doc/source/images/createproject.PNG)
 
+6. After the deployment has completed, click on the 'Deployed to Bluemix sucessfully' link.
+![](doc/source/images/res.PNG)
 
-d. Name your app, and then select the Region, Organization and Space where the app will be deployed. Click 'DEPLOY'.
+7. You will land on the Overview page of your application. If you like to try out the App, go ahead and click on 'View Your App'.
+![](doc/source/images/yourapp.PNG)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![](readme_images/deploy1.PNG)
+8. The application and services have been successfully deployed, and you are now ready to begin the lab!
 
-* The status of the deployment is shown. This can take approximately 2 minutes to complete.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](readme_images/createproject.PNG)
-
-* The deployment process performs the following actions:
-- Creates the application.
-- Creates a Conversation and Tone Analyzer service instance.
-
-e.  After the deployment has completed, click on the 'Deployed to Bluemix sucessfully' link.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](readme_images/res.PNG)
-
-You will land on the Overview page of your application.
-If you like to try out the App, go ahead and click on 'View Your App'.
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![](readme_images/yourapp.PNG)
-
-f. The application and services have been successfully deployed, and you are now ready to begin the lab!
+# Steps
 
 1. [Clone the repo](#1-clone-the-repo)
 2. [Create Watson services on IBM Bluemix](#2-create-watson-services-on-ibm-bluemix)
@@ -98,12 +88,11 @@ f. The application and services have been successfully deployed, and you are now
 4. [Configure Watson Retrieve and Rank](#4-configure-watson-retrieve-and-rank)
 5. [Run the application](#5-run-the-application)
 
-
 ## 1. Clone the repo
 
 Clone the `ConversationalBanking` locally. In a terminal, run:
 
-  `$ git clone https://github.ibm.com/IBMDigital/ConversationalBanking`
+`$ git clone https://github.ibm.com/IBMDigital/ConversationalBanking`
 
 We’ll be using the file [`dev-resources/WCS/workspace-onebanking.json`](dev-resources/WCS/wworkspace-onebanking.json) and the folder
 [`dev-resources/WCS/`](dev-resources/WCS/)
@@ -112,19 +101,19 @@ We’ll be using the file [`dev-resources/WCS/workspace-onebanking.json`](dev-re
 
 Create the following services:
 
-  * [**Watson Conversation**](https://console.ng.bluemix.net/catalog/services/conversation)
-  * [**Watson Retrieve n Rank**](https://console.ng.bluemix.net/catalog/services/retrieve-and-rank)
-  * [**Watson Tone Analyzer**](https://console.ng.bluemix.net/catalog/services/tone-analyzer)
-  * [**Watson Natural language understanding**](https://console.ng.bluemix.net/catalog/services/natural-language-understanding)
+* [**Watson Conversation**](https://console.ng.bluemix.net/catalog/services/conversation)
+* [**Watson Retrieve n Rank**](https://console.ng.bluemix.net/catalog/services/retrieve-and-rank)
+* [**Watson Tone Analyzer**](https://console.ng.bluemix.net/catalog/services/tone-analyzer)
+* [**Watson Natural language understanding**](https://console.ng.bluemix.net/catalog/services/natural-language-understanding)
 
-  <i>Note: Ensure that you have logged into bluemix & allowed to use these services.</i>
+> Note: Ensure that you have logged into Bluemix and are allowed to use these services.
 
 ## 3. Configure Watson Conversation
 
 Launch the **Watson Conversation** tool. Use the **import** icon button on the right
 
 <p align="center">
-  <img width="400" height="55" src="readme_images/import_conversation_workspace.png">
+  <img width="400" height="55" src="doc/source/images/import_conversation_workspace.png">
 </p>
 
 Find the local version of [`dev-resources/WCS/workspace-onebanking.json`](dev-resources/WCS/workspace-onebanking.json) and select
@@ -132,30 +121,26 @@ Find the local version of [`dev-resources/WCS/workspace-onebanking.json`](dev-re
 workspace and select **View details**. Save this ID for later.
 
 <p align="center">
-  <img width="400" height="250" src="readme_images/open_conversation_menu.png">
+  <img width="400" height="250" src="doc/source/images/open_conversation_menu.png">
 </p>
 
 *Optionally*, to view the conversation dialog select the workspace and choose the
 **Dialog** tab, here's a snippet of the dialog:
 
-![](readme_images/dialog.png)
+![](doc/source/images/dialog.png)
 
 ## 4. Configure Watson Retrieve and Rank
 
 Launch the **Watson retrieve-and-rank** tool. Create a **new data cluster**.
 
-<p align="center">
-  <img width="400" height="300" src="readme_images/rnr-cluster.PNG">
-</p>
+![](doc/source/images/rnr-cluster.PNG)
 
 Seed the content by firstly creating **New Collection**, and add the file documents and questions present under [`dev-resources/Retrieve&Rank/`](dev-resources/Retrieve&Rank/)
 
-<p align="center">
-  <img width="800" height="225" src="/readme_images/new-collection.PNG">
-</p>
+![](doc/source/images/new-collection.PNG)
 
+> Note: Ensure that you have also created a [**Watson Document Conversion**](https://console.ng.bluemix.net/catalog/services/document-conversion) service as well. Since, Watson RnR uses document conversion at the backend.
 
-  Note: Ensure that you have also created a [**Watson Document Conversion**](https://console.ng.bluemix.net/catalog/services/document-conversion) service as well. Since, Watson RnR uses document conversion at the backend.</i>
 ## 5. Run the application
 
 ### If you used the Deploy to Bluemix button...
@@ -170,7 +155,7 @@ Otherwise as explained above:
 2. Install NodeJS runtime or npm.
 3. Start the app and it can be used at localhost:3000
 
-Note: server host can be changed as required in server.js
+> Note: server host can be changed as required in server.js
 
 
 # License
@@ -178,17 +163,9 @@ Note: server host can be changed as required in server.js
 This sample code is licensed under Apache 2.0.
 Full license text is available in [LICENSE](LICENSE).
 
-# Contributing
+# Links
 
-You are most welcome to contribute to this project.
-Please find the details about it in [CONTRIBUTING](CONTRIBUTING.md)
-
-#Maintaining
-
-Your are most welcome to help us in maintaining this project.
-Please find the details about it in [MAINTAINING](MAINTAINERS.md)
-
-## Open Source @ IBM
-
-Find more open source projects on the
-[IBM Github Page](http://ibm.github.io/).
+* [Lab Document](http://ibm.biz/Bdru7G): Detailed guide on how to deploy this app
+* [CONTRIBUTING](CONTRIBUTING.md): Guide to contribute to this project
+* [MAINTAINING](MAINTAINERS.md): Rules for maintainer of this project
+* [Open Source @ IBM](http://ibm.github.io/): Find more open source projects on the
