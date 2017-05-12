@@ -17,10 +17,10 @@ declared-services:
     plan: standard
 applications:
 - path: .
-  memory: 1024M
+  memory: 512M
   instances: 1
-  name: onebanking
-  host: onebanking
+  name: watsonbanking
+  host: watsonbanking
   disk_quota: 256M
   services:
   - retrieve-and-rank-service
