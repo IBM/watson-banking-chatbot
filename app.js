@@ -53,7 +53,7 @@ app.use(bodyParser.json());
 var conversation_credentials = vcapServices.getCredentials('conversation');
 var nlu_credentials = vcapServices.getCredentials('natural-language-understanding');
 var tone_analyzer =vcapServices.getCredentials('tone_analyzer');
-var rnr =vcapServices.getCredentials('retrieve_and_rank');
+var rnr_cred =vcapServices.getCredentials('retrieve_and_rank');
 
 // Create the service wrapper
 var conversation = watson.conversation({
@@ -84,8 +84,8 @@ var nlu = new NaturalLanguageUnderstandingV1({
 var rnr= require('watson-developer-cloud/retrieve-and-rank/v1');
 
 var retrieve = new rnr({
-  password: rnr.password || '',							//Retrieve & Rank Service password
-  username: rnr.username || ''  						//Retrieve & Rank Service username
+  password: rnr_cred.password || '',							//Retrieve & Rank Service password
+  username: rnr_cred.username || ''  						//Retrieve & Rank Service username
 });
 
 var solrClient = retrieve.createSolrClient({
