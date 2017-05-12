@@ -35,7 +35,8 @@ var url = require('url'), bodyParser = require('body-parser'),
 	http = require('http'), 
 	https = require('https'),
 	numeral = require('numeral');
-	
+var vcapServices = require( 'vcap_services' );
+
 var bankingServices = require('./banking_services');
 
 
@@ -49,20 +50,23 @@ var app = express();
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
 
-
+var conversation_credentials = vcapServices.getCredentials('conversation');
+var nlu_credentials = vcapServices.getCredentials('natural-language-understanding');
+var tone_analyzer =vcapServices.getCredentials('tone_analyzer');
+var rnr =vcapServices.getCredentials('retrieve_and_rank');
 
 // Create the service wrapper
 var conversation = watson.conversation({
 	url : 'https://gateway.watsonplatform.net/conversation/api',
-	username : process.env.CONVERSATION_USERNAME || '',
-	password : process.env.CONVERSATION_PASSWORD || '',
+	username : conversation_credentials.username || '',
+	password : conversation_credentials.password || '',
 	version_date : '2016-07-11',
 	version : 'v1'
 });
 
 var tone_analyzer = watson.tone_analyzer({
-	username : process.env.TONE_ANALYZER_USERNAME || '',
-	password : process.env.TONE_ANALYZER_PASSWORD || '',
+	username : tone_analyzer.username || '',
+	password : tone_analyzer.password || '',
 	url : 'https://gateway.watsonplatform.net/tone-analyzer/api',
 	version : 'v3',
 	version_date : '2016-05-19'		
@@ -71,8 +75,8 @@ var tone_analyzer = watson.tone_analyzer({
 /********* NLU *************/
 var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
 var nlu = new NaturalLanguageUnderstandingV1({
-	username: process.env.NLU_USERNAME || '',									//NLU Service username
-	password: process.env.NLU_PASSWORD || '',									//NLU Service password
+	username: nlu_credentials.username || '',									//NLU Service username
+	password: nlu_credentials.password || '',									//NLU Service password
 	version_date: '2017-02-27'
 	});
 
@@ -80,20 +84,20 @@ var nlu = new NaturalLanguageUnderstandingV1({
 var rnr= require('watson-developer-cloud/retrieve-and-rank/v1');
 
 var retrieve = new rnr({
-  password: process.env.RNR_PASSWORD || '',							//Retrieve & Rank Service password
-  username: process.env.RNR_USERNAME || ''  						//Retrieve & Rank Service username
+  password: rnr.password || '',							//Retrieve & Rank Service password
+  username: rnr.username || ''  						//Retrieve & Rank Service username
 });
 
 var solrClient = retrieve.createSolrClient({
-  cluster_id: process.env.CLUSTERID || '', 								//Retrieve & Rank Service Cluster_ID
-  collection_name: process.env.COLLECTION || '',						//Retrieve & Rank Service Collection_Name
+  cluster_id: rnr.CLUSTER_ID || '', 								//Retrieve & Rank Service Cluster_ID
+  collection_name: rnr.COLLECTION_NAME || '',						//Retrieve & Rank Service Collection_Name
   wt: 'json'
 });
 
 
 // Endpoint to be called from the client side
 app.post('/api/message', function(req, res) {
-	var workspace = process.env.WORKSPACE_ID || '';
+	var workspace = vcapServices.WORKSPACE_ID || '';
 	
 	if ( !workspace || workspace === '<workspace-id>' ) {
 		return res.json( {
@@ -636,7 +640,7 @@ function checkForLookupRequests(data, callback){
 
 			var qs = require('querystring');//require('./node_modules/qs/dist/qs');
 			// search documents
-			var ranker_id = process.env.RANKER_ID || '';
+			var ranker_id = rnr.RANKER_ID || '';
 			var question = payload.input.text; //Only the question is required from payload
 			console.log('******' +JSON.stringify(question)+'*********');
 			

@@ -3,16 +3,16 @@ declared-services:
   retrieve-and-rank-service:
     label: retrieve_and_rank
     plan: standard
-  Document Conversion-ab:
+  document-conversion-service:
     label: document_conversion
     plan: standard
-  Conversation-av:
+  conversation-service:
     label: conversation
     plan: standard
-  Natural Language Understanding-ub:
-    label: natural_language_understanding
-    plan: free plan
-  Tone Analyzer-l4:
+  natural-language-understanding-service:
+    label: natural-language-understanding
+    plan: free
+  tone-analyzer-service:
     label: tone_analyzer
     plan: standard
 applications:
@@ -24,7 +24,7 @@ applications:
   disk_quota: 256M
   services:
   - retrieve-and-rank-service
-  - Document Conversion-ab
-  - Conversation-av
-  - Tone Analyzer-l4
-  - Natural Language Understanding-ub
+  - document-conversion-service
+  - conversation-service
+  - tone-analyzer-service
+  - natural-language-understanding-service
