@@ -88,12 +88,9 @@ var retrieve = new rnr({
   username: rnr_cred.username || ''  						//Retrieve & Rank Service username
 });
 
-var solrClient = retrieve.createSolrClient({
-  cluster_id: vcapServices.CLUSTER_ID || '', 								//Retrieve & Rank Service Cluster_ID
-  collection_name: vcapServices.COLLECTION_NAME || '',						//Retrieve & Rank Service Collection_Name
-  wt: 'json'
-});
-
+var clusterid = vcapServices.CLUSTER_ID || '';
+var collectionname= vcapServices.COLLECTION_NAME || '' ;
+var ranker_id = vcapServices.RANKER_ID || '';
 
 // Endpoint to be called from the client side
 app.post('/api/message', function(req, res) {
@@ -103,11 +100,26 @@ app.post('/api/message', function(req, res) {
 		return res.json( {
 		  'output': {
 			'text': 'Your app is running but it is yet to be configured with a <b>WORKSPACE_ID</b> environment variable. '+
-					'These instructions will be provided in your lab handout <b>on the day of your lab.</b>'
+					'Please configure your Conversation service and update the WORKSPACE_ID in environment variables under Runtime section</b>'
 			}
 		} );
 	}
 	
+	if (clusterid == '' || collectionname =='' )
+		{
+			return res.json( {
+			  'output': {
+				'text': 'Your app is running but it is yet to be configured with a <b>CLUSTER_ID</b> or <b>COLLECTION_ID</b>environment variable. '+
+						'Please configure your Retrieve and Ranker service and update the CLUSTER_ID and COLLECTION_ID in environment variables under Runtime section</b>'
+				}
+			} );
+		
+		}
+	var solrClient = retrieve.createSolrClient({
+		  cluster_id: clusterid , 								//Retrieve & Rank Service Cluster_ID
+		  collection_name: collectionname,						//Retrieve & Rank Service Collection_Name
+		  wt: 'json'
+		});
 	
 	bankingServices.getPerson(7829706, function(err, person){
 		
@@ -640,7 +652,7 @@ function checkForLookupRequests(data, callback){
 
 			var qs = require('querystring');//require('./node_modules/qs/dist/qs');
 			// search documents
-			var ranker_id = vcapServices.RANKER_ID || '';
+			
 			var question = payload.input.text; //Only the question is required from payload
 			console.log('******' +JSON.stringify(question)+'*********');
 			
