@@ -89,8 +89,8 @@ var retrieve = new rnr({
 });
 
 var solrClient = retrieve.createSolrClient({
-  cluster_id: rnr.CLUSTER_ID || '', 								//Retrieve & Rank Service Cluster_ID
-  collection_name: rnr.COLLECTION_NAME || '',						//Retrieve & Rank Service Collection_Name
+  cluster_id: vcapServices.CLUSTER_ID || '', 								//Retrieve & Rank Service Cluster_ID
+  collection_name: vcapServices.COLLECTION_NAME || '',						//Retrieve & Rank Service Collection_Name
   wt: 'json'
 });
 
@@ -640,7 +640,7 @@ function checkForLookupRequests(data, callback){
 
 			var qs = require('querystring');//require('./node_modules/qs/dist/qs');
 			// search documents
-			var ranker_id = rnr.RANKER_ID || '';
+			var ranker_id = vcapServices.RANKER_ID || '';
 			var question = payload.input.text; //Only the question is required from payload
 			console.log('******' +JSON.stringify(question)+'*********');
 			
