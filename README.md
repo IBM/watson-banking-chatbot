@@ -94,8 +94,8 @@ Clone the `ConversationalBanking` locally. In a terminal, run:
 
 `$ git clone https://github.ibm.com/IBMDigital/ConversationalBanking`
 
-We’ll be using the file [`dev-resources/WCS/workspace-onebanking.json`](dev-resources/WCS/wworkspace-onebanking.json) and the folder
-[`dev-resources/WCS/`](dev-resources/WCS/)
+We’ll be using the file [`data/WCS/workspace-ConversationalBanking.json`](data/WCS/workspace-ConversationalBanking.json) and the folder
+[`data/WCS/`](data/WCS/)
 
 ## 2. Create Watson services on IBM Bluemix
 
@@ -116,7 +116,7 @@ Launch the **Watson Conversation** tool. Use the **import** icon button on the r
   <img width="400" height="55" src="doc/source/images/import_conversation_workspace.png">
 </p>
 
-Find the local version of [`data/WCS/workspace-onebanking.json`](data/WCS/workspace-onebanking.json) and select
+Find the local version of [`data/WCS/workspace-ConversationalBanking.json`](data/WCS/workspace-ConversationalBanking.json) and select
 **Import**. Find the **Workspace ID** by clicking on the context menu of the new
 workspace and select **View details**. Save this ID for later.
 
@@ -127,7 +127,7 @@ workspace and select **View details**. Save this ID for later.
 *Optionally*, to view the conversation dialog select the workspace and choose the
 **Dialog** tab, here's a snippet of the dialog:
 
-![](doc/source/images/dialog.png)
+![](doc/source/images/dialog.PNG)
 
 ## 4. Configure Watson Retrieve and Rank
 
