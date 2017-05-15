@@ -116,7 +116,7 @@ Launch the **Watson Conversation** tool. Use the **import** icon button on the r
   <img width="400" height="55" src="doc/source/images/import_conversation_workspace.png">
 </p>
 
-Find the local version of [`dev-resources/WCS/workspace-onebanking.json`](dev-resources/WCS/workspace-onebanking.json) and select
+Find the local version of [`data/WCS/workspace-onebanking.json`](data/WCS/workspace-onebanking.json) and select
 **Import**. Find the **Workspace ID** by clicking on the context menu of the new
 workspace and select **View details**. Save this ID for later.
 
@@ -135,7 +135,7 @@ Launch the **Watson retrieve-and-rank** tool. Create a **new data cluster**.
 
 ![](doc/source/images/rnr-cluster.PNG)
 
-Seed the content by firstly creating **New Collection**, and add the file documents and questions present under [`dev-resources/Retrieve&Rank/`](dev-resources/Retrieve&Rank/)
+Seed the content by firstly creating **New Collection**, and add the file documents and questions present under [`data/Retrieve&Rank/`](data/Retrieve&Rank/)
 
 ![](doc/source/images/new-collection.PNG)
 
