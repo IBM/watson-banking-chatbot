@@ -655,24 +655,39 @@ function checkForLookupRequests(data, callback){
 			
 			var question = payload.input.text; //Only the question is required from payload
 			console.log('******' +JSON.stringify(question)+'*********');
-			
-			
-			var query = qs.stringify({q: question, ranker_id: ranker_id, fl: 'id,title,contentHtml'});
-			//query.q({ '*' : '*' });
-
+			var query='';
+			if (ranker_id !='')
+				{query = qs.stringify({q: question, ranker_id: ranker_id, rows:30, fl: 'id,ranker.confidence,title,contentHtml'});
+				}
+			else 
+				{
+				query = solrClient.createQuery().q(question).rows(3);
+				}
+		
 			solrClient.get('fcselect', query, function(err, searchResponse) {
 			  if(err) {
-			    console.log('Error searching for documents: ' + err);
-			    responseTxtAppend = 'Sorry, currently I am unable to respond for this.';
+				  console.log('Error searching for documents: ' + err);
+				  responseTxtAppend = 'Sorry, currently I do not have a response. Our Customer representative will get in touch with you shortly';
 			  } else {
 			    console.log('Found ' + searchResponse.response.numFound + ' document(s).');
-			    console.log('Document(s): ' + JSON.stringify(searchResponse.response.docs, null, 2));
+			    //console.log('Document(s): ' + JSON.stringify(searchResponse.response.docs, null, 2));
 			    //responseTxtAppend = 'Here are some relevant information for your query.<br/>';
-			    if(searchResponse.response.numFound > 0){
-					responseTxtAppend  = searchResponse.response.docs[0].contentHtml;   //docs[0] returns the topmost ranked answer.
-				}else{
-					responseTxtAppend = 'Sorry, currently I am unable to respond for this.';
-				}	
+			    
+			    if (searchResponse.response.docs[0])
+					
+				{
+					responseTxtAppend = 'Here are some answers retrieved from reference documents which you may find relevant to your query.<br/><br/>';
+				
+					for(var i=0; i < 3 ; i++)	{
+						var doc = searchResponse.response.docs[i];
+						//responseTxtAppend = responseTxtAppend +"<a href=\"#\" onclick=\"myWindow=window.open('',\'"+doc.title+"\',\'toolbar=no,width=600,height=400,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,\').document.body.innerHTML = \'<div style=\\'background:-moz-linear-gradient(top, #BBCDD3, #FFFFFF);\\'><strong>"+doc.title+"</strong><br/><br/>"+doc.contentHtml+"\';\" </div>" +doc.title+ ". Click for detail...</a><div style=\"display:none\" id=\"example"+i+"\">"+doc.contentHtml+"</div><br/>";
+						responseTxtAppend += '<b> <font color="#00004d">' + doc.title + '</font></b><br/>' + doc.contentHtml + '<br/>';
+					}
+					
+				}							
+					//responseTxtAppend  = searchResponse.response.docs[0].contentHtml;}
+				else
+					{responseTxtAppend="Sorry I currently do not have an appropriate response for your query. Our customer care executive will call you in 24 hours"}
 														
 			  }
 			  if(responseTxtAppend != ''){
