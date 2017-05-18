@@ -55,14 +55,14 @@ NOTE: Perform steps 1-6 OR click the Deploy to Bluemix button to do it all at on
 
 1. Log in to your Bluemix account before deploying.
 If already logged in, then ignore this step.
-![](doc/source/images/Login-bluemix.PNG)
+![](doc/source/images/Login-bluemix.png)
 
 2. We can see that the app is ready to be deplyed, and we need to ensure that the App name, region, Organization, Space is valid before 'Deploy'.
-![](doc/source/images/deploy-click.PNG)
+![](doc/source/images/deploy-click.png)
 
 3. In Toolchain, the app is deployed. There are also option to edit code via eclipseIDE, git changes if required.
 Once deployed, the app can be viewed by clicking 'View app'.
-![](doc/source/images/toolchain-pipeline.PNG)
+![](doc/source/images/toolchain-pipeline.png)
 
 4. Wait for the deployment to complete, the following actions will be performed:
 
@@ -113,7 +113,7 @@ Seed the content by firstly creating **New Collection**, and add the file docume
 
 8. Once the watson services are configured, Go to View App -> Runtime -> Environment Variables -> User Defined, add the IDs saved above and save it.
 
-![](doc/source/images/runtime-settings.PNG)
+![](doc/source/images/runtime-settings.png)
 
 The application and services have been successfully deployed, and you are now ready to use the application.
 
