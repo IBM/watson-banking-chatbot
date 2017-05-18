@@ -53,32 +53,69 @@ NOTE: Perform steps 1-6 OR click the Deploy to Bluemix button to do it all at on
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/ibm/watson-banking-chatbot)
 
-1. Log in with your Bluemix account.
-![](doc/source/images/deploy.PNG)
+1. Log in to your Bluemix account before deploying.
+If already logged in, then ignore this step.
+![](doc/source/images/Login-bluemix.PNG)
 
-2. *Optional:* If you are asked to choose an alias, enter a unique alias name and click create.
-![](doc/source/images/alias.PNG)
+2. We can see that the app is ready to be deplyed, and we need to ensure that the App name, region, Organization, Space is valid before 'Deploy'.
+![](doc/source/images/deploy-click.PNG)
 
-3. *Optional:* If you are asked to choose an alias, verify your alias name and click continue.
-![](doc/source/images/cont.PNG)
+3. In Toolchain, the app is deployed. There are also option to edit code via eclipseIDE, git changes if required.
+Once deployed, the app can be viewed by clicking 'View app'.
+![](doc/source/images/toolchain-pipeline.PNG)
 
-4. Name your app, and then select the Region, Organization and Space where the app will be deployed. Click 'DEPLOY'.
-![](doc/source/images/deploy1.PNG)
-
-5. Wait for the deployment to complete, the following actions will be performed:
+4. Wait for the deployment to complete, the following actions will be performed:
 
   * Creates the application.
-  * Creates a Conversation and Tone Analyzer service instance.
+  * Creates a Conversation and Retrieve & Rank service instance.
 
-  ![](doc/source/images/createproject.PNG)
+5.
+It is required to configure the Conversation and R-n-R service that is created. We can follow the next steps
 
-6. After the deployment has completed, click on the 'Deployed to Bluemix sucessfully' link.
-![](doc/source/images/res.PNG)
 
-7. You will land on the Overview page of your application. If you like to try out the App, go ahead and click on 'View Your App'.
-![](doc/source/images/yourapp.PNG)
+6. Configure Watson Conversation
 
-8. The application and services have been successfully deployed, and you are now ready to begin the lab!
+Launch the **Watson Conversation** tool. Use the **import** icon button on the right
+
+<p align="center">
+  <img width="400" height="55" src="doc/source/images/import_conversation_workspace.png">
+</p>
+
+Find the local version of [`data/WCS/workspace-ConversationalBanking.json`](data/WCS/workspace-ConversationalBanking.json) and select
+**Import**. Find the **Workspace ID** by clicking on the context menu of the new
+workspace and select **View details**.
+###### Save this ID for later.
+
+<p align="center">
+  <img width="400" height="250" src="doc/source/images/open_conversation_menu.png">
+</p>
+
+*Optionally*, to view the conversation dialog select the workspace and choose the
+**Dialog** tab, here's a snippet of the dialog:
+
+![](doc/source/images/dialog.PNG)
+
+7. Configure Watson Retrieve and Rank
+
+Launch the **Watson retrieve-and-rank** tool. Create a **new data cluster**.
+
+###### Save this CLUSTER_ID for later.
+
+![](doc/source/images/rnr-cluster.PNG)
+
+Seed the content by firstly creating **New Collection**, and add the file documents and questions present under [`data/Retrieve&Rank/`](data/Retrieve&Rank/)
+
+![](doc/source/images/new-collection.PNG)
+
+###### Save this COLLECTION_NAME for later.
+
+> Note: Ensure that you have also created a [**Watson Document Conversion**](https://console.ng.bluemix.net/catalog/services/document-conversion) service as well. Since, Watson RnR uses document conversion at the backend.
+
+8. Once the watson services are configured, Go to View App -> Runtime -> Environment Variables -> User Defined, add the IDs saved above and save it.
+
+![](doc/source/images/runtime-settings.PNG)
+
+The application and services have been successfully deployed, and you are now ready to use the application.
 
 # Steps
 
@@ -156,6 +193,20 @@ Otherwise as explained above:
 3. Start the app and it can be used at localhost:3000
 
 > Note: server host can be changed as required in server.js
+
+
+# Troubleshooting tips
+
+If you are using the IBM Jazz DevOps to deploy the app, you may see the following steps as required to deploy:
+
+1. *Optional:* If you are asked to choose an alias, enter a unique alias name and click create.
+![](doc/source/images/alias.PNG)
+
+2. *Optional:* If you are asked to choose an alias, verify your alias name and click continue.
+![](doc/source/images/cont.PNG)
+
+3. Name your app, and then select the Region, Organization and Space where the app will be deployed. Click 'DEPLOY'.
+![](doc/source/images/deploy1.PNG)
 
 
 # License
