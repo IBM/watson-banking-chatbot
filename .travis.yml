@@ -31,3 +31,4 @@ deploy:
 notifications:
   email:
   - saurav.raiguru@in.ibm.com
+  - jacobmat@in.ibm.com
