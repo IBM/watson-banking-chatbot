@@ -49,6 +49,7 @@ var app = express();
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
+require("cf-deployment-tracker-client").track();
 
 var conversation_credentials = vcapServices.getCredentials('conversation');
 var nlu_credentials = vcapServices.getCredentials('natural-language-understanding');
