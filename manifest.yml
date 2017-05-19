@@ -1,30 +1,31 @@
 ---
 declared-services:
-  retrieve-and-rank-service:
+  wbc-retrieve-and-rank-service:
     label: retrieve_and_rank
     plan: standard
-  document-conversion-service:
+  wbc-document-conversion-service:
     label: document_conversion
     plan: standard
-  conversation-service:
-    label: conversation
+  wbc-conversation-service:
+    label: free
     plan: standard
-  natural-language-understanding-service:
+  wbc-natural-language-understanding-service:
     label: natural-language-understanding
     plan: free
-  tone-analyzer-service:
+  wbc-tone-analyzer-service:
     label: tone_analyzer
     plan: standard
 applications:
 - path: .
   memory: 512M
   instances: 1
-  name: watsonbanking
-  host: watsonbanking
+  name: watson-banking-chatbot
+  host: watson-banking-chatbot
   disk_quota: 256M
+  random-route: true
   services:
-  - retrieve-and-rank-service
-  - document-conversion-service
-  - conversation-service
-  - tone-analyzer-service
-  - natural-language-understanding-service
+  - wbc-retrieve-and-rank-service
+  - wbc-document-conversion-service
+  - wbc-conversation-service
+  - wbc-tone-analyzer-service
+  - wbc-natural-language-understanding-service
