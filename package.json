@@ -26,6 +26,6 @@
     "node": "4.x"
   },
   "devDependencies": {
-   "jshint": "^2.9.4”
+   "jshint": "^2.9.4"
  }
 }
