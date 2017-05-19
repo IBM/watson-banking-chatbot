@@ -26,6 +26,7 @@ require('dotenv').config({
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
 var watson = require('watson-developer-cloud'); // watson sdk
+var fs = require('fs'); // file system for loading JSON
 // cfenv provides access to your Cloud Foundry environment
 // for more info, see: https://www.npmjs.com/package/cfenv
 var cfenv = require('cfenv');
@@ -56,6 +57,9 @@ var nlu_credentials = vcapServices.getCredentials('natural-language-understandin
 var tone_analyzer =vcapServices.getCredentials('tone_analyzer');
 var rnr_cred =vcapServices.getCredentials('retrieve_and_rank');
 
+/* setup_error will be set to an error message if we cannot recover from a setup or init error. */
+var setup_error;
+
 // Create the service wrapper
 var conversation = watson.conversation({
 	url : 'https://gateway.watsonplatform.net/conversation/api',
@@ -64,6 +68,8 @@ var conversation = watson.conversation({
 	version_date : '2016-07-11',
 	version : 'v1'
 });
+var workspace_id; // workspace_id will be set when the workspace is created or validated.
+initConversationWorkspace();
 
 var tone_analyzer = watson.tone_analyzer({
 	username : tone_analyzer.username || '',
@@ -89,33 +95,39 @@ var retrieve = new rnr({
   username: rnr_cred.username || ''  						//Retrieve & Rank Service username
 });
 
+// var cluster_id; // cluster_id will be set when the cluster is created or validated.
+// var collection_name; // collection_name will be set when the collection is created or validated.
+// var ranker_id; // ranker_id will be set when the ranker is created or validated.
+// initRnR();
+
 var clusterid = vcapServices.CLUSTER_ID || '';
 var collectionname= vcapServices.COLLECTION_NAME || '' ;
 var ranker_id = vcapServices.RANKER_ID || '';
 
 // Endpoint to be called from the client side
 app.post('/api/message', function(req, res) {
-	var workspace = vcapServices.WORKSPACE_ID || '';
-	
-	if ( !workspace || workspace === '<workspace-id>' ) {
+
+	if (setup_error) {
+		return res.json({'output': {'text': 'The app failed to initialize properly. Setup and restart needed. ' + setup_error}});
+	}
+
+	if (!workspace_id) {
 		return res.json( {
-		  'output': {
-			'text': 'Your app is running but it is yet to be configured with a <b>WORKSPACE_ID</b> environment variable. '+
-					'Please configure your Conversation service and update the WORKSPACE_ID in environment variables under Runtime section</b>'
+			'output': {
+				'text': 'Conversation initialization in progress.'
 			}
 		} );
 	}
 	
-	if (clusterid == '' || collectionname =='' )
-		{
-			return res.json( {
-			  'output': {
+	if (!clusterid || !collectionname) {
+		return res.json({
+			'output': {
 				'text': 'Your app is running but it is yet to be configured with a <b>CLUSTER_ID</b> or <b>COLLECTION_ID</b>environment variable. '+
-						'Please configure your Retrieve and Ranker service and update the CLUSTER_ID and COLLECTION_ID in environment variables under Runtime section</b>'
-				}
-			} );
-		
-		}
+				'Please configure your Retrieve and Ranker service and update the CLUSTER_ID and COLLECTION_ID in environment variables under Runtime section</b>'
+			}
+		});
+	}
+
 	var solrClient = retrieve.createSolrClient({
 		  cluster_id: clusterid , 								//Retrieve & Rank Service Cluster_ID
 		  collection_name: collectionname,						//Retrieve & Rank Service Collection_Name
@@ -130,7 +142,7 @@ app.post('/api/message', function(req, res) {
 		}
 
 		var payload = {
-			workspace_id : workspace,
+			workspace_id : workspace_id,
 			context : {
 				'person' : person
 			},
@@ -389,9 +401,8 @@ function checkForLookupRequests(data, callback){
 	console.log('checkForLookupRequests');
 	
 	if(data.context && data.context.action && data.context.action.lookup && data.context.action.lookup!= 'complete'){
-		var workspace = process.env.WORKSPACE_ID || WORKSPACE_ID;
 	    var payload = {
-			workspace_id : workspace,
+			workspace_id : workspace_id,
 			context : data.context,
 			input : data.input
 		}
@@ -717,8 +728,66 @@ function checkForLookupRequests(data, callback){
 	
 }
 
-
-
+/**
+ * Validate or create the Conversation workspace.
+ * Sets the global workspace_id when done (or global setup_error).
+ */
+function initConversationWorkspace(){
+	conversation.listWorkspaces(null, function(err, data){
+		if (err) {
+			setup_error = "Error. Unable to list workspaces for Conversation: " + err
+			console.log("Error during Conversation listWorkspaces(): ", err)
+		}
+		else {
+			let workspaces = data['workspaces'];
+			let found = false;
+			let validate_workspace_id = process.env.WORKSPACE_ID;
+			if (validate_workspace_id) {
+				console.log("Validating workspace ID: ", validate_workspace_id);
+				for (let i = 0, size = workspaces.length; i < size ; i++) {
+					if (workspaces[i]['workspace_id'] === validate_workspace_id) {
+						workspace_id = validate_workspace_id;
+						found = true;
+						console.log("Found workspace: ", validate_workspace_id);
+						break;
+					}
+				}
+				if (!found) {
+					setup_error = "Configured WORKSPACE_ID '" + validate_workspace_id + "' not found!";
+					console.log(setup_error);
+				}
+			}
+			else {
+				// Find by name, because we probably created it earlier (in the if block) and want to use it on restarts.
+				let workspace_name = process.env.WORKSPACE_NAME || "wbc-conversation";
+				console.log("Looking for workspace by name: ", workspace_name);
+				for (let i = 0, size = workspaces.length; i < size ; i++) {
+					if (workspaces[i]['name'] === workspace_name) {
+						console.log("Found workspace: ", workspace_name);
+						workspace_id = workspaces[i]['workspace_id'];
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					console.log("Creating Conversation workspace ", workspace_name);
+					let ws = JSON.parse(fs.readFileSync('data/WCS/workspace-ConversationalBanking.json'));
+					ws['name'] =  workspace_name;
+					conversation.createWorkspace(ws, function(err, ws) {
+						if (err) {
+							setup_error = "Failed to create Conversation workspace: " + err;
+						}
+						else {
+							workspace_id = ws['workspace_id'];
+							console.log('Successfully created Conversation workspace');
+							console.log('  Name: ', ws['name']);
+							console.log('  ID:', workspace_id);
+						}
+					});
+				}
+			}
+		}
+	})
+}
   
-	
 module.exports = app;
