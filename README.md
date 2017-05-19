@@ -1,7 +1,5 @@
 [![Build Status](https://travis-ci.org/IBM/watson-banking-chatbot.svg?branch=master)](https://travis-ci.org/IBM/watson-banking-chatbot)
-<!-- TODO:
-![Bluemix Deployments](https://deployment-tracker.mybluemix.net/stats/5fd641e32af04e4adb16f26c46de3587/badge.svg)
--->
+![Bluemix Deployments](https://deployment-tracker.mybluemix.net/stats/3999122db8b59f04eecad8d229814d83/badge.svg)
 
 # Multi - Domain Enterprise Digital Assistant
 
@@ -51,7 +49,7 @@ When the reader has completed this journey, they will understand how to:
 
 NOTE: Perform steps 1-6 OR click the Deploy to Bluemix button to do it all at once!
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/ibm/watson-banking-chatbot)
+[![Deploy to Bluemix](https://deployment-tracker.mybluemix.net/stats/3999122db8b59f04eecad8d229814d83/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
 1. Log in to your Bluemix account before deploying.
 If already logged in, then ignore this step.
@@ -220,3 +218,26 @@ Full license text is available in [LICENSE](LICENSE).
 * [CONTRIBUTING](CONTRIBUTING.md): Guide to contribute to this project
 * [MAINTAINING](MAINTAINERS.md): Rules for maintainer of this project
 * [Open Source @ IBM](http://ibm.github.io/): Find more open source projects on the
+
+# Privacy Notice
+
+If using the `Deploy to Bluemix` button some metrics are tracked, the following
+information is sent to a [Deployment Tracker](https://github.com/IBM-Bluemix/cf-deployment-tracker-service) service
+on each deployment:
+
+* Node.js package version
+* Node.js repository URL
+* Application Name (`application_name`)
+* Application GUID (`application_id`)
+* Application instance index number (`instance_index`)
+* Space ID (`space_id`)
+* Application Version (`application_version`)
+* Application URIs (`application_uris`)
+* Labels of bound services
+* Number of instances for each bound service and associated plan information
+
+This data is collected from the `package.json` file in the sample application and the `VCAP_APPLICATION` and `VCAP_SERVICES` environment variables in IBM Bluemix and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Bluemix to measure the usefulness of our examples, so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
+
+## Disabling Deployment Tracking
+
+To disable tracking, simply remove ``require("cf-deployment-tracker-client").track();`` from the ``app.js`` file in the top level directory.
