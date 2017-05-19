@@ -1,9 +1,10 @@
 {
-  "name": "NodejsStarterApp",
+  "name": "watson-banking-chatbot",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test”: “./node_modules/jshint/bin/jshint test/test.express.js”
   },
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -20,8 +21,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/IBM/watson-banking-chatbot.git"
-  },
+    },
   "engines": {
     "node": "4.x"
-  }
+  },
+  “devDependencies”: {
+   “jshint”: “^2.9.4”
+ }
 }
