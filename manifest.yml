@@ -7,8 +7,8 @@ declared-services:
     label: document_conversion
     plan: standard
   wbc-conversation-service:
-    label: free
-    plan: standard
+    label: conversation
+    plan: free
   wbc-natural-language-understanding-service:
     label: natural-language-understanding
     plan: free
@@ -20,7 +20,6 @@ applications:
   memory: 512M
   instances: 1
   name: watson-banking-chatbot
-  host: watson-banking-chatbot
   disk_quota: 256M
   random-route: true
   services:
