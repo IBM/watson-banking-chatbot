@@ -1,13 +1,10 @@
 ---
 declared-services:
-  wbc-retrieve-and-rank-service:
-    label: retrieve_and_rank
-    plan: standard
-  wbc-document-conversion-service:
-    label: document_conversion
-    plan: standard
   wbc-conversation-service:
     label: conversation
+    plan: free
+  wbc-discovery-service:
+    label: discovery
     plan: free
   wbc-natural-language-understanding-service:
     label: natural-language-understanding
@@ -23,8 +20,7 @@ applications:
   disk_quota: 256M
   random-route: true
   services:
-  - wbc-retrieve-and-rank-service
-  - wbc-document-conversion-service
   - wbc-conversation-service
   - wbc-tone-analyzer-service
   - wbc-natural-language-understanding-service
+  - wbc-discovery-service

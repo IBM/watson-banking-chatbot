@@ -15,7 +15,7 @@
     "http": "0.0.0",
     "https": "^1.0.0",
     "vcap_services": "^0.2.0",
-    "watson-developer-cloud": "^2.0.0",
+    "watson-developer-cloud": "^2.32.0",
     "numeral": "^1.5.3"
   },
   "repository": {
