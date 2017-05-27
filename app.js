@@ -45,6 +45,13 @@ const DISCOVERY_ACTION = "rnr";  // Replaced RnR w/ Discovery but Conversation a
 // Discovery environment and collection are found by name if ID is not provided.
 const DISCOVERY_ENVIRONMENT_NAME = process.env.DISCOVERY_ENVIRONMENT_NAME || DEFAULT_NAME;
 const DISCOVERY_COLLECTION_NAME = process.env.DISCOVERY_COLLECTION_NAME || DEFAULT_NAME;
+const DISCOVERY_DOCS = [
+	"./data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-DB-Failure - General.docx",
+	"./data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-DB-Terms - General.docx",
+	"./data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-e2eAO-Terms.docx",
+	"./data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-e2ePL-Terms.docx",
+	"./data/Retrieve&Rank/RnRDocs&Questions/BankRnR-OMP - General.docx"
+];
 
 var LOOKUP_BALANCE = 'balance';
 var LOOKUP_TRANSACTIONS = 'transactions';
@@ -1013,16 +1020,11 @@ function loadDiscoveryCollection(params) {
 		}
 		else {
 			console.log("Checking status of Discovery collection:", data);
-			if (data.document_counts.available + data.document_counts.processing + data.document_counts.failed === 0) {
+			let docs = DISCOVERY_DOCS;
+			let doc_count = docs.length;
+			if (data.document_counts.available + data.document_counts.processing + data.document_counts.failed < doc_count) {
 				console.log("Loading documents into Discovery collection.");
-				let docs = [
-					"/Users/markstur/watson-banking-chatbot/data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-DB-Failure - General.docx",
-					"/Users/markstur/watson-banking-chatbot/data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-DB-Terms - General.docx",
-					"/Users/markstur/watson-banking-chatbot/data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-e2eAO-Terms.docx",
-					"/Users/markstur/watson-banking-chatbot/data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-e2ePL-Terms.docx",
-					"/Users/markstur/watson-banking-chatbot/data/Retrieve&Rank/RnRDocs&Questions/BankRnR-OMP - General.docx"
-				];
-				for (let i = 0, size = docs.length; i < size ; i++) {
+				for (let i = 0; i < doc_count ; i++) {
 					let doc = docs[i];
 					let addDocParams = {file: fs.createReadStream(doc)};
 					Object.assign(addDocParams, params);
@@ -1079,12 +1081,12 @@ function discoveryIsReady(params) {
  * @param {String} reason - The error message for the setup error.
  */
 function handleSetupError(reason) {
-	console.log(reason);
+	console.error(reason);
 	setupError += ' ' + reason;
-	// We can allow our chatbot to run and report the above error.
-	// Or we could use the following 2 lines to just abort on a setup error.
-	//   console.log("Aborting.");
-	//   process.exit(1);
+	// We could allow our chatbot to run. It would just report the above error.
+	// Or we can add the following 2 lines to abort on a setup error allowing Bluemix to restart it.
+	console.log("Aborting.");
+	process.exit(1);
 }
 
 /**
