@@ -85,7 +85,7 @@ workspace and select **View details**.
 ###### Save this ID for later.
 
 <p align="center">
-  <img width="400" height="250" src="doc/source/images/open_conversation_menu.png">
+  <img width="400" height="250" src="doc/source/images/WCSViewdetails.PNG">
 </p>
 
 *Optionally*, to view the conversation dialog select the workspace and choose the
@@ -109,13 +109,23 @@ Seed the content by firstly creating **New Collection**, and add the file docume
 
 > Note: Ensure that you have also created a [**Watson Document Conversion**](https://console.ng.bluemix.net/catalog/services/document-conversion) service as well. Since, Watson RnR uses document conversion at the backend.
 
+
+**Training the content**
+
+The .docx files present under the folder, are the documents & need to be uploaded in the 'Document' section of R-n-R.
+Followed by, .txt files present are the questions & need to be uploaded in the 'Questions' section of R-n-R.
+
+The R-n-R itself creates tasks for the developer, which should be completed to achieve a trained/ranked model.
+
+![](doc/source/images/rnrtasks.PNG)
+
 8. Once the watson services are configured, Go to View App -> Runtime -> Environment Variables -> User Defined, add the IDs saved above and save it.
 
 ![](doc/source/images/runtime-settings.png)
 
 The application and services have been successfully deployed, and you are now ready to use the application.
 
-# Steps
+# Steps to run locally
 
 1. [Clone the repo](#1-clone-the-repo)
 2. [Create Watson services on IBM Bluemix](#2-create-watson-services-on-ibm-bluemix)
@@ -156,7 +166,7 @@ Find the local version of [`data/WCS/workspace-ConversationalBanking.json`](data
 workspace and select **View details**. Save this ID for later.
 
 <p align="center">
-  <img width="400" height="250" src="doc/source/images/open_conversation_menu.png">
+  <img width="400" height="250" src="doc/source/images/WCSViewdetails.PNG">
 </p>
 
 *Optionally*, to view the conversation dialog select the workspace and choose the
@@ -172,9 +182,21 @@ Launch the **Watson retrieve-and-rank** tool. Create a **new data cluster**.
 
 Seed the content by firstly creating **New Collection**, and add the file documents and questions present under [`data/Retrieve&Rank/`](data/Retrieve&Rank/)
 
+
+
 ![](doc/source/images/new-collection.PNG)
 
 > Note: Ensure that you have also created a [**Watson Document Conversion**](https://console.ng.bluemix.net/catalog/services/document-conversion) service as well. Since, Watson RnR uses document conversion at the backend.
+
+**Training the content**
+
+The .docx files present under the folder, are the documents & need to be uploaded in the 'Document' section of R-n-R.
+Followed by, .txt files present are the questions & need to be uploaded in the 'Questions' section of R-n-R.
+
+The R-n-R itself creates tasks for the developer, which should be completed to achieve a trained/ranked model.
+![](doc/source/images/rnrtasks.PNG)
+
+
 
 ## 5. Run the application
 
@@ -185,10 +207,11 @@ If you used ``Deploy to Bluemix``, most of the setup is automatic to start using
 ### If you want to run it locally...
 
 Otherwise as explained above:
-1. Clone the repo
-2. Instantiate/ Configure the above watson services
-2. Install NodeJS runtime or npm.
-3. Start the app and it can be used at localhost:3000
+1. We have already cloned the repo.
+2. Instantiated & Configured the above watson services.
+2. Install [NodeJS](https://nodejs.org/en/) runtime or NPM.
+3. To start the app use - 'npm install', followed by 'npm start'
+4. It can be opened at localhost:3000
 
 > Note: server host can be changed as required in server.js
 
