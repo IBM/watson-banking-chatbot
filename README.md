@@ -98,9 +98,14 @@ workspace and select **View details**. Save this ID for later.
 
 ### 4. Load the Discovery documents
 
-Launch the **Watson Discovery** tool. Create a new environment if prompted. Create a new Collection.
+Launch the **Watson Discovery** tool. Create a **new data collection**
+and give the data collection a unique name.
 
-> Save the COLLECTION_ID for later.
+![](doc/source/images/new_collection.png)
+
+> Save the **environment_id** and **collection_id** for your `.env` file in the next step.
+
+Under `Add data to this collection` use `Drag and drop your documents here or browse from computer` to seed the content with the five documents in `data/Discovery/docs`.
 
 ### 5. Configure credentials
 
