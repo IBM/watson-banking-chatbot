@@ -8,7 +8,7 @@ When the reader has completed this journey, they will understand how to:
 
 * Create a chatbot that converses via a web UI using Watson Conversation and Node.js
 * Use Watson Discovery with passage retrieval to find answers in FAQ documents
-* Use Watson Tone Analyzer to detect emotion
+* Use Watson Tone Analyzer to detect emotion in a conversation
 * Identify entities with Watson Natural Language Understanding
 
 ![](doc/source/images/Banking-Architecture.png)
@@ -39,7 +39,7 @@ Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
 2. In Toolchains, click on Delivery Pipeline to watch while the app is deployed. Once deployed, the app can be viewed by clicking 'View app'.
 ![](doc/source/images/toolchain-pipeline.png)
 
-3. To see the app and services created and configured for this journey, use the Bluemix dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the "wbc-" prefix:
+3. To see the app and services created and configured for this journey, use the Bluemix dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the `wbc-` prefix:
     * wbc-conversation-service
     * wbc-discovery-service
     * wbc-natural-language-understanding-service
