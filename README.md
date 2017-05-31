@@ -39,7 +39,7 @@ Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
 2. In Toolchains, click on Delivery Pipeline to watch while the app is deployed. Once deployed, the app can be viewed by clicking 'View app'.
 ![](doc/source/images/toolchain-pipeline.png)
 
-3. To see the app and services created and configured for this journey, use the Bluemix dashboard. The app is named "watson-banking-chatbot" with a unique suffix. The following services are created and easily identified by the "wbc-" prefix:
+3. To see the app and services created and configured for this journey, use the Bluemix dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the "wbc-" prefix:
     * wbc-conversation-service
     * wbc-discovery-service
     * wbc-natural-language-understanding-service
@@ -48,13 +48,17 @@ Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
 ## Run locally
 > NOTE: These steps are only needed when running locally instead of using the ``Deploy to Bluemix`` button.
 
-1. Clone the git repo.
-1. Create the Watson services with IBM Bluemix.
-1. Import the Conversation workspace.
 1. Load the Discovery documents.
 1. Run the app.
 
-### 1. Clone the git repo
+1. [Clone the repo](#1-clone-the-repo)
+2. [Create Watson services with IBM Bluemix](#2-create-watson-services-with-ibm-bluemix)
+3. [Configure Watson Conversation](#3-configure-watson-conversation)
+4. [Configure Watson Discovery](#4-configure-watson-discovery)
+5. [Configure credentials](#5-configure-credentials)
+5. [Run the application](#6-run-the-application)
+
+### 1. Clone the repo
 
 Clone the `watson-banking-chatbot` locally. In a terminal, run:
 
@@ -62,7 +66,11 @@ Clone the `watson-banking-chatbot` locally. In a terminal, run:
 $ git clone https://github.com/IBM/watson-banking-chatbot
 ```
 
-### 2. Create the Watson services with IBM Bluemix
+We’ll be using the file [`data/WCS/workspace-ConversationalBanking.json`](data/WCS/workspace-ConversationalBanking.json) and the folder
+[`data/WCS/`](data/WCS/)
+
+### 2. Create Watson services with IBM Bluemix
+
 Create the following services:
 
 * [**Watson Conversation**](https://console.ng.bluemix.net/catalog/services/conversation)
@@ -83,7 +91,7 @@ Find the local version of [`data/WCS/workspace-ConversationalBanking.json`](data
 workspace and select **View details**. Save this ID for later.
 
 <p align="center">
-  <img width="400" height="250" src="doc/source/images/open_conversation_menu.png">
+  <img width="400" height="250" src="doc/source/images/WCSViewdetails.PNG">
 </p>
 
 *Optionally*, to view the conversation dialog select the workspace and choose the
@@ -95,14 +103,16 @@ workspace and select **View details**. Save this ID for later.
 
 Launch the **Watson Discovery** tool. Create a new environment if prompted. Create a new Collection.
 
-###### Save the COLLECTION_ID for later.
+> Save the COLLECTION_ID for later.
 
-Add the file documents and questions present under [`data/Retrieve&Rank/`](data/Retrieve&Rank/)
+### 5. Configure credentials
 
-### 5. Run the app
-1. Install Node.js runtime or npm.
-1. Start the app.
-1. Use the chatbot at localhost:3000.
+TODO:
+
+### 6. Run the application
+1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
+1. Start the app by running `npm install`, followed by `npm start`.
+1. Use the chatbot at `localhost:3000`.
 > Note: server host can be changed as required in server.js
 
 ## Flow
