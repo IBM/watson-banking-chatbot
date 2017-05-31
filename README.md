@@ -48,13 +48,10 @@ Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
 ## Run locally
 > NOTE: These steps are only needed when running locally instead of using the ``Deploy to Bluemix`` button.
 
-1. Load the Discovery documents.
-1. Run the app.
-
 1. [Clone the repo](#1-clone-the-repo)
 2. [Create Watson services with IBM Bluemix](#2-create-watson-services-with-ibm-bluemix)
-3. [Configure Watson Conversation](#3-configure-watson-conversation)
-4. [Configure Watson Discovery](#4-configure-watson-discovery)
+3. [Import the Conversation workspace](#3-import-the-conversation-workspace)
+4. [Load the Discovery documents](#4-load-the-discovery-documents)
 5. [Configure credentials](#5-configure-credentials)
 5. [Run the application](#6-run-the-application)
 
