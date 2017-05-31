@@ -11,7 +11,7 @@ When the reader has completed this journey, they will understand how to:
 * Use Watson Tone Analyzer to detect emotion in a conversation
 * Identify entities with Watson Natural Language Understanding
 
-![](doc/source/images/Banking-Architecture.png)
+![](doc/source/images/wbc-arch.png)
 
 ### With Watson
 
