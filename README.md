@@ -105,11 +105,95 @@ and give the data collection a unique name.
 
 > Save the **environment_id** and **collection_id** for your `.env` file in the next step.
 
-Under `Add data to this collection` use `Drag and drop your documents here or browse from computer` to seed the content with the five documents in `data/Discovery/docs`.
+Under `Add data to this collection` use `Drag and drop your documents here or browse from computer` to seed the content with the five documents in `data/discovery/docs`.
 
 ### 5. Configure credentials
 
-TODO:
+The credentials for Bluemix services (Conversation, Discovery, Tone Analyzer and
+Natural Language Understanding), can be found in the ``Services`` menu in Bluemix,
+by selecting the ``Service Credentials`` option for each service.
+
+The other settings for Conversation and Discovery were collected during the
+earlier setup steps (DISCOVERY_COLLECTION_ID, DISCOVERY_ENVIRONMENT_ID and
+WORKSPACE_ID).
+
+Copy the [`env.sample`](env.sample) to `.env`.
+
+```
+$ cp env.sample .env
+```
+Edit the `.env` file with the necessary settings.
+
+`env.sample:`
+
+```
+# Replace the credentials here with your own.
+# Rename this file to .env before starting the app.
+
+# Watson conversation
+CONVERSATION_USERNAME=<add_conversation_username>
+CONVERSATION_PASSWORD=<add_conversation_password>
+WORKSPACE_ID=<add_conversation_workspace>
+
+# Watson Discovery
+DISCOVERY_USERNAME=<add_discovery_username>
+DISCOVERY_PASSWORD=<add_discovery_password>
+DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment>
+DISCOVERY_COLLECTION_ID=<add_discovery_collection>
+
+# Watson Natural Language Understanding
+NLU_USERNAME=<add_nlu_username>
+NLU_PASSWORD=<add_nlu_password>
+
+# Watson Tone Analyzer
+TONE_ANALYZER_USERNAME=<add_tone_analyzer_username>
+TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
+```
+
+
+### 6. Run the application
+1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
+1. Start the app by running `npm install`, followed by `npm start`.
+1. Use the chatbot at `localhost:3000`.
+> Note: server host can be changed as required in server.js
+
+## Flow
+* Answers important FAQs queries from the multiple domains such as across business lines of Loans, Account Opening, Market Place & Digital Banking of Banking industry.
+* Also the chatbot solves transactional queries such as view transactions, balances, pay utility bills etc.
+
+* The user writes a query about a service to the chatbot
+* The orchestrator accepts query, saves the user context & starts a REST call with the Cognitive APIs.
+* Depending on the nature of the query (long /Short tail), the answer is provided by either Watson Conversation API or Watson Retrieve and Rank
+* Further to answering user queries, the agent can also be connected to Third party APIs such as India Stack(Aadhaar) for authentication required for verifying identify, e-sign, purchases etc. ;language translation APIs for localization.
+* Orchestrator can be further exposed to enterprise systems such as CRM, warehouses, ERP etc. for contextual content.
+
+# License
+[Apache 2.0](LICENSE)
+
+# Privacy Notice
+If using the `Deploy to Bluemix` button some metrics are tracked, the following
+information is sent to a [Deployment Tracker](https://github.com/IBM-Bluemix/cf-deployment-tracker-service) service
+on each deployment:
+
+* Node.js package version
+* Node.js repository URL
+* Application Name (`application_name`)
+* Application GUID (`application_id`)
+* Application instance index number (`instance_index`)
+* Space ID (`space_id`)
+* Application Version (`application_version`)
+* Application URIs (`application_uris`)
+* Labels of bound services
+* Number of instances for each bound service and associated plan information
+
+This data is collected from the `package.json` file in the sample application and the `VCAP_APPLICATION` and `VCAP_SERVICES` environment variables in IBM Bluemix and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Bluemix to measure the usefulness of our examples, so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
+
+## Disabling Deployment Tracking
+
+To disable tracking, simply remove ``require("cf-deployment-tracker-client").track();`` from the ``app.js`` file in the top level directory.
+
+```
+
 
 ### 6. Run the application
 1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
