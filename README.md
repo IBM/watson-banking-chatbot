@@ -150,51 +150,6 @@ TONE_ANALYZER_USERNAME=<add_tone_analyzer_username>
 TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
 ```
 
-
-### 6. Run the application
-1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
-1. Start the app by running `npm install`, followed by `npm start`.
-1. Use the chatbot at `localhost:3000`.
-> Note: server host can be changed as required in server.js
-
-## Flow
-* Answers important FAQs queries from the multiple domains such as across business lines of Loans, Account Opening, Market Place & Digital Banking of Banking industry.
-* Also the chatbot solves transactional queries such as view transactions, balances, pay utility bills etc.
-
-* The user writes a query about a service to the chatbot
-* The orchestrator accepts query, saves the user context & starts a REST call with the Cognitive APIs.
-* Depending on the nature of the query (long /Short tail), the answer is provided by either Watson Conversation API or Watson Retrieve and Rank
-* Further to answering user queries, the agent can also be connected to Third party APIs such as India Stack(Aadhaar) for authentication required for verifying identify, e-sign, purchases etc. ;language translation APIs for localization.
-* Orchestrator can be further exposed to enterprise systems such as CRM, warehouses, ERP etc. for contextual content.
-
-# License
-[Apache 2.0](LICENSE)
-
-# Privacy Notice
-If using the `Deploy to Bluemix` button some metrics are tracked, the following
-information is sent to a [Deployment Tracker](https://github.com/IBM-Bluemix/cf-deployment-tracker-service) service
-on each deployment:
-
-* Node.js package version
-* Node.js repository URL
-* Application Name (`application_name`)
-* Application GUID (`application_id`)
-* Application instance index number (`instance_index`)
-* Space ID (`space_id`)
-* Application Version (`application_version`)
-* Application URIs (`application_uris`)
-* Labels of bound services
-* Number of instances for each bound service and associated plan information
-
-This data is collected from the `package.json` file in the sample application and the `VCAP_APPLICATION` and `VCAP_SERVICES` environment variables in IBM Bluemix and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Bluemix to measure the usefulness of our examples, so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
-
-## Disabling Deployment Tracking
-
-To disable tracking, simply remove ``require("cf-deployment-tracker-client").track();`` from the ``app.js`` file in the top level directory.
-
-```
-
-
 ### 6. Run the application
 1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
 1. Start the app by running `npm install`, followed by `npm start`.
