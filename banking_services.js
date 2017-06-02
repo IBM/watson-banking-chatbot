@@ -16,7 +16,7 @@
 
 'use strict';
 
-const banking_services = {
+const bankingServices = {
   _person: {
     fname: 'Krishna',
     lname: 'Kumar',
@@ -309,4 +309,4 @@ const banking_services = {
   }
 };
 
-module.exports = banking_services;
+module.exports = bankingServices;
