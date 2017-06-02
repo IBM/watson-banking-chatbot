@@ -14,6 +14,7 @@ module.exports = {
   ],
   "rules": {
     "no-console": 0,
+    "no-process-exit": 0,
     "prettier/prettier": ["error", {"singleQuote": true, "printWidth": 160}],
     "prefer-const": "error",
     "prefer-rest-params": "off",

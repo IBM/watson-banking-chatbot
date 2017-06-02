@@ -801,7 +801,7 @@ function findDiscoveryEnvironment() {
               console.log(environment);
               return resolve(environment);
             } else if (!environment.read_only) {
-              reuseEnv = environment.environment_id;
+              reuseEnv = environment;
             }
           }
         }
@@ -831,14 +831,14 @@ function findDiscoveryCollection(environment) {
       environment_id: environment.environment_id
     };
     discovery.getCollections(params, (err, data) => {
-      const collections = data.collections;
       if (err) {
         console.error(err);
         return reject('Failed to get Discovery collections.');
       } else {
         // If a DISCOVERY_COLLECTION_ID is set, validate it and use it (or fail).
-        const validateID = process.env.DISCOVERY_COLLECTION_ID;
         // Otherwise, look (by name) for one that we already created.
+        const validateID = process.env.DISCOVERY_COLLECTION_ID;
+        const collections = data.collections;
         for (let i = 0, size = collections.length; i < size; i++) {
           const collection = collections[i];
           if (validateID) {
@@ -1008,11 +1008,11 @@ function discoveryIsReady(params) {
  * @param {String} reason - The error message for the setup error.
  */
 function handleSetupError(reason) {
-  console.error(reason);
   setupError += ' ' + reason;
+  console.error('The app failed to initialize properly. Setup and restart needed.' + setupError);
   // We could allow our chatbot to run. It would just report the above error.
   // Or we can add the following 2 lines to abort on a setup error allowing Bluemix to restart it.
-  console.log('Aborting.');
+  console.error('Aborting!');
   process.exit(1);
 }
 
