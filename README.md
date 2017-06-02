@@ -19,10 +19,10 @@ Want to take your Watson app to the next level? Looking to leverage Watson Brand
 
 ## Included components
 
-* [IBM Watson Conversation](https://www.ibm.com/watson/developercloud/conversation.html): Build chatbots that understand natural language and deploy them on messaging platforms and websites, on any device.
-* [IBM Watson Discovery](https://www.ibm.com/watson/developercloud/discovery.html): Rapidly build a cognitive search and content analytics engine.
-* [IBM Watson Natural Language Understanding](https://www.ibm.com/watson/developercloud/natural-language-understanding.html): Natural language processing for advanced text analysis.
-* [IBM Watson Tone Analyzer](https://www.ibm.com/watson/developercloud/speech-to-text.html): Understand tone and style in written text.
+* [IBM Watson Conversation](https://www.ibm.com/watson/developercloud/conversation.html): Build, test and deploy a bot or virtual agent across mobile devices, messaging platforms, or even on a physical robot.
+* [IBM Watson Discovery](https://www.ibm.com/watson/developercloud/discovery.html): A cognitive search and content analytics engine for applications to identify patterns, trends, and actionable insights.
+* [IBM Watson Natural Language Understanding](https://www.ibm.com/watson/developercloud/natural-language-understanding.html): Analyze text to extract meta-data from content such as concepts, entities, keywords, categories, sentiment, emotion, relations, semantic roles, using natural language understanding.
+* [IBM Watson Tone Analyzer](https://www.ibm.com/watson/developercloud/speech-to-text.html): Uses linguistic analysis to detect communication tones in written text.
 
 ## Featured technologies
 * [Node.js](https://nodejs.org/): An asynchronous event driven JavaScript runtime, designed to build scalable applications.
@@ -88,7 +88,7 @@ Find the local version of [`data/WCS/workspace-ConversationalBanking.json`](data
 workspace and select **View details**. Save this ID for later.
 
 <p align="center">
-  <img width="400" height="250" src="doc/source/images/WCSViewdetails.PNG">
+  <img width="400" src="doc/source/images/WCSViewdetails.PNG">
 </p>
 
 *Optionally*, to view the conversation dialog select the workspace and choose the
@@ -114,8 +114,8 @@ Natural Language Understanding), can be found in the ``Services`` menu in Bluemi
 by selecting the ``Service Credentials`` option for each service.
 
 The other settings for Conversation and Discovery were collected during the
-earlier setup steps (DISCOVERY_COLLECTION_ID, DISCOVERY_ENVIRONMENT_ID and
-WORKSPACE_ID).
+earlier setup steps (``DISCOVERY_COLLECTION_ID``, ``DISCOVERY_ENVIRONMENT_ID`` and
+``WORKSPACE_ID``).
 
 Copy the [`env.sample`](env.sample) to `.env`.
 
@@ -124,7 +124,7 @@ $ cp env.sample .env
 ```
 Edit the `.env` file with the necessary settings.
 
-`env.sample:`
+#### `env.sample:`
 
 ```
 # Replace the credentials here with your own.
