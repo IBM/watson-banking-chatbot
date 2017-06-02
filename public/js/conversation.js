@@ -89,15 +89,15 @@ var ConversationPanel = (function() {
   // Display a user or Watson message that has just been sent/received
   function displayMessage(newPayload, typeValue) {
     var isUser = isUserMessage(typeValue);
-    var textExists = (newPayload.input && newPayload.input.text)
-      || (newPayload.output && newPayload.output.text);
+    var textExists = (newPayload.input && newPayload.input.text) ||
+        (newPayload.output && newPayload.output.text);
     if (isUser !== null && textExists) {
       // Create new message DOM element
       var messageDivs = buildMessageDomElements(newPayload, isUser);
       var chatBoxElement = document.querySelector(settings.selectors.chatBox);
-      var previousLatest = chatBoxElement.querySelectorAll((isUser
-              ? settings.selectors.fromUser : settings.selectors.fromWatson)
-              + settings.selectors.latest);
+      var previousLatest = chatBoxElement.querySelectorAll((isUser ?
+          settings.selectors.fromUser : settings.selectors.fromWatson) +
+          settings.selectors.latest);
       // Previous "latest" message is no longer the most recent
       if (previousLatest) {
         Common.listForEach(previousLatest, function(element) {
@@ -173,8 +173,7 @@ var ConversationPanel = (function() {
     var scrollingChat = document.querySelector('#scrollingChat');
 
     // Scroll to the latest message sent by the user
-    var scrollEl = scrollingChat.querySelector(settings.selectors.fromUser
-            + settings.selectors.latest);
+    var scrollEl = scrollingChat.querySelector(settings.selectors.fromUser + settings.selectors.latest);
     if (scrollEl) {
       scrollingChat.scrollTop = scrollEl.offsetTop;
     }

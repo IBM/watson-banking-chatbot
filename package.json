@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "test": "./node_modules/jshint/bin/jshint test/test.express.js"
+    "test": "npm run eslint && npm run jshint",
+    "jshint": "jshint public",
+    "eslint": "eslint test *.js"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -23,9 +25,15 @@
     "url": "https://github.com/IBM/watson-banking-chatbot.git"
     },
   "engines": {
-    "node": "4.x"
+    "node": ">=4"
   },
   "devDependencies": {
-   "jshint": "^2.9.4"
+    "eslint": "^3.14.1",
+    "eslint-config-google": "^0.7.1",
+    "eslint-config-prettier": "^2.1.0",
+    "eslint-plugin-node": "^4.0.0",
+    "eslint-plugin-prettier": "^2.0.0",
+    "jshint": "^2.9.4",
+    "prettier": "^1.1.0"
  }
 }
