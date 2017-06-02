@@ -65,14 +65,14 @@ require('cf-deployment-tracker-client').track();
 let setupError = '';
 
 // Credentials for services
-const conversation_credentials = vcapServices.getCredentials('conversation');
-const nlu_credentials = vcapServices.getCredentials('natural-language-understanding');
-const tone_analyzer_credentials = vcapServices.getCredentials('tone_analyzer');
-const discovery_credentials = vcapServices.getCredentials('discovery');
+const conversationCredentials = vcapServices.getCredentials('conversation');
+const nluCredentials = vcapServices.getCredentials('natural-language-understanding');
+const toneAnalyzerCredentials = vcapServices.getCredentials('tone_analyzer');
+const discoveryCredentials = vcapServices.getCredentials('discovery');
 
 const discovery = watson.discovery({
-  password: discovery_credentials.password,
-  username: discovery_credentials.username,
+  password: discoveryCredentials.password,
+  username: discoveryCredentials.username,
   version_date: '2017-04-27',
   version: 'v1'
 });
@@ -82,17 +82,17 @@ setupDiscovery();
 // Create the service wrapper
 const conversation = watson.conversation({
   url: 'https://gateway.watsonplatform.net/conversation/api',
-  username: conversation_credentials.username || '',
-  password: conversation_credentials.password || '',
+  username: conversationCredentials.username || '',
+  password: conversationCredentials.password || '',
   version_date: '2016-07-11',
   version: 'v1'
 });
-let workspace_id; // workspace_id will be set when the workspace is created or validated.
+let workspaceID; // workspaceID will be set when the workspace is created or validated.
 setupConversationWorkspace();
 
-const tone_analyzer = watson.tone_analyzer({
-  username: tone_analyzer_credentials.username || '',
-  password: tone_analyzer_credentials.password || '',
+const toneAnalyzer = watson.tone_analyzer({
+  username: toneAnalyzerCredentials.username || '',
+  password: toneAnalyzerCredentials.password || '',
   url: 'https://gateway.watsonplatform.net/tone-analyzer/api',
   version: 'v3',
   version_date: '2016-05-19'
@@ -101,8 +101,8 @@ const tone_analyzer = watson.tone_analyzer({
 /* ******** NLU ************ */
 const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
 const nlu = new NaturalLanguageUnderstandingV1({
-  username: nlu_credentials.username || '', // NLU Service username
-  password: nlu_credentials.password || '', // NLU Service password
+  username: nluCredentials.username || '', // NLU Service username
+  password: nluCredentials.password || '', // NLU Service password
   version_date: '2017-02-27'
 });
 
@@ -112,7 +112,7 @@ app.post('/api/message', function(req, res) {
     return res.json({ output: { text: 'The app failed to initialize properly. Setup and restart needed.' + setupError } });
   }
 
-  if (!workspace_id) {
+  if (!workspaceID) {
     return res.json({
       output: {
         text: 'Conversation initialization in progress. Please try again.'
@@ -127,7 +127,7 @@ app.post('/api/message', function(req, res) {
     }
 
     const payload = {
-      workspace_id: workspace_id,
+      workspace_id: workspaceID,
       context: {
         person: person
       },
@@ -183,16 +183,16 @@ app.post('/api/message', function(req, res) {
    * @param payload
    */
   function callconversation(payload) {
-    const query_input = JSON.stringify(payload.input);
+    const queryInput = JSON.stringify(payload.input);
     // const context_input = JSON.stringify(payload.context);
 
-    tone_analyzer.tone(
+    toneAnalyzer.tone(
       {
-        text: query_input,
+        text: queryInput,
         tones: 'emotion'
       },
       function(err, tone) {
-        let tone_anger_score = '';
+        let toneAngerScore = '';
         if (err) {
           console.log('Error occurred while invoking Tone analyzer. ::', err);
           // return res.status(err.code || 500).json(err);
@@ -202,15 +202,15 @@ app.post('/api/message', function(req, res) {
           const len = emotionTones.length;
           for (let i = 0; i < len; i++) {
             if (emotionTones[i].tone_id === 'anger') {
-              console.log('Input = ', query_input);
+              console.log('Input = ', queryInput);
               console.log('emotion_anger score = ', 'Emotion_anger', emotionTones[i].score);
-              tone_anger_score = emotionTones[i].score;
+              toneAngerScore = emotionTones[i].score;
               break;
             }
           }
         }
 
-        payload.context['tone_anger_score'] = tone_anger_score;
+        payload.context['tone_anger_score'] = toneAngerScore;
 
         if (payload.input.text != '') {
           // console.log('input text payload = ', payload.input.text);
@@ -234,12 +234,12 @@ app.post('/api/message', function(req, res) {
             if (err) {
               console.log('error:', err);
             } else {
-              const nlu_output = response;
+              const nluOutput = response;
 
-              payload.context['nlu_output'] = nlu_output;
+              payload.context['nlu_output'] = nluOutput;
               // console.log('NLU = ', nlu_output);
               // identify location
-              const entities = nlu_output.entities;
+              const entities = nluOutput.entities;
               let location = entities.map(function(entry) {
                 if (entry.type == 'Location') {
                   return entry.text;
@@ -372,7 +372,7 @@ function checkForLookupRequests(data, callback) {
 
   if (data.context && data.context.action && data.context.action.lookup && data.context.action.lookup != 'complete') {
     const payload = {
-      workspace_id: workspace_id,
+      workspace_id: workspaceID,
       context: data.context,
       input: data.input
     };
@@ -391,9 +391,9 @@ function checkForLookupRequests(data, callback) {
           }
           const len = accounts ? accounts.length : 0;
 
-          const append_account_response = data.context.action.append_response && data.context.action.append_response === true ? true : false;
+          const appendAccountResponse = data.context.action.append_response && data.context.action.append_response === true ? true : false;
 
-          let accounts_result_text = '';
+          let accountsResultText = '';
 
           for (let i = 0; i < len; i++) {
             accounts[i].balance = accounts[i].balance ? numeral(accounts[i].balance).format('INR 0,0.00') : '';
@@ -404,8 +404,8 @@ function checkForLookupRequests(data, callback) {
             if (accounts[i].last_statement_balance)
               accounts[i].last_statement_balance = accounts[i].last_statement_balance ? numeral(accounts[i].last_statement_balance).format('INR 0,0.00') : '';
 
-            if (append_account_response === true) {
-              accounts_result_text += accounts[i].number + ' ' + accounts[i].type + ' Balance: ' + accounts[i].balance + '<br/>';
+            if (appendAccountResponse === true) {
+              accountsResultText += accounts[i].number + ' ' + accounts[i].type + ' Balance: ' + accounts[i].balance + '<br/>';
             }
           }
 
@@ -414,7 +414,7 @@ function checkForLookupRequests(data, callback) {
           // clear the context's action since the lookup was completed.
           payload.context.action = {};
 
-          if (!append_account_response) {
+          if (!appendAccountResponse) {
             console.log('call conversation.message with lookup results.');
             conversation.message(payload, function(err, data) {
               if (err) {
@@ -429,7 +429,7 @@ function checkForLookupRequests(data, callback) {
             console.log('append lookup results to the output.');
             // append accounts list text to response array
             if (data.output.text) {
-              data.output.text.push(accounts_result_text);
+              data.output.text.push(accountsResultText);
             }
             // clear the context's action since the lookup and append was completed.
             data.context.action = {};
@@ -440,24 +440,24 @@ function checkForLookupRequests(data, callback) {
       }
     } else if (data.context.action.lookup === LOOKUP_TRANSACTIONS) {
       console.log('Lookup Transactions requested');
-      bankingServices.getTransactions(7829706, data.context.action.category, function(err, transaction_response) {
+      bankingServices.getTransactions(7829706, data.context.action.category, function(err, transactionResponse) {
         if (err) {
           console.log('Error while calling account services for transactions', err);
           callback(err, null);
         } else {
           let responseTxtAppend = '';
           if (data.context.action.append_total && data.context.action.append_total === true) {
-            responseTxtAppend += 'Total = <b>' + numeral(transaction_response.total).format('INR 0,0.00') + '</b>';
+            responseTxtAppend += 'Total = <b>' + numeral(transactionResponse.total).format('INR 0,0.00') + '</b>';
           }
 
-          if (transaction_response.transactions && transaction_response.transactions.length > 0) {
+          if (transactionResponse.transactions && transactionResponse.transactions.length > 0) {
             // append transactions
-            const len = transaction_response.transactions.length;
+            const len = transactionResponse.transactions.length;
             const sDt = new Date(data.context.action.startdt);
             const eDt = new Date(data.context.action.enddt);
             if (sDt && eDt) {
               for (let i = 0; i < len; i++) {
-                const transaction = transaction_response.transactions[i];
+                const transaction = transactionResponse.transactions[i];
                 const tDt = new Date(transaction.date);
                 if (tDt > sDt && tDt < eDt) {
                   if (data.context.action.append_response && data.context.action.append_response === true) {
@@ -468,7 +468,7 @@ function checkForLookupRequests(data, callback) {
               }
             } else {
               for (let i = 0; i < len; i++) {
-                const transaction1 = transaction_response.transactions[i];
+                const transaction1 = transactionResponse.transactions[i];
                 if (data.context.action.append_response && data.context.action.append_response === true) {
                   responseTxtAppend +=
                     '<br/>' + transaction1.date + ' &nbsp;' + numeral(transaction1.amount).format('INR 0,0.00') + ' &nbsp;' + transaction1.description;
@@ -494,27 +494,27 @@ function checkForLookupRequests(data, callback) {
       });
     } else if (data.context.action.lookup === LOOKUP_5TRANSACTIONS) {
       console.log('Lookup Transactions requested');
-      bankingServices.getTransactions(7829706, data.context.action.category, function(err, transaction_response) {
+      bankingServices.getTransactions(7829706, data.context.action.category, function(err, transactionResponse) {
         if (err) {
           console.log('Error while calling account services for transactions', err);
           callback(err, null);
         } else {
           let responseTxtAppend = '';
           if (data.context.action.append_total && data.context.action.append_total === true) {
-            responseTxtAppend += 'Total = <b>' + numeral(transaction_response.total).format('INR 0,0.00') + '</b>';
+            responseTxtAppend += 'Total = <b>' + numeral(transactionResponse.total).format('INR 0,0.00') + '</b>';
           }
 
-          transaction_response.transactions.sort(function(a1, b1) {
+          transactionResponse.transactions.sort(function(a1, b1) {
             const a = new Date(a1.date);
             const b = new Date(b1.date);
             return a > b ? -1 : a < b ? 1 : 0;
           });
 
-          if (transaction_response.transactions && transaction_response.transactions.length > 0) {
+          if (transactionResponse.transactions && transactionResponse.transactions.length > 0) {
             // append transactions
             const len = 5; // transaction_response.transactions.length;
             for (let i = 0; i < len; i++) {
-              const transaction = transaction_response.transactions[i];
+              const transaction = transactionResponse.transactions[i];
               if (data.context.action.append_response && data.context.action.append_response === true) {
                 responseTxtAppend +=
                   '<br/>' + transaction.date + ' &nbsp;' + numeral(transaction.amount).format('INR 0,0.00') + ' &nbsp;' + transaction.description;
@@ -546,13 +546,13 @@ function checkForLookupRequests(data, callback) {
           return;
         }
 
-        const append_branch_response = data.context.action.append_response && data.context.action.append_response === true ? true : false;
+        const appendBranchResponse = data.context.action.append_response && data.context.action.append_response === true ? true : false;
 
-        let branch_text = '';
+        let branchText = '';
 
-        if (append_branch_response === true) {
+        if (appendBranchResponse === true) {
           if (branchMaster != null) {
-            branch_text =
+            branchText =
               'Here are the branch details at ' +
               branchMaster.location +
               ' <br/>Address: ' +
@@ -563,7 +563,7 @@ function checkForLookupRequests(data, callback) {
               branchMaster.hours +
               '<br/>';
           } else {
-            branch_text = "Sorry currently we don't have branch details for " + data.context.action.Location;
+            branchText = "Sorry currently we don't have branch details for " + data.context.action.Location;
           }
         }
 
@@ -572,7 +572,7 @@ function checkForLookupRequests(data, callback) {
         // clear the context's action since the lookup was completed.
         payload.context.action = {};
 
-        if (!append_branch_response) {
+        if (!appendBranchResponse) {
           console.log('call conversation.message with lookup results.');
           conversation.message(payload, function(err, data) {
             if (err) {
@@ -587,7 +587,7 @@ function checkForLookupRequests(data, callback) {
           console.log('append lookup results to the output.');
           // append accounts list text to response array
           if (data.output.text) {
-            data.output.text.push(branch_text);
+            data.output.text.push(branchText);
           }
           // clear the context's action since the lookup and append was completed.
           data.context.action = {};
@@ -671,10 +671,10 @@ function checkForLookupRequests(data, callback) {
 
 /**
  * Validate or create the Conversation workspace.
- * Sets the global workspace_id when done (or global setup_error).
+ * Sets the global workspaceID when done (or global setupError).
  * 
  * If a WORKSPACE_ID is specified in the runtime environment,
- * make sure that workspace exists. If no WORKSTATION_ID is
+ * make sure that workspace exists. If no WORKSPACE_ID is
  * specified then try to find it using a lookup by name.
  * Name will be 'watson-banking-chatbot' unless overridden
  * using the WORKSPACE_NAME environment variable.
@@ -697,7 +697,7 @@ function setupConversationWorkspace() {
         console.log('Validating workspace ID: ', validateID);
         for (let i = 0, size = workspaces.length; i < size; i++) {
           if (workspaces[i]['workspace_id'] === validateID) {
-            workspace_id = validateID;
+            workspaceID = validateID;
             found = true;
             console.log('Found workspace: ', validateID);
             break;
@@ -713,7 +713,7 @@ function setupConversationWorkspace() {
         for (let i = 0, size = workspaces.length; i < size; i++) {
           if (workspaces[i]['name'] === workspaceName) {
             console.log('Found workspace: ', workspaceName);
-            workspace_id = workspaces[i]['workspace_id'];
+            workspaceID = workspaces[i]['workspace_id'];
             found = true;
             break;
           }
@@ -726,10 +726,10 @@ function setupConversationWorkspace() {
             if (err) {
               handleSetupError('Failed to create Conversation workspace: ' + err);
             } else {
-              workspace_id = ws['workspace_id'];
+              workspaceID = ws['workspace_id'];
               console.log('Successfully created Conversation workspace');
               console.log('  Name: ', ws['name']);
-              console.log('  ID:', workspace_id);
+              console.log('  ID:', workspaceID);
             }
           });
         }
@@ -951,10 +951,10 @@ function loadDiscoveryCollection(params) {
     } else {
       console.log('Checking status of Discovery collection:', data);
       const docs = DISCOVERY_DOCS;
-      const doc_count = docs.length;
-      if (data.document_counts.available + data.document_counts.processing + data.document_counts.failed < doc_count) {
+      const docCount = docs.length;
+      if (data.document_counts.available + data.document_counts.processing + data.document_counts.failed < docCount) {
         console.log('Loading documents into Discovery collection.');
-        for (let i = 0; i < doc_count; i++) {
+        for (let i = 0; i < docCount; i++) {
           const doc = docs[i];
           const addDocParams = { file: fs.createReadStream(doc) };
           Object.assign(addDocParams, params);

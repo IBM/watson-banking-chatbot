@@ -63,11 +63,11 @@ const banking_services = {
     }
   ],
 
-  getAccountInfo: function(customerId, account_type, callback) {
+  getAccountInfo: function(customerId, accountType, callback) {
     // console.log('getAccountInfo :: start');
     let accounts = [];
 
-    switch (account_type) {
+    switch (accountType) {
       case 'savings':
         accounts.push(this._accounts[0]);
         break;
@@ -125,24 +125,24 @@ const banking_services = {
     const len = this._transactions ? this._transactions.length : 0;
     let total = 0;
 
-    let category_specified_bool = false;
+    let categorySpecifiedBool = false;
     if (category && category !== '' && category !== 'all') {
-      category_specified_bool = true;
+      categorySpecifiedBool = true;
       response.category = category;
     }
 
     for (let i = 0; i < len; i++) {
       const transaction = this._transactions[i];
-      if (category_specified_bool && transaction.category === category) {
+      if (categorySpecifiedBool && transaction.category === category) {
         response.transactions.push(transaction);
         total += transaction.amount;
-      } else if (!category_specified_bool) {
+      } else if (!categorySpecifiedBool) {
         total += transaction.amount;
       }
     }
 
     response.total = total;
-    if (!category_specified_bool) {
+    if (!categorySpecifiedBool) {
       response.transactions = this._transactions.slice();
     }
 
