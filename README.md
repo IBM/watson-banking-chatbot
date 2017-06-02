@@ -101,7 +101,9 @@ workspace and select **View details**. Save this ID for later.
 Launch the **Watson Discovery** tool. Create a **new data collection**
 and give the data collection a unique name.
 
-![](doc/source/images/new_collection.png)
+<p align="center">
+  <img width="400" src="doc/source/images/new_collection.png">
+</p>
 
 > Save the **environment_id** and **collection_id** for your `.env` file in the next step.
 
