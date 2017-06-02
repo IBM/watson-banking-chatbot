@@ -33,17 +33,17 @@ var vcapServices = require('vcap_services');
 
 var bankingServices = require('./banking_services');
 
-const DEFAULT_NAME = "watson-banking-chatbot";
-const DISCOVERY_ACTION = "rnr";  // Replaced RnR w/ Discovery but Conversation action is still "rnr".
+const DEFAULT_NAME = 'watson-banking-chatbot';
+const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Conversation action is still 'rnr'.
 // Discovery environment and collection are found by name if ID is not provided.
 const DISCOVERY_ENVIRONMENT_NAME = process.env.DISCOVERY_ENVIRONMENT_NAME || DEFAULT_NAME;
 const DISCOVERY_COLLECTION_NAME = process.env.DISCOVERY_COLLECTION_NAME || DEFAULT_NAME;
 const DISCOVERY_DOCS = [
-  "./data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-DB-Failure - General.docx",
-  "./data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-DB-Terms - General.docx",
-  "./data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-e2eAO-Terms.docx",
-  "./data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-e2ePL-Terms.docx",
-  "./data/Retrieve&Rank/RnRDocs&Questions/BankRnR-OMP - General.docx"
+  './data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-DB-Failure - General.docx',
+  './data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-DB-Terms - General.docx',
+  './data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-e2eAO-Terms.docx',
+  './data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-e2ePL-Terms.docx',
+  './data/Retrieve&Rank/RnRDocs&Questions/BankRnR-OMP - General.docx'
 ];
 
 var LOOKUP_BALANCE = 'balance';
@@ -55,7 +55,7 @@ var app = express();
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
-require("cf-deployment-tracker-client").track();
+require('cf-deployment-tracker-client').track();
 
 // setupError will be set to an error message if we cannot recover from service setup or init error.
 var setupError = '';
@@ -105,13 +105,13 @@ var nlu = new NaturalLanguageUnderstandingV1({
 // Endpoint to be called from the client side
 app.post('/api/message', function(req, res) {
   if (setupError) {
-    return res.json({ 'output': { 'text': 'The app failed to initialize properly. Setup and restart needed.' + setupError } });
+    return res.json({ output: { text: 'The app failed to initialize properly. Setup and restart needed.' + setupError } });
   }
 
   if (!workspace_id) {
     return res.json({
-      'output': {
-        'text': 'Conversation initialization in progress. Please try again.'
+      output: {
+        text: 'Conversation initialization in progress. Please try again.'
       }
     });
   }
@@ -125,7 +125,7 @@ app.post('/api/message', function(req, res) {
     var payload = {
       workspace_id: workspace_id,
       context: {
-        'person' : person
+        person: person
       },
       input: {}
     };
@@ -139,7 +139,7 @@ app.post('/api/message', function(req, res) {
       if (req.body.input) {
         var inputstring = req.body.input.text;
         console.log('input string ',inputstring );
-        var words = inputstring.split(" ");
+        var words = inputstring.split(' ');
         console.log('words ', words);
         inputstring = '';
         for (var i = 0; i < words.length; i++) {
@@ -149,7 +149,7 @@ app.post('/api/message', function(req, res) {
           }
           inputstring += words[i] + ' ';
         }
-        // words.join(" ");
+        // words.join(' ');
         inputstring = inputstring.trim();
         console.log('After inputstring ', inputstring);
         // payload.input = req.body.input;
@@ -209,17 +209,17 @@ app.post('/api/message', function(req, res) {
         if (payload.input.text != '') {
           // console.log('input text payload = ', payload.input.text);
           var parameters = {
-            'text': payload.input.text,
-            'features': {
-              'entities': {
-                'emotion': true,
-                'sentiment': true,
-                'limit': 2
+            text: payload.input.text,
+            features: {
+              entities: {
+                emotion: true,
+                sentiment: true,
+                limit: 2
               },
-              'keywords': {
-                'emotion': true,
-                'sentiment': true,
-                'limit': 2
+              keywords: {
+                emotion: true,
+                sentiment: true,
+                limit: 2
               }
             }
           };
@@ -235,7 +235,7 @@ app.post('/api/message', function(req, res) {
               // identify location
               var entities = nlu_output.entities;
               var location = entities.map(function(entry) {
-                if (entry.type == "Location") {
+                if (entry.type == 'Location') {
                   return entry.text;
                 }
               });
@@ -255,7 +255,7 @@ app.post('/api/message', function(req, res) {
               // identify Company
 
               var company = entities.map(function(entry) {
-                if (entry.type == "Company") {
+                if (entry.type == 'Company') {
                   return entry.text;
                 }
               });
@@ -273,7 +273,7 @@ app.post('/api/message', function(req, res) {
               // identify Person
 
               var person = entities.map(function(entry) {
-                if (entry.type == "Person") {
+                if (entry.type == 'Person') {
                   return entry.text;
                 }
               });
@@ -291,7 +291,7 @@ app.post('/api/message', function(req, res) {
               // identify Vehicle
 
               var vehicle = entities.map(function(entry) {
-                if (entry.type == "Vehicle") {
+                if (entry.type == 'Vehicle') {
                   return entry.text;
                 }
               });
@@ -308,7 +308,7 @@ app.post('/api/message', function(req, res) {
               // identify Email
 
               var email = entities.map(function(entry) {
-                if(entry.type == "EmailAddress") {
+                if(entry.type == 'EmailAddress') {
                   return(entry.text);
                 }
               });
@@ -530,7 +530,7 @@ function checkForLookupRequests(data, callback) {
           return;
         }
       });
-    } else if (data.context.action.lookup === "branch") {
+    } else if (data.context.action.lookup === 'branch') {
       console.log('************** Branch details *************** InputText : ' + payload.input.text);
       var loc = data.context.action.Location.toLowerCase();
       bankingServices.getBranchInfo(loc, function(err, branchMaster) {
@@ -557,7 +557,7 @@ function checkForLookupRequests(data, callback) {
               branchMaster.hours +
               '<br/>';
           } else {
-            branch_text = "Sorry currently we don't have branch details for" + data.context.action.Location;
+            branch_text = "Sorry currently we don't have branch details for " + data.context.action.Location;
           }
         }
 
@@ -615,11 +615,11 @@ function checkForLookupRequests(data, callback) {
             console.error('Error searching for documents: ' + err);
           } else if (searchResponse.passages.length > 0) {
             let bestPassage = searchResponse.passages[0];
-            console.log("Passage score: ", bestPassage.passage_score);
-            console.log("Passage text: ", bestPassage.passage_text);
+            console.log('Passage score: ', bestPassage.passage_score);
+            console.log('Passage text: ', bestPassage.passage_text);
 
             // Trim the passage to try to get just the answer part of it.
-            let lines = bestPassage.passage_text.split("\n");
+            let lines = bestPassage.passage_text.split('\n');
             let bestLine;
             let questionFound = false;
             for (let i = 0, size = lines.length; i < size; i++) {
@@ -627,7 +627,7 @@ function checkForLookupRequests(data, callback) {
               if (!line) {
                 continue; // skip empty/blank lines
               }
-              if (line.includes("?") || line.includes("<h1")) {
+              if (line.includes('?') || line.includes('<h1')) {
                 // To get the answer we needed to know the Q/A format of the doc.
                 // Skip questions which either have a '?' or are a header '<h1'...
                 questionFound = true;
@@ -681,19 +681,19 @@ function checkForLookupRequests(data, callback) {
 function setupConversationWorkspace() {
   conversation.listWorkspaces(null, function(err, data) {
     if (err) {
-      console.error("Error during Conversation listWorkspaces(): ", err);
-      handleSetupError("Error. Unable to list workspaces for Conversation: " + err);
+      console.error('Error during Conversation listWorkspaces(): ', err);
+      handleSetupError('Error. Unable to list workspaces for Conversation: ' + err);
     } else {
       let workspaces = data['workspaces'];
       let found = false;
       let validateID = process.env.WORKSPACE_ID;
       if (validateID) {
-        console.log("Validating workspace ID: ", validateID);
+        console.log('Validating workspace ID: ', validateID);
         for (let i = 0, size = workspaces.length; i < size; i++) {
           if (workspaces[i]['workspace_id'] === validateID) {
             workspace_id = validateID;
             found = true;
-            console.log("Found workspace: ", validateID);
+            console.log('Found workspace: ', validateID);
             break;
           }
         }
@@ -703,22 +703,22 @@ function setupConversationWorkspace() {
       } else {
         // Find by name, because we probably created it earlier (in the if block) and want to use it on restarts.
         let workspaceName = process.env.WORKSPACE_NAME || DEFAULT_NAME;
-        console.log("Looking for workspace by name: ", workspaceName);
+        console.log('Looking for workspace by name: ', workspaceName);
         for (let i = 0, size = workspaces.length; i < size; i++) {
           if (workspaces[i]['name'] === workspaceName) {
-            console.log("Found workspace: ", workspaceName);
+            console.log('Found workspace: ', workspaceName);
             workspace_id = workspaces[i]['workspace_id'];
             found = true;
             break;
           }
         }
         if (!found) {
-          console.log("Creating Conversation workspace ", workspaceName);
+          console.log('Creating Conversation workspace ', workspaceName);
           let ws = JSON.parse(fs.readFileSync('data/WCS/workspace-ConversationalBanking.json'));
           ws['name'] = workspaceName;
           conversation.createWorkspace(ws, function(err, ws) {
             if (err) {
-              handleSetupError("Failed to create Conversation workspace: " + err);
+              handleSetupError('Failed to create Conversation workspace: ' + err);
             } else {
               workspace_id = ws['workspace_id'];
               console.log('Successfully created Conversation workspace');
@@ -742,17 +742,17 @@ function getDiscoveryConfig(params) {
     discovery.getConfigurations(params, (err, data) => {
       if (err) {
         console.error(err);
-        return reject("Failed to get Discovery configurations.");
+        return reject('Failed to get Discovery configurations.');
       } else {
         let configs = data.configurations;
         for (let i = 0, size = configs.length; i < size; i++) {
           var config = configs[i];
-          if (config.name === "Default Configuration") {
+          if (config.name === 'Default Configuration') {
             params.configuration_id = config.configuration_id;
             return resolve(params);
           }
         }
-        return reject("Failed to get default Discovery configuration.");
+        return reject('Failed to get default Discovery configuration.');
       }
     });
   });
@@ -772,7 +772,7 @@ function findDiscoveryEnvironment() {
     discovery.getEnvironments({}, (err, data) => {
       if (err) {
         console.error(err);
-        return reject("Failed to get Discovery environments.");
+        return reject('Failed to get Discovery environments.');
       } else {
         let environments = data.environments;
         // If a DISCOVERY_ENVIRONMENT_ID is set, validate it and use it (or fail).
@@ -785,13 +785,13 @@ function findDiscoveryEnvironment() {
           let environment = environments[i];
           if (validateID) {
             if (validateID === environment.environment_id) {
-              console.log("Found Discovery environment using DISCOVERY_ENVIRONMENT_ID.");
+              console.log('Found Discovery environment using DISCOVERY_ENVIRONMENT_ID.');
               console.log(environment);
               return resolve(environment);
             }
           } else {
             if (environment.name === DISCOVERY_ENVIRONMENT_NAME) {
-              console.log("Found Discovery environment by name.");
+              console.log('Found Discovery environment by name.');
               console.log(environment);
               return resolve(environment);
             } else if (!environment.read_only) {
@@ -800,9 +800,9 @@ function findDiscoveryEnvironment() {
           }
         }
         if (validateID) {
-          return reject("Configured DISCOVERY_ENVIRONMENT_ID=" + validateID + " not found.");
+          return reject('Configured DISCOVERY_ENVIRONMENT_ID=' + validateID + ' not found.');
         } else if (reuseEnv) {
-          console.log("Found existing Discovery environment to use: ", reuseEnv);
+          console.log('Found existing Discovery environment to use: ', reuseEnv);
           return resolve(reuseEnv);
         }
       }
@@ -828,7 +828,7 @@ function findDiscoveryCollection(environment) {
       let collections = data.collections;
       if (err) {
         console.error(err);
-        return reject("Failed to get Discovery collections.");
+        return reject('Failed to get Discovery collections.');
       } else {
         // If a DISCOVERY_COLLECTION_ID is set, validate it and use it (or fail).
         let validateID = process.env.DISCOVERY_COLLECTION_ID;
@@ -837,14 +837,14 @@ function findDiscoveryCollection(environment) {
           let collection = collections[i];
           if (validateID) {
             if (validateID === collection.collection_id) {
-              console.log("Found Discovery collection using DISCOVERY_COLLECTION_ID.");
+              console.log('Found Discovery collection using DISCOVERY_COLLECTION_ID.');
               console.log(collection);
               params.collection_name = collection.name;
               params.collection_id = collection.collection_id;
               return resolve(params);
             }
           } else if (collection.name === DISCOVERY_COLLECTION_NAME) {
-            console.log("Found Discovery collection by name.");
+            console.log('Found Discovery collection by name.');
             console.log(collection);
             params.collection_name = collection.name;
             params.collection_id = collection.collection_id;
@@ -852,7 +852,7 @@ function findDiscoveryCollection(environment) {
           }
         }
         if (validateID) {
-          return reject("Configured DISCOVERY_COLLECTION_ID=" + validateID + " not found.");
+          return reject('Configured DISCOVERY_COLLECTION_ID=' + validateID + ' not found.');
         }
       }
       // No collection_id added, but return params dict. Set the name to use to create a collection.
@@ -878,15 +878,15 @@ function createDiscoveryEnvironment(environment) {
     // NOTE: The number of environments that can be created
     // under a trial Bluemix account is limited to one per
     // organization. That is why have the "reuse" strategy above.
-    console.log("Creating discovery environment...");
+    console.log('Creating discovery environment...');
     let params = {
       name: DISCOVERY_ENVIRONMENT_NAME,
-      description: "Discovery environment created by watson-banking-chatbot.",
-      size: "0"  // Use string to avoid default of 1.
+      description: 'Discovery environment created by watson-banking-chatbot.',
+      size: '0' // Use string to avoid default of 1.
     };
     discovery.createEnvironment(params, (err, data) => {
       if (err) {
-        console.error("Failed to create Discovery environment.");
+        console.error('Failed to create Discovery environment.');
         return reject(err);
       } else {
         console.log(data);
@@ -910,19 +910,19 @@ function createDiscoveryCollection(params) {
   }
   return new Promise((resolve, reject) => {
     // No existing environment found, so create it.
-    console.log("Creating discovery collection...");
+    console.log('Creating discovery collection...');
     let createCollectionParams = {
       name: params.collection_name,
-      description: "Discovery collection created by watson-banking-chatbot.",
-      language_code: "en_us"
+      description: 'Discovery collection created by watson-banking-chatbot.',
+      language_code: 'en_us'
     };
     Object.assign(createCollectionParams, params);
     discovery.createCollection(createCollectionParams, (err, data) => {
       if (err) {
-        console.error("Failed to create Discovery collection.");
+        console.error('Failed to create Discovery collection.');
         return reject(err);
       } else {
-        console.log("Created Discovery collection: ", data);
+        console.log('Created Discovery collection: ', data);
         params.collection_id = data.collection_id;
         resolve(params);
       }
@@ -938,16 +938,16 @@ function createDiscoveryCollection(params) {
  * @return {Promise}
  */
 function loadDiscoveryCollection(params) {
-  console.log("Get collection to check its status.");
+  console.log('Get collection to check its status.');
   discovery.getCollection(params, (err, data) => {
     if (err) {
       console.error(err);
     } else {
-      console.log("Checking status of Discovery collection:", data);
+      console.log('Checking status of Discovery collection:', data);
       let docs = DISCOVERY_DOCS;
       let doc_count = docs.length;
       if (data.document_counts.available + data.document_counts.processing + data.document_counts.failed < doc_count) {
-        console.log("Loading documents into Discovery collection.");
+        console.log('Loading documents into Discovery collection.');
         for (let i = 0; i < doc_count; i++) {
           let doc = docs[i];
           let addDocParams = { file: fs.createReadStream(doc) };
@@ -955,19 +955,19 @@ function loadDiscoveryCollection(params) {
           discovery.addDocument(addDocParams, (err, data) => {
             // Note: No promise. Just let these all run/log. Revisit this?
             if (err) {
-              console.log("Add document error:");
+              console.log('Add document error:');
               console.error(err);
             } else {
-              console.log("Added document:")
+              console.log('Added document:');
               console.log(data);
             }
           });
         }
       } else {
-        console.log("Collection is already loaded with docs.");
+        console.log('Collection is already loaded with docs.');
         /* For testing:
          discovery.deleteCollection(params, (err, data) => {
-         console.log("Deleting collection for testing!!!!!!!!!!!!!!!!!!!!!!!!");
+         console.log('Deleting collection for testing!!!!!!!!!!!!!!!!!!!!!!!!');
          if (err) {
          console.log(err);
          }
@@ -989,11 +989,11 @@ function discoveryIsReady(params) {
   if (params) {
     // Set the global discoveryParams. We are good to go.
     discoveryParams = params;
-    console.log("Discovery is ready!");
+    console.log('Discovery is ready!');
     console.log(params);
   } else {
     // This should not happen!
-    console.error("discoveryIsReady() was called w/o params!");
+    console.error('discoveryIsReady() was called w/o params!');
   }
 }
 
@@ -1006,7 +1006,7 @@ function handleSetupError(reason) {
   setupError += ' ' + reason;
   // We could allow our chatbot to run. It would just report the above error.
   // Or we can add the following 2 lines to abort on a setup error allowing Bluemix to restart it.
-  console.log("Aborting.");
+  console.log('Aborting.');
   process.exit(1);
 }
 
