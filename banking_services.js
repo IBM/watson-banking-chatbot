@@ -14,7 +14,9 @@
  * the License.
  */
 
-var banking_services = {
+'use strict';
+
+const banking_services = {
   _person: {
     fname: 'Krishna',
     lname: 'Kumar',
@@ -63,7 +65,7 @@ var banking_services = {
 
   getAccountInfo: function(customerId, account_type, callback) {
     // console.log('getAccountInfo :: start');
-    var accounts = [];
+    let accounts = [];
 
     switch (account_type) {
       case 'savings':
@@ -109,28 +111,28 @@ var banking_services = {
   ],
   getBeneficiaryInfo: function(customerId, callback) {
     // console.log('getAccountInfo :: start');
-    var beneficiaries = [];
+    let beneficiaries = [];
     beneficiaries = this._beneficiary.slice();
     callback(null, beneficiaries);
   },
   getTransactions: function(customerId, category, callback) {
-    var response = {
+    const response = {
       total: '',
       category: 'all',
       transactions: []
     };
 
-    var len = this._transactions ? this._transactions.length : 0;
-    var total = 0;
+    const len = this._transactions ? this._transactions.length : 0;
+    let total = 0;
 
-    var category_specified_bool = false;
+    let category_specified_bool = false;
     if (category && category !== '' && category !== 'all') {
       category_specified_bool = true;
       response.category = category;
     }
 
-    for (var i = 0; i < len; i++) {
-      var transaction = this._transactions[i];
+    for (let i = 0; i < len; i++) {
+      const transaction = this._transactions[i];
       if (category_specified_bool && transaction.category === category) {
         response.transactions.push(transaction);
         total += transaction.amount;
@@ -297,7 +299,7 @@ var banking_services = {
     }
   ],
   getBranchInfo: function(location, callback) {
-    for (var i = 0; i < this._branchMaster.length; i++) {
+    for (let i = 0; i < this._branchMaster.length; i++) {
       if (this._branchMaster[i].location === location) {
         callback(null, this._branchMaster[i]);
         return;

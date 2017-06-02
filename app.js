@@ -20,18 +20,22 @@ require('dotenv').config({
   silent: true
 });
 
-var express = require('express'); // app server
-var bodyParser = require('body-parser'); // parser for post requests
-var watson = require('watson-developer-cloud'); // watson sdk
-var fs = require('fs'); // file system for loading JSON
+const express = require('express'); // app server
+const bodyParser = require('body-parser'); // parser for post requests
+const watson = require('watson-developer-cloud'); // watson sdk
+const fs = require('fs'); // file system for loading JSON
+
 // cfenv provides access to your Cloud Foundry environment
 // for more info, see: https://www.npmjs.com/package/cfenv
-var cfenv = require('cfenv');
+// const cfenv = require('cfenv');
+// const url = require('url');
+// const http = require('http');
+// const https = require('https');
 
-var url = require('url'), http = require('http'), https = require('https'), numeral = require('numeral');
-var vcapServices = require('vcap_services');
+const numeral = require('numeral');
+const vcapServices = require('vcap_services');
 
-var bankingServices = require('./banking_services');
+const bankingServices = require('./banking_services');
 
 const DEFAULT_NAME = 'watson-banking-chatbot';
 const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Conversation action is still 'rnr'.
@@ -46,11 +50,11 @@ const DISCOVERY_DOCS = [
   './data/Retrieve&Rank/RnRDocs&Questions/BankRnR-OMP - General.docx'
 ];
 
-var LOOKUP_BALANCE = 'balance';
-var LOOKUP_TRANSACTIONS = 'transactions';
-var LOOKUP_5TRANSACTIONS = '5transactions';
+const LOOKUP_BALANCE = 'balance';
+const LOOKUP_TRANSACTIONS = 'transactions';
+const LOOKUP_5TRANSACTIONS = '5transactions';
 
-var app = express();
+const app = express();
 
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
@@ -58,45 +62,45 @@ app.use(bodyParser.json());
 require('cf-deployment-tracker-client').track();
 
 // setupError will be set to an error message if we cannot recover from service setup or init error.
-var setupError = '';
+let setupError = '';
 
 // Credentials for services
-var conversation_credentials = vcapServices.getCredentials('conversation');
-var nlu_credentials = vcapServices.getCredentials('natural-language-understanding');
-var tone_analyzer = vcapServices.getCredentials('tone_analyzer');
-var discovery_credentials = vcapServices.getCredentials('discovery');
+const conversation_credentials = vcapServices.getCredentials('conversation');
+const nlu_credentials = vcapServices.getCredentials('natural-language-understanding');
+const tone_analyzer_credentials = vcapServices.getCredentials('tone_analyzer');
+const discovery_credentials = vcapServices.getCredentials('discovery');
 
-var discovery = watson.discovery({
+const discovery = watson.discovery({
   password: discovery_credentials.password,
   username: discovery_credentials.username,
   version_date: '2017-04-27',
   version: 'v1'
 });
-var discoveryParams; // discovery_params will be set after Discovery is validated and setup.
+let discoveryParams; // discovery_params will be set after Discovery is validated and setup.
 setupDiscovery();
 
 // Create the service wrapper
-var conversation = watson.conversation({
+const conversation = watson.conversation({
   url: 'https://gateway.watsonplatform.net/conversation/api',
   username: conversation_credentials.username || '',
   password: conversation_credentials.password || '',
   version_date: '2016-07-11',
   version: 'v1'
 });
-var workspace_id; // workspace_id will be set when the workspace is created or validated.
+let workspace_id; // workspace_id will be set when the workspace is created or validated.
 setupConversationWorkspace();
 
-var tone_analyzer = watson.tone_analyzer({
-  username: tone_analyzer.username || '',
-  password: tone_analyzer.password || '',
+const tone_analyzer = watson.tone_analyzer({
+  username: tone_analyzer_credentials.username || '',
+  password: tone_analyzer_credentials.password || '',
   url: 'https://gateway.watsonplatform.net/tone-analyzer/api',
   version: 'v3',
   version_date: '2016-05-19'
 });
 
 /* ******** NLU ************ */
-var NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
-var nlu = new NaturalLanguageUnderstandingV1({
+const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+const nlu = new NaturalLanguageUnderstandingV1({
   username: nlu_credentials.username || '', // NLU Service username
   password: nlu_credentials.password || '', // NLU Service password
   version_date: '2017-02-27'
@@ -122,7 +126,7 @@ app.post('/api/message', function(req, res) {
       return res.status(err.code || 500).json(err);
     }
 
-    var payload = {
+    const payload = {
       workspace_id: workspace_id,
       context: {
         person: person
@@ -131,20 +135,19 @@ app.post('/api/message', function(req, res) {
     };
 
     // common regex patterns
-    var regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
-    var regadhaar = /^\d{12}$/;
-    var regmobile = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
-    var str = '';
+    const regpan = /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}?$/;
+    // const regadhaar = /^\d{12}$/;
+    // const regmobile = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
     if (req.body) {
       if (req.body.input) {
-        var inputstring = req.body.input.text;
-        console.log('input string ',inputstring );
-        var words = inputstring.split(' ');
+        let inputstring = req.body.input.text;
+        console.log('input string ', inputstring);
+        const words = inputstring.split(' ');
         console.log('words ', words);
         inputstring = '';
-        for (var i = 0; i < words.length; i++) {
+        for (let i = 0; i < words.length; i++) {
           if (regpan.test(words[i]) === true) {
-            var value = words[i];
+            // const value = words[i];
             words[i] = '1111111111';
           }
           inputstring += words[i] + ' ';
@@ -175,10 +178,13 @@ app.post('/api/message', function(req, res) {
     callconversation(payload);
   });
 
-  // Send the input to the conversation service
+  /**
+   * Send the input to the conversation service.
+   * @param payload
+   */
   function callconversation(payload) {
-    var query_input = JSON.stringify(payload.input);
-    var context_input = JSON.stringify(payload.context);
+    const query_input = JSON.stringify(payload.input);
+    // const context_input = JSON.stringify(payload.context);
 
     tone_analyzer.tone(
       {
@@ -186,15 +192,15 @@ app.post('/api/message', function(req, res) {
         tones: 'emotion'
       },
       function(err, tone) {
-        var tone_anger_score = '';
+        let tone_anger_score = '';
         if (err) {
           console.log('Error occurred while invoking Tone analyzer. ::', err);
           // return res.status(err.code || 500).json(err);
         } else {
-          var emotionTones = tone.document_tone.tone_categories[0].tones;
+          const emotionTones = tone.document_tone.tone_categories[0].tones;
 
-          var len = emotionTones.length;
-          for (var i = 0; i < len; i++) {
+          const len = emotionTones.length;
+          for (let i = 0; i < len; i++) {
             if (emotionTones[i].tone_id === 'anger') {
               console.log('Input = ', query_input);
               console.log('emotion_anger score = ', 'Emotion_anger', emotionTones[i].score);
@@ -208,7 +214,7 @@ app.post('/api/message', function(req, res) {
 
         if (payload.input.text != '') {
           // console.log('input text payload = ', payload.input.text);
-          var parameters = {
+          const parameters = {
             text: payload.input.text,
             features: {
               entities: {
@@ -228,13 +234,13 @@ app.post('/api/message', function(req, res) {
             if (err) {
               console.log('error:', err);
             } else {
-              var nlu_output = response;
+              const nlu_output = response;
 
               payload.context['nlu_output'] = nlu_output;
               // console.log('NLU = ', nlu_output);
               // identify location
-              var entities = nlu_output.entities;
-              var location = entities.map(function(entry) {
+              const entities = nlu_output.entities;
+              let location = entities.map(function(entry) {
                 if (entry.type == 'Location') {
                   return entry.text;
                 }
@@ -254,7 +260,7 @@ app.post('/api/message', function(req, res) {
               /*
               // identify Company
 
-              var company = entities.map(function(entry) {
+              let company = entities.map(function(entry) {
                 if (entry.type == 'Company') {
                   return entry.text;
                 }
@@ -272,7 +278,7 @@ app.post('/api/message', function(req, res) {
 
               // identify Person
 
-              var person = entities.map(function(entry) {
+              let person = entities.map(function(entry) {
                 if (entry.type == 'Person') {
                   return entry.text;
                 }
@@ -290,7 +296,7 @@ app.post('/api/message', function(req, res) {
 
               // identify Vehicle
 
-              var vehicle = entities.map(function(entry) {
+              let vehicle = entities.map(function(entry) {
                 if (entry.type == 'Vehicle') {
                   return entry.text;
                 }
@@ -307,7 +313,7 @@ app.post('/api/message', function(req, res) {
               }
               // identify Email
 
-              var email = entities.map(function(entry) {
+              let email = entities.map(function(entry) {
                 if(entry.type == 'EmailAddress') {
                   return(entry.text);
                 }
@@ -365,7 +371,7 @@ function checkForLookupRequests(data, callback) {
   console.log('checkForLookupRequests');
 
   if (data.context && data.context.action && data.context.action.lookup && data.context.action.lookup != 'complete') {
-    var payload = {
+    const payload = {
       workspace_id: workspace_id,
       context: data.context,
       input: data.input
@@ -377,19 +383,19 @@ function checkForLookupRequests(data, callback) {
       // if account type is specified (checking, savings or credit card)
       if (data.context.action.account_type && data.context.action.account_type != '') {
         // lookup account information services and update context with account data
-        var accounts = bankingServices.getAccountInfo(7829706, data.context.action.account_type, function(err, accounts) {
+        bankingServices.getAccountInfo(7829706, data.context.action.account_type, function(err, accounts) {
           if (err) {
             console.log('Error while calling bankingServices.getAccountInfo ', err);
             callback(err, null);
             return;
           }
-          var len = accounts ? accounts.length : 0;
+          const len = accounts ? accounts.length : 0;
 
-          var append_account_response = data.context.action.append_response && data.context.action.append_response === true ? true : false;
+          const append_account_response = data.context.action.append_response && data.context.action.append_response === true ? true : false;
 
-          var accounts_result_text = '';
+          let accounts_result_text = '';
 
-          for (var i = 0; i < len; i++) {
+          for (let i = 0; i < len; i++) {
             accounts[i].balance = accounts[i].balance ? numeral(accounts[i].balance).format('INR 0,0.00') : '';
 
             if (accounts[i].available_credit)
@@ -439,20 +445,20 @@ function checkForLookupRequests(data, callback) {
           console.log('Error while calling account services for transactions', err);
           callback(err, null);
         } else {
-          var responseTxtAppend = '';
+          let responseTxtAppend = '';
           if (data.context.action.append_total && data.context.action.append_total === true) {
             responseTxtAppend += 'Total = <b>' + numeral(transaction_response.total).format('INR 0,0.00') + '</b>';
           }
 
           if (transaction_response.transactions && transaction_response.transactions.length > 0) {
             // append transactions
-            var len = transaction_response.transactions.length;
-            var sDt = new Date(data.context.action.startdt);
-            var eDt = new Date(data.context.action.enddt);
+            const len = transaction_response.transactions.length;
+            const sDt = new Date(data.context.action.startdt);
+            const eDt = new Date(data.context.action.enddt);
             if (sDt && eDt) {
-              for (var i = 0; i < len; i++) {
-                var transaction = transaction_response.transactions[i];
-                var tDt = new Date(transaction.date);
+              for (let i = 0; i < len; i++) {
+                const transaction = transaction_response.transactions[i];
+                const tDt = new Date(transaction.date);
                 if (tDt > sDt && tDt < eDt) {
                   if (data.context.action.append_response && data.context.action.append_response === true) {
                     responseTxtAppend +=
@@ -461,8 +467,8 @@ function checkForLookupRequests(data, callback) {
                 }
               }
             } else {
-              for (var i = 0; i < len; i++) {
-                var transaction1 = transaction_response.transactions[i];
+              for (let i = 0; i < len; i++) {
+                const transaction1 = transaction_response.transactions[i];
                 if (data.context.action.append_response && data.context.action.append_response === true) {
                   responseTxtAppend +=
                     '<br/>' + transaction1.date + ' &nbsp;' + numeral(transaction1.amount).format('INR 0,0.00') + ' &nbsp;' + transaction1.description;
@@ -493,22 +499,22 @@ function checkForLookupRequests(data, callback) {
           console.log('Error while calling account services for transactions', err);
           callback(err, null);
         } else {
-          var responseTxtAppend = '';
+          let responseTxtAppend = '';
           if (data.context.action.append_total && data.context.action.append_total === true) {
             responseTxtAppend += 'Total = <b>' + numeral(transaction_response.total).format('INR 0,0.00') + '</b>';
           }
 
           transaction_response.transactions.sort(function(a1, b1) {
-            var a = new Date(a1.date);
-            var b = new Date(b1.date);
+            const a = new Date(a1.date);
+            const b = new Date(b1.date);
             return a > b ? -1 : a < b ? 1 : 0;
           });
 
           if (transaction_response.transactions && transaction_response.transactions.length > 0) {
             // append transactions
-            var len = 5; // transaction_response.transactions.length;
-            for (var i = 0; i < len; i++) {
-              var transaction = transaction_response.transactions[i];
+            const len = 5; // transaction_response.transactions.length;
+            for (let i = 0; i < len; i++) {
+              const transaction = transaction_response.transactions[i];
               if (data.context.action.append_response && data.context.action.append_response === true) {
                 responseTxtAppend +=
                   '<br/>' + transaction.date + ' &nbsp;' + numeral(transaction.amount).format('INR 0,0.00') + ' &nbsp;' + transaction.description;
@@ -532,7 +538,7 @@ function checkForLookupRequests(data, callback) {
       });
     } else if (data.context.action.lookup === 'branch') {
       console.log('************** Branch details *************** InputText : ' + payload.input.text);
-      var loc = data.context.action.Location.toLowerCase();
+      const loc = data.context.action.Location.toLowerCase();
       bankingServices.getBranchInfo(loc, function(err, branchMaster) {
         if (err) {
           console.log('Error while calling bankingServices.getAccountInfo ', err);
@@ -540,9 +546,9 @@ function checkForLookupRequests(data, callback) {
           return;
         }
 
-        var append_branch_response = data.context.action.append_response && data.context.action.append_response === true ? true : false;
+        const append_branch_response = data.context.action.append_response && data.context.action.append_response === true ? true : false;
 
-        var branch_text = '';
+        let branch_text = '';
 
         if (append_branch_response === true) {
           if (branchMaster != null) {
@@ -604,7 +610,7 @@ function checkForLookupRequests(data, callback) {
         // Clear the context's action since the lookup was attempted.
         payload.context.action = {};
       } else {
-        let queryParams = {
+        const queryParams = {
           natural_language_query: payload.input.text,
           passages: true
         };
@@ -614,16 +620,16 @@ function checkForLookupRequests(data, callback) {
           if (err) {
             console.error('Error searching for documents: ' + err);
           } else if (searchResponse.passages.length > 0) {
-            let bestPassage = searchResponse.passages[0];
+            const bestPassage = searchResponse.passages[0];
             console.log('Passage score: ', bestPassage.passage_score);
             console.log('Passage text: ', bestPassage.passage_text);
 
             // Trim the passage to try to get just the answer part of it.
-            let lines = bestPassage.passage_text.split('\n');
+            const lines = bestPassage.passage_text.split('\n');
             let bestLine;
             let questionFound = false;
             for (let i = 0, size = lines.length; i < size; i++) {
-              let line = lines[i].trim();
+              const line = lines[i].trim();
               if (!line) {
                 continue; // skip empty/blank lines
               }
@@ -684,9 +690,9 @@ function setupConversationWorkspace() {
       console.error('Error during Conversation listWorkspaces(): ', err);
       handleSetupError('Error. Unable to list workspaces for Conversation: ' + err);
     } else {
-      let workspaces = data['workspaces'];
+      const workspaces = data['workspaces'];
+      const validateID = process.env.WORKSPACE_ID;
       let found = false;
-      let validateID = process.env.WORKSPACE_ID;
       if (validateID) {
         console.log('Validating workspace ID: ', validateID);
         for (let i = 0, size = workspaces.length; i < size; i++) {
@@ -702,7 +708,7 @@ function setupConversationWorkspace() {
         }
       } else {
         // Find by name, because we probably created it earlier (in the if block) and want to use it on restarts.
-        let workspaceName = process.env.WORKSPACE_NAME || DEFAULT_NAME;
+        const workspaceName = process.env.WORKSPACE_NAME || DEFAULT_NAME;
         console.log('Looking for workspace by name: ', workspaceName);
         for (let i = 0, size = workspaces.length; i < size; i++) {
           if (workspaces[i]['name'] === workspaceName) {
@@ -714,7 +720,7 @@ function setupConversationWorkspace() {
         }
         if (!found) {
           console.log('Creating Conversation workspace ', workspaceName);
-          let ws = JSON.parse(fs.readFileSync('data/WCS/workspace-ConversationalBanking.json'));
+          const ws = JSON.parse(fs.readFileSync('data/WCS/workspace-ConversationalBanking.json'));
           ws['name'] = workspaceName;
           conversation.createWorkspace(ws, function(err, ws) {
             if (err) {
@@ -744,9 +750,9 @@ function getDiscoveryConfig(params) {
         console.error(err);
         return reject('Failed to get Discovery configurations.');
       } else {
-        let configs = data.configurations;
+        const configs = data.configurations;
         for (let i = 0, size = configs.length; i < size; i++) {
-          var config = configs[i];
+          const config = configs[i];
           if (config.name === 'Default Configuration') {
             params.configuration_id = config.configuration_id;
             return resolve(params);
@@ -774,15 +780,15 @@ function findDiscoveryEnvironment() {
         console.error(err);
         return reject('Failed to get Discovery environments.');
       } else {
-        let environments = data.environments;
+        const environments = data.environments;
         // If a DISCOVERY_ENVIRONMENT_ID is set, validate it and use it (or fail).
-        let validateID = process.env.DISCOVERY_ENVIRONMENT_ID;
+        const validateID = process.env.DISCOVERY_ENVIRONMENT_ID;
         // Otherwise, look (by name) for one that we already created.
         // Otherwise we'll reuse an existing environment, if we find a usable one.
         let reuseEnv;
 
         for (let i = 0, size = environments.length; i < size; i++) {
-          let environment = environments[i];
+          const environment = environments[i];
           if (validateID) {
             if (validateID === environment.environment_id) {
               console.log('Found Discovery environment using DISCOVERY_ENVIRONMENT_ID.');
@@ -821,20 +827,20 @@ function findDiscoveryEnvironment() {
  */
 function findDiscoveryCollection(environment) {
   return new Promise((resolve, reject) => {
-    let params = {
+    const params = {
       environment_id: environment.environment_id
     };
     discovery.getCollections(params, (err, data) => {
-      let collections = data.collections;
+      const collections = data.collections;
       if (err) {
         console.error(err);
         return reject('Failed to get Discovery collections.');
       } else {
         // If a DISCOVERY_COLLECTION_ID is set, validate it and use it (or fail).
-        let validateID = process.env.DISCOVERY_COLLECTION_ID;
+        const validateID = process.env.DISCOVERY_COLLECTION_ID;
         // Otherwise, look (by name) for one that we already created.
         for (let i = 0, size = collections.length; i < size; i++) {
-          let collection = collections[i];
+          const collection = collections[i];
           if (validateID) {
             if (validateID === collection.collection_id) {
               console.log('Found Discovery collection using DISCOVERY_COLLECTION_ID.');
@@ -879,7 +885,7 @@ function createDiscoveryEnvironment(environment) {
     // under a trial Bluemix account is limited to one per
     // organization. That is why have the "reuse" strategy above.
     console.log('Creating discovery environment...');
-    let params = {
+    const params = {
       name: DISCOVERY_ENVIRONMENT_NAME,
       description: 'Discovery environment created by watson-banking-chatbot.',
       size: '0' // Use string to avoid default of 1.
@@ -911,7 +917,7 @@ function createDiscoveryCollection(params) {
   return new Promise((resolve, reject) => {
     // No existing environment found, so create it.
     console.log('Creating discovery collection...');
-    let createCollectionParams = {
+    const createCollectionParams = {
       name: params.collection_name,
       description: 'Discovery collection created by watson-banking-chatbot.',
       language_code: 'en_us'
@@ -944,13 +950,13 @@ function loadDiscoveryCollection(params) {
       console.error(err);
     } else {
       console.log('Checking status of Discovery collection:', data);
-      let docs = DISCOVERY_DOCS;
-      let doc_count = docs.length;
+      const docs = DISCOVERY_DOCS;
+      const doc_count = docs.length;
       if (data.document_counts.available + data.document_counts.processing + data.document_counts.failed < doc_count) {
         console.log('Loading documents into Discovery collection.');
         for (let i = 0; i < doc_count; i++) {
-          let doc = docs[i];
-          let addDocParams = { file: fs.createReadStream(doc) };
+          const doc = docs[i];
+          const addDocParams = { file: fs.createReadStream(doc) };
           Object.assign(addDocParams, params);
           discovery.addDocument(addDocParams, (err, data) => {
             // Note: No promise. Just let these all run/log. Revisit this?

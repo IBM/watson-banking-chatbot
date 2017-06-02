@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-/*
 'use strict';
 
+/*
 var app = require('../app');
 var bodyParser = require('body-parser');
 var request = require('supertest');
@@ -44,7 +44,7 @@ describe('Basic API tests', function() {
 //  });
 });
 */
-var http = require('http');
+const http = require('http');
 http
   .createServer(function(req, res) {
     res.writeHead(200, { 'Content-Type': 'text/plain' });

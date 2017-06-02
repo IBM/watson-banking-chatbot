@@ -13,6 +13,7 @@ module.exports = {
     "prettier",
   ],
   "rules": {
+    "no-console": 0,
     "prettier/prettier": ["error", {"singleQuote": true, "printWidth": 160}],
     "prefer-const": "error",
     "prefer-rest-params": "off",
