@@ -142,19 +142,23 @@ DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment>
 DISCOVERY_COLLECTION_ID=<add_discovery_collection>
 
 # Watson Natural Language Understanding
-NLU_USERNAME=<add_nlu_username>
-NLU_PASSWORD=<add_nlu_password>
+NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<add_nlu_username>
+NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<add_nlu_password>
 
 # Watson Tone Analyzer
 TONE_ANALYZER_USERNAME=<add_tone_analyzer_username>
 TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
+
+# Run locally on a non-default port (default is 3000)
+# PORT=3000
+
 ```
 
 ### 6. Run the application
 1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
 1. Start the app by running `npm install`, followed by `npm start`.
 1. Use the chatbot at `localhost:3000`.
-> Note: server host can be changed as required in server.js
+> Note: server host can be changed as required in server.js and `PORT` can be set in `.env`.
 
 ## Flow
 * Answers important FAQs queries from the multiple domains such as across business lines of Loans, Account Opening, Market Place & Digital Banking of Banking industry.

@@ -82,8 +82,8 @@ setupDiscovery();
 // Create the service wrapper
 const conversation = watson.conversation({
   url: 'https://gateway.watsonplatform.net/conversation/api',
-  username: conversationCredentials.username || '',
-  password: conversationCredentials.password || '',
+  username: conversationCredentials.username,
+  password: conversationCredentials.password,
   version_date: '2016-07-11',
   version: 'v1'
 });
@@ -91,8 +91,8 @@ let workspaceID; // workspaceID will be set when the workspace is created or val
 setupConversationWorkspace();
 
 const toneAnalyzer = watson.tone_analyzer({
-  username: toneAnalyzerCredentials.username || '',
-  password: toneAnalyzerCredentials.password || '',
+  username: toneAnalyzerCredentials.username,
+  password: toneAnalyzerCredentials.password,
   url: 'https://gateway.watsonplatform.net/tone-analyzer/api',
   version: 'v3',
   version_date: '2016-05-19'
@@ -101,8 +101,8 @@ const toneAnalyzer = watson.tone_analyzer({
 /* ******** NLU ************ */
 const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
 const nlu = new NaturalLanguageUnderstandingV1({
-  username: nluCredentials.username || '', // NLU Service username
-  password: nluCredentials.password || '', // NLU Service password
+  username: nluCredentials.username,
+  password: nluCredentials.password,
   version_date: '2017-02-27'
 });
 
