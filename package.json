@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "test": "npm run eslint && npm run jshint",
+    "test": "npm run unit && npm run eslint && npm run jshint",
     "jshint": "jshint public",
-    "eslint": "eslint test *.js"
+    "eslint": "eslint *.js lib test",
+    "unit": "istanbul cover _mocha test/unit -- -R spec"
   },
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -28,12 +29,17 @@
     "node": ">=4"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "eslint": "^3.14.1",
     "eslint-config-google": "^0.7.1",
     "eslint-config-prettier": "^2.1.0",
     "eslint-plugin-node": "^4.0.0",
     "eslint-plugin-prettier": "^2.0.0",
+    "istanbul": "^0.4.5",
     "jshint": "^2.9.4",
-    "prettier": "^1.1.0"
+    "mocha": "^3.4.1",
+    "prettier": "^1.1.0",
+    "sinon": "^2.3.2",
+    "sinon-test": "^1.0.0"
  }
 }

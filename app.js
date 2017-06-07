@@ -36,18 +36,17 @@ const numeral = require('numeral');
 const vcapServices = require('vcap_services');
 
 const bankingServices = require('./banking_services');
+const WatsonDiscoverySetup = require('./lib/watson-discovery-setup');
+const WatsonConversationSetup = require('./lib/watson-conversation-setup');
 
 const DEFAULT_NAME = 'watson-banking-chatbot';
 const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Conversation action is still 'rnr'.
-// Discovery environment and collection are found by name if ID is not provided.
-const DISCOVERY_ENVIRONMENT_NAME = process.env.DISCOVERY_ENVIRONMENT_NAME || DEFAULT_NAME;
-const DISCOVERY_COLLECTION_NAME = process.env.DISCOVERY_COLLECTION_NAME || DEFAULT_NAME;
 const DISCOVERY_DOCS = [
-  './data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-DB-Failure - General.docx',
-  './data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-DB-Terms - General.docx',
-  './data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-e2eAO-Terms.docx',
-  './data/Retrieve&Rank/RnRDocs&Questions/BankFaqRnR-e2ePL-Terms.docx',
-  './data/Retrieve&Rank/RnRDocs&Questions/BankRnR-OMP - General.docx'
+  './data/discovery/docs/BankFaqRnR-DB-Failure-General.docx',
+  './data/discovery/docs/BankFaqRnR-DB-Terms-General.docx',
+  './data/discovery/docs/BankFaqRnR-e2eAO-Terms.docx',
+  './data/discovery/docs/BankFaqRnR-e2ePL-Terms.docx',
+  './data/discovery/docs/BankRnR-OMP-General.docx'
 ];
 
 const LOOKUP_BALANCE = 'balance';
@@ -76,8 +75,17 @@ const discovery = watson.discovery({
   version_date: '2017-04-27',
   version: 'v1'
 });
-let discoveryParams; // discovery_params will be set after Discovery is validated and setup.
-setupDiscovery();
+let discoveryParams; // discoveryParams will be set after Discovery is validated and setup.
+const discoverySetup = new WatsonDiscoverySetup(discovery);
+const discoverySetupParams = { default_name: DEFAULT_NAME, documents: DISCOVERY_DOCS };
+discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
+  if (err) {
+    handleSetupError(err);
+  } else {
+    console.log('Discovery is ready!');
+    discoveryParams = data;
+  }
+});
 
 // Create the service wrapper
 const conversation = watson.conversation({
@@ -87,8 +95,19 @@ const conversation = watson.conversation({
   version_date: '2016-07-11',
   version: 'v1'
 });
+
 let workspaceID; // workspaceID will be set when the workspace is created or validated.
-setupConversationWorkspace();
+const conversationSetup = new WatsonConversationSetup(conversation);
+const workspaceJsonStr = JSON.parse(fs.readFileSync('data/WCS/workspace-ConversationalBanking.json'));
+const conversationSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJsonStr };
+conversationSetup.setupConversationWorkspace(conversationSetupParams, (err, data) => {
+  if (err) {
+    handleSetupError(err);
+  } else {
+    console.log('Conversation is ready!');
+    workspaceID = data;
+  }
+});
 
 const toneAnalyzer = watson.tone_analyzer({
   username: toneAnalyzerCredentials.username,
@@ -670,340 +689,6 @@ function checkForLookupRequests(data, callback) {
 }
 
 /**
- * Validate or create the Conversation workspace.
- * Sets the global workspaceID when done (or global setupError).
- * 
- * If a WORKSPACE_ID is specified in the runtime environment,
- * make sure that workspace exists. If no WORKSPACE_ID is
- * specified then try to find it using a lookup by name.
- * Name will be 'watson-banking-chatbot' unless overridden
- * using the WORKSPACE_NAME environment variable.
- * 
- * If a workspace is not found by ID or name, then try to
- * create one from the JSON in the repository. Use the
- * name as mentioned above so future lookup will find what
- * was created.
- */
-function setupConversationWorkspace() {
-  conversation.listWorkspaces(null, function(err, data) {
-    if (err) {
-      console.error('Error during Conversation listWorkspaces(): ', err);
-      handleSetupError('Error. Unable to list workspaces for Conversation: ' + err);
-    } else {
-      const workspaces = data['workspaces'];
-      const validateID = process.env.WORKSPACE_ID;
-      let found = false;
-      if (validateID) {
-        console.log('Validating workspace ID: ', validateID);
-        for (let i = 0, size = workspaces.length; i < size; i++) {
-          if (workspaces[i]['workspace_id'] === validateID) {
-            workspaceID = validateID;
-            found = true;
-            console.log('Found workspace: ', validateID);
-            break;
-          }
-        }
-        if (!found) {
-          handleSetupError("Configured WORKSPACE_ID '" + validateID + "' not found!");
-        }
-      } else {
-        // Find by name, because we probably created it earlier (in the if block) and want to use it on restarts.
-        const workspaceName = process.env.WORKSPACE_NAME || DEFAULT_NAME;
-        console.log('Looking for workspace by name: ', workspaceName);
-        for (let i = 0, size = workspaces.length; i < size; i++) {
-          if (workspaces[i]['name'] === workspaceName) {
-            console.log('Found workspace: ', workspaceName);
-            workspaceID = workspaces[i]['workspace_id'];
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          console.log('Creating Conversation workspace ', workspaceName);
-          const ws = JSON.parse(fs.readFileSync('data/WCS/workspace-ConversationalBanking.json'));
-          ws['name'] = workspaceName;
-          conversation.createWorkspace(ws, function(err, ws) {
-            if (err) {
-              handleSetupError('Failed to create Conversation workspace: ' + err);
-            } else {
-              workspaceID = ws['workspace_id'];
-              console.log('Successfully created Conversation workspace');
-              console.log('  Name: ', ws['name']);
-              console.log('  ID:', workspaceID);
-            }
-          });
-        }
-      }
-    }
-  });
-}
-
-/**
- * Get the default Discovery configuration.
- * @param {Object} params - Discovery params so far. Enough to get configurations.
- * @return {Promise} Promise with resolve({enhanced discovery params}) or reject(err).
- */
-function getDiscoveryConfig(params) {
-  return new Promise((resolve, reject) => {
-    discovery.getConfigurations(params, (err, data) => {
-      if (err) {
-        console.error(err);
-        return reject('Failed to get Discovery configurations.');
-      } else {
-        const configs = data.configurations;
-        for (let i = 0, size = configs.length; i < size; i++) {
-          const config = configs[i];
-          if (config.name === 'Default Configuration') {
-            params.configuration_id = config.configuration_id;
-            return resolve(params);
-          }
-        }
-        return reject('Failed to get default Discovery configuration.');
-      }
-    });
-  });
-}
-
-/**
- * Find the Discovery environment.
- * If a DISCOVERY_ENVIRONMENT_ID is set then validate it or error out.
- * Otherwise find it by name (DISCOVERY_ENVIRONMENT_NAME). The by name
- * search is used to find an environment that we created before a restart.
- * If we don't find an environment by ID or name, we'll use an existing one
- * if it is not read_only. This allows us to work in free trial environments.
- * @return {Promise} Promise with resolve({environment}) or reject(err).
- */
-function findDiscoveryEnvironment() {
-  return new Promise((resolve, reject) => {
-    discovery.getEnvironments({}, (err, data) => {
-      if (err) {
-        console.error(err);
-        return reject('Failed to get Discovery environments.');
-      } else {
-        const environments = data.environments;
-        // If a DISCOVERY_ENVIRONMENT_ID is set, validate it and use it (or fail).
-        const validateID = process.env.DISCOVERY_ENVIRONMENT_ID;
-        // Otherwise, look (by name) for one that we already created.
-        // Otherwise we'll reuse an existing environment, if we find a usable one.
-        let reuseEnv;
-
-        for (let i = 0, size = environments.length; i < size; i++) {
-          const environment = environments[i];
-          if (validateID) {
-            if (validateID === environment.environment_id) {
-              console.log('Found Discovery environment using DISCOVERY_ENVIRONMENT_ID.');
-              console.log(environment);
-              return resolve(environment);
-            }
-          } else {
-            if (environment.name === DISCOVERY_ENVIRONMENT_NAME) {
-              console.log('Found Discovery environment by name.');
-              console.log(environment);
-              return resolve(environment);
-            } else if (!environment.read_only) {
-              reuseEnv = environment;
-            }
-          }
-        }
-        if (validateID) {
-          return reject('Configured DISCOVERY_ENVIRONMENT_ID=' + validateID + ' not found.');
-        } else if (reuseEnv) {
-          console.log('Found existing Discovery environment to use: ', reuseEnv);
-          return resolve(reuseEnv);
-        }
-      }
-      return resolve(null);
-    });
-  });
-}
-
-/**
- * Find the Discovery collection.
- * If a DISCOVERY_COLLECTION_ID is set then validate it or error out.
- * Otherwise find it by name (DISCOVERY_COLLECTION_NAME). The by name
- * search is used to find collections that we created before a restart.
- * @param {Object} environment - The existing environment.
- * @return {Promise} Promise with resolve({discovery params}) or reject(err).
- */
-function findDiscoveryCollection(environment) {
-  return new Promise((resolve, reject) => {
-    const params = {
-      environment_id: environment.environment_id
-    };
-    discovery.getCollections(params, (err, data) => {
-      if (err) {
-        console.error(err);
-        return reject('Failed to get Discovery collections.');
-      } else {
-        // If a DISCOVERY_COLLECTION_ID is set, validate it and use it (or fail).
-        // Otherwise, look (by name) for one that we already created.
-        const validateID = process.env.DISCOVERY_COLLECTION_ID;
-        const collections = data.collections;
-        for (let i = 0, size = collections.length; i < size; i++) {
-          const collection = collections[i];
-          if (validateID) {
-            if (validateID === collection.collection_id) {
-              console.log('Found Discovery collection using DISCOVERY_COLLECTION_ID.');
-              console.log(collection);
-              params.collection_name = collection.name;
-              params.collection_id = collection.collection_id;
-              return resolve(params);
-            }
-          } else if (collection.name === DISCOVERY_COLLECTION_NAME) {
-            console.log('Found Discovery collection by name.');
-            console.log(collection);
-            params.collection_name = collection.name;
-            params.collection_id = collection.collection_id;
-            return resolve(params);
-          }
-        }
-        if (validateID) {
-          return reject('Configured DISCOVERY_COLLECTION_ID=' + validateID + ' not found.');
-        }
-      }
-      // No collection_id added, but return params dict. Set the name to use to create a collection.
-      params.collection_name = DISCOVERY_COLLECTION_NAME;
-      return resolve(params);
-    });
-  });
-}
-
-/** Create a Discovery environment if we did not find one.
- * If an environment is passed in, then we already have one.
- * When we create one, we have to create it with our known name
- * so that we can find it later.
- * @param {Object} environment - The existing environment if we found it.
- * @return {Promise} Promise with resolve(environment) or reject(err).
- */
-function createDiscoveryEnvironment(environment) {
-  if (environment) {
-    return Promise.resolve(environment);
-  }
-  return new Promise((resolve, reject) => {
-    // No existing environment found, so create it.
-    // NOTE: The number of environments that can be created
-    // under a trial Bluemix account is limited to one per
-    // organization. That is why have the "reuse" strategy above.
-    console.log('Creating discovery environment...');
-    const params = {
-      name: DISCOVERY_ENVIRONMENT_NAME,
-      description: 'Discovery environment created by watson-banking-chatbot.',
-      size: '0' // Use string to avoid default of 1.
-    };
-    discovery.createEnvironment(params, (err, data) => {
-      if (err) {
-        console.error('Failed to create Discovery environment.');
-        return reject(err);
-      } else {
-        console.log(data);
-        resolve(data);
-      }
-    });
-  });
-}
-
-/**
- * Create a Discovery collection if we did not find one.
- * If params include a collection_id, then we already have one.
- * When we create one, we have to create it with our known name
- * so that we can find it later.
- * @param {Object} params - All the params needed to use Discovery.
- * @return {Promise}
- */
-function createDiscoveryCollection(params) {
-  if (params.collection_id) {
-    return Promise.resolve(params);
-  }
-  return new Promise((resolve, reject) => {
-    // No existing environment found, so create it.
-    console.log('Creating discovery collection...');
-    const createCollectionParams = {
-      name: params.collection_name,
-      description: 'Discovery collection created by watson-banking-chatbot.',
-      language_code: 'en_us'
-    };
-    Object.assign(createCollectionParams, params);
-    discovery.createCollection(createCollectionParams, (err, data) => {
-      if (err) {
-        console.error('Failed to create Discovery collection.');
-        return reject(err);
-      } else {
-        console.log('Created Discovery collection: ', data);
-        params.collection_id = data.collection_id;
-        resolve(params);
-      }
-    });
-  });
-}
-
-/**
- * Load the Discovery collection if it is not already loaded.
- * The collection should already be created/validated.
- * Currently using lazy loading of docs and only logging problems.
- * @param {Object} params - All the params needed to use Discovery.
- * @return {Promise}
- */
-function loadDiscoveryCollection(params) {
-  console.log('Get collection to check its status.');
-  discovery.getCollection(params, (err, data) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.log('Checking status of Discovery collection:', data);
-      const docs = DISCOVERY_DOCS;
-      const docCount = docs.length;
-      if (data.document_counts.available + data.document_counts.processing + data.document_counts.failed < docCount) {
-        console.log('Loading documents into Discovery collection.');
-        for (let i = 0; i < docCount; i++) {
-          const doc = docs[i];
-          const addDocParams = { file: fs.createReadStream(doc) };
-          Object.assign(addDocParams, params);
-          discovery.addDocument(addDocParams, (err, data) => {
-            // Note: No promise. Just let these all run/log. Revisit this?
-            if (err) {
-              console.log('Add document error:');
-              console.error(err);
-            } else {
-              console.log('Added document:');
-              console.log(data);
-            }
-          });
-        }
-      } else {
-        console.log('Collection is already loaded with docs.');
-        /* For testing:
-         discovery.deleteCollection(params, (err, data) => {
-         console.log('Deleting collection for testing!!!!!!!!!!!!!!!!!!!!!!!!');
-         if (err) {
-         console.log(err);
-         }
-         });
-         */
-      }
-    }
-  });
-  // Note: The collection was validated earlier and we are letting the docs lazy load.
-  //       So this one will resolve fast, but might revisit that.
-  return Promise.resolve(params);
-}
-
-/**
- * When Discovery is ready for use, set the global params.
- * @param {Object} params - All the params needed to use Discovery.
- */
-function discoveryIsReady(params) {
-  if (params) {
-    // Set the global discoveryParams. We are good to go.
-    discoveryParams = params;
-    console.log('Discovery is ready!');
-    console.log(params);
-  } else {
-    // This should not happen!
-    console.error('discoveryIsReady() was called w/o params!');
-  }
-}
-
-/**
  * Handle setup errors by logging and appending to the global error text.
  * @param {String} reason - The error message for the setup error.
  */
@@ -1012,22 +697,8 @@ function handleSetupError(reason) {
   console.error('The app failed to initialize properly. Setup and restart needed.' + setupError);
   // We could allow our chatbot to run. It would just report the above error.
   // Or we can add the following 2 lines to abort on a setup error allowing Bluemix to restart it.
-  console.error('Aborting!');
+  console.error('\nAborting due to setup error!');
   process.exit(1);
-}
-
-/**
- * Validate and setup the Discovery service.
- */
-function setupDiscovery() {
-  findDiscoveryEnvironment()
-    .then(environment => createDiscoveryEnvironment(environment))
-    .then(environment => findDiscoveryCollection(environment))
-    .then(params => getDiscoveryConfig(params))
-    .then(params => createDiscoveryCollection(params))
-    .then(params => loadDiscoveryCollection(params))
-    .then(params => discoveryIsReady(params))
-    .catch(handleSetupError);
 }
 
 module.exports = app;
