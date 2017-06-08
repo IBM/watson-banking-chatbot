@@ -98,8 +98,8 @@ const conversation = watson.conversation({
 
 let workspaceID; // workspaceID will be set when the workspace is created or validated.
 const conversationSetup = new WatsonConversationSetup(conversation);
-const workspaceJsonStr = JSON.parse(fs.readFileSync('data/WCS/workspace-ConversationalBanking.json'));
-const conversationSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJsonStr };
+const workspaceJson = JSON.parse(fs.readFileSync('data/WCS/workspace-ConversationalBanking.json'));
+const conversationSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJson };
 conversationSetup.setupConversationWorkspace(conversationSetupParams, (err, data) => {
   if (err) {
     handleSetupError(err);
