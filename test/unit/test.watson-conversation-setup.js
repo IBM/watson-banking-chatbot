@@ -51,6 +51,7 @@ describe('test watson-conversation-setup', function() {
         workspace_id: WS_ID,
         name: WS_NAME
       };
+      const WS_JSON = { fake: 'stuff' };
 
       const lw = sinon.stub(c, 'listWorkspaces');
       lw.yields(null, { workspaces: [{ name: 'other' }] });
@@ -59,12 +60,13 @@ describe('test watson-conversation-setup', function() {
 
       const wcs = new WatsonConversationSetup(c);
 
-      wcs.setupConversationWorkspace({ default_name: WS_NAME, workspace_json: '{"fake": "stuff"}' }, (err, data) => {
+      wcs.setupConversationWorkspace({ default_name: WS_NAME, workspace_json: WS_JSON }, (err, data) => {
         if (err) {
           done(err);
         } else {
           expect(data).to.equal(WS_ID);
-          sinon.assert.calledWith(cw, { name: WS_NAME, fake: 'stuff' });
+          sinon.assert.calledWithMatch(cw, WS_JSON);
+          sinon.assert.calledWithMatch(cw, { name: WS_NAME });
           sinon.assert.calledWith(lw, null);
           done();
         }
@@ -75,6 +77,7 @@ describe('test watson-conversation-setup', function() {
     'test create workspace error',
     sinon.test(function(done) {
       const WS_NAME = 'test-default-name';
+      const WS_JSON = { fake: 'stuff' };
       const ERROR_MSG = 'intentional test error';
       const lw = sinon.stub(c, 'listWorkspaces');
       lw.yields(null, { workspaces: [] });
@@ -83,12 +86,12 @@ describe('test watson-conversation-setup', function() {
 
       const wcs = new WatsonConversationSetup(c);
 
-      wcs.setupConversationWorkspace({ default_name: WS_NAME, workspace_json: '{"fake": "stuff"}' }, (err, data) => {
+      wcs.setupConversationWorkspace({ default_name: WS_NAME, workspace_json: WS_JSON }, (err, data) => {
         if (err) {
           sinon.assert.calledWith(lw, null);
-          sinon.assert.calledWith(cw, { name: WS_NAME, fake: 'stuff' });
+          sinon.assert.calledWithMatch(cw, WS_JSON);
+          sinon.assert.calledWithMatch(cw, { name: WS_NAME });
           expect(err.message).to.contain(ERROR_MSG);
-          sinon.assert.calledWith(cw, { name: WS_NAME, fake: 'stuff' });
           done(); // expected
         } else {
           done(new Error('Failed to get expected error.'));
@@ -104,7 +107,7 @@ describe('test watson-conversation-setup', function() {
       const cw = sinon.spy(c, 'createWorkspace');
 
       const wcs = new WatsonConversationSetup(c);
-      wcs.setupConversationWorkspace({ workspace_json: '{"x": "y"}' }, (err, data) => {
+      wcs.setupConversationWorkspace({}, (err, data) => {
         sinon.assert.calledWith(lw, null);
         sinon.assert.notCalled(cw);
         if (err) {
@@ -125,7 +128,7 @@ describe('test watson-conversation-setup', function() {
       process.env.WORKSPACE_ID = WS_ID;
 
       const wcs = new WatsonConversationSetup(c);
-      wcs.setupConversationWorkspace({ workspace_json: '{"x": "y"}' }, (err, data) => {
+      wcs.setupConversationWorkspace({}, (err, data) => {
         if (err) {
           done(err);
         } else {
@@ -147,7 +150,7 @@ describe('test watson-conversation-setup', function() {
       process.env.WORKSPACE_ID = WS_ID;
 
       const wcs = new WatsonConversationSetup(c);
-      wcs.setupConversationWorkspace({ workspace_json: '{"x": "y"}' }, (err, data) => {
+      wcs.setupConversationWorkspace({}, (err, data) => {
         if (err) {
           sinon.assert.calledWith(lw, null);
           sinon.assert.notCalled(cw);
@@ -168,7 +171,7 @@ describe('test watson-conversation-setup', function() {
         workspace_id: WS_ID,
         name: WS_NAME
       };
-      const testParams = { default_name: WS_NAME, workspace_json: '{"not": "used"}' };
+      const testParams = { default_name: WS_NAME };
       const lw = sinon.stub(c, 'listWorkspaces');
       lw.yields(null, { workspaces: [{ name: 'other' }, WS] });
       const cw = sinon.spy(c, 'createWorkspace');
