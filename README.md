@@ -13,7 +13,17 @@ When the reader has completed this journey, they will understand how to:
 
 ![](doc/source/images/wbc-arch.png)
 
-### With Watson
+## Flow
+1. The FAQ documents are added to the Discovery collection.
+2. The user interacts with a chatbot via the app UI.
+3. User input is processed with Tone Analyzer to detect anger. An anger score is added to the context.
+4. User input is processed with Natural Language Understanding (NLU). The context is enriched with NLU-detected entities and keywords (e.g., a location).
+5. The input and enriched context is sent to Conversation. Conversation recognizes intent, entities and dialog paths. It responds with a reply and/or action.
+6. Optionally, a requested action is performed by the app. This may include one of the following:
+   * Lookup additional information from bank services to append to the reply
+   * Use Discovery to reply with an answer from the FAQ documents
+
+## With Watson
 
 Want to take your Watson app to the next level? Looking to leverage Watson Brand assets? Join the [With Watson](https://www.ibm.com/watson/with-watson) program which provides exclusive brand, marketing, and tech resources to amplify and accelerate your Watson embedded commercial solution.
 
@@ -162,15 +172,21 @@ TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
 1. Use the chatbot at `localhost:3000`.
 > Note: server host can be changed as required in server.js and `PORT` can be set in `.env`.
 
-## Flow
-* Answers important FAQs queries from the multiple domains such as across business lines of Loans, Account Opening, Market Place & Digital Banking of Banking industry.
-* Also the chatbot solves transactional queries such as view transactions, balances, pay utility bills etc.
+# Troubleshooting
 
-* The user writes a query about a service to the chatbot
-* The orchestrator accepts query, saves the user context & starts a REST call with the Cognitive APIs.
-* Depending on the nature of the query (long /Short tail), the answer is provided by either Watson Conversation API or Watson Retrieve and Rank
-* Further to answering user queries, the agent can also be connected to Third party APIs such as India Stack(Aadhaar) for authentication required for verifying identify, e-sign, purchases etc. ;language translation APIs for localization.
-* Orchestrator can be further exposed to enterprise systems such as CRM, warehouses, ERP etc. for contextual content.
+* Error: Environment {GUID} is still not active, retry once status is active
+
+  > This is common during the first run. The app tries to start before the Discovery
+environment is fully created. Allow a minute or two to pass. The environment should
+be usable on restart. If you used `Deploy to Bluemix` the restart should be automatic.
+
+* Error: Only one free environent is allowed per organization
+
+  > To work with a free trial, a small free Discovery environment is created. If you already have
+a Discovery environment, this will fail. If you are not using Discovery, check for an old
+service thay you may want to delete. Otherwise use the .env DISCOVERY_ENVIRONMENT_ID to tell
+the app which environment you want it to use. A collection will be created in this environment
+using the default configuration.
 
 # License
 [Apache 2.0](LICENSE)
