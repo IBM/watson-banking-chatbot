@@ -1,2 +1,0 @@
-Docs&questions folder - Consists of the training data-set of FAQ documents and questions.
-exportzip - This zip contains the ranked data, which can be uploaded after documents & questions are uploaded.
