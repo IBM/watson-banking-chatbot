@@ -57,7 +57,8 @@ typings/
 # dotenv environment variables file
 .env
 
-# VS Code local history
+# VS Code project files (and local history plugin files)
+.vscode
 .history
 
 # IDEA IDE projects
