@@ -73,8 +73,8 @@ Clone the `watson-banking-chatbot` locally. In a terminal, run:
 $ git clone https://github.com/IBM/watson-banking-chatbot
 ```
 
-We’ll be using the file [`data/WCS/workspace-ConversationalBanking.json`](data/WCS/workspace-ConversationalBanking.json) and the folder
-[`data/WCS/`](data/WCS/)
+We’ll be using the file [`data/conversation/workspaces/banking.json`](data/conversation/workspaces/banking.json) and the folder
+[`data/conversation/workspaces/`](data/conversation/workspaces/)
 
 ### 2. Create Watson services with IBM Bluemix
 
@@ -93,7 +93,7 @@ Launch the **Watson Conversation** tool. Use the **import** icon button on the r
   <img width="400" height="55" src="doc/source/images/import_conversation_workspace.png">
 </p>
 
-Find the local version of [`data/WCS/workspace-ConversationalBanking.json`](data/WCS/workspace-ConversationalBanking.json) and select
+Find the local version of [`data/conversation/workspaces/banking.json`](data/conversation/workspaces/banking.json) and select
 **Import**. Find the **Workspace ID** by clicking on the context menu of the new
 workspace and select **View details**. Save this ID for later.
 
