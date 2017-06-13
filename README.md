@@ -11,7 +11,7 @@ When the reader has completed this journey, they will understand how to:
 * Use Watson Tone Analyzer to detect emotion in a conversation
 * Identify entities with Watson Natural Language Understanding
 
-![](doc/source/images/wbc-arch.png)
+![](doc/source/images/architecture.png)
 
 ## Flow
 1. The FAQ documents are added to the Discovery collection.
