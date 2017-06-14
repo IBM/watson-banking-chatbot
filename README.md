@@ -172,6 +172,17 @@ TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
 1. Use the chatbot at `localhost:3000`.
 > Note: server host can be changed as required in server.js and `PORT` can be set in `.env`.
 
+# Sample output
+
+![](doc/source/images/sample_output.png)
+
+# Links
+
+* [Demo on Youtube](https://www.youtube.com/watch?v=Jxi7U7VOMYg)
+* [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk)
+* [Relevancy Training Demo Video](https://www.youtube.com/watch?v=8BiuQKPQZJk)
+* [Relevancy Training Demo Notebook](https://github.com/akmnua/relevancy_passage_bww)
+
 # Troubleshooting
 
 * Error: Environment {GUID} is still not active, retry once status is active
