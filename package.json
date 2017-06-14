@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "test": "npm run workspace_diff && npm run unit && npm run eslint && npm run jshint",
-    "workspace_diff": "tools/workspace_diff",
+    "test": "npm run unit && npm run eslint && npm run jshint",
     "jshint": "jshint public",
     "eslint": "eslint *.js lib test",
     "unit": "istanbul cover _mocha test/unit -- -R spec"
