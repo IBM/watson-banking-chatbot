@@ -36,6 +36,7 @@
     "eslint-plugin-node": "^4.0.0",
     "eslint-plugin-prettier": "^2.0.0",
     "istanbul": "^0.4.5",
+    "jsondiffpatch": "^0.2.4",
     "jshint": "^2.9.4",
     "mocha": "^3.4.1",
     "prettier": "^1.1.0",
