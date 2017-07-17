@@ -39,7 +39,7 @@
     "jsondiffpatch": "^0.2.4",
     "jshint": "^2.9.4",
     "mocha": "^3.4.1",
-    "prettier": "^1.1.0",
+    "prettier": "1.1.0",
     "sinon": "^2.3.2",
     "sinon-test": "^1.0.0"
  }
