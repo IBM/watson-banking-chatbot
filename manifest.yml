@@ -5,7 +5,7 @@ declared-services:
     plan: free
   wbc-discovery-service:
     label: discovery
-    plan: free
+    plan: lite
   wbc-natural-language-understanding-service:
     label: natural-language-understanding
     plan: free
