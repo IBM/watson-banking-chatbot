@@ -102,13 +102,13 @@ Find the local version of [`data/conversation/workspaces/banking.json`](data/con
 workspace and select **View details**. Save this ID for later.
 
 <p align="center">
-  <img width="400" src="doc/source/images/WCSViewdetails.PNG">
+  <img width="400" src="doc/source/images/WCSViewdetails.png">
 </p>
 
 *Optionally*, to view the conversation dialog select the workspace and choose the
 **Dialog** tab, here's a snippet of the dialog:
 
-![](doc/source/images/dialog.PNG)
+![](doc/source/images/dialog.png)
 
 ### 4. Load the Discovery documents
 
