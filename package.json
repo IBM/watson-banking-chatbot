@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
+    "debug": "node --debug server.js",
     "test": "npm run unit && npm run eslint && npm run jshint",
     "jshint": "jshint public",
     "eslint": "eslint *.js lib test",
