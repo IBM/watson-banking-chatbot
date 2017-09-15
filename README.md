@@ -45,7 +45,7 @@ Want to take your Watson app to the next level? Looking to leverage Watson Brand
 
 Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
 
-## Deploy to Bluemix
+## Deploy to Cloud Foundry on Bluemix
 [![Deploy to Bluemix](https://deployment-tracker.mybluemix.net/stats/3999122db8b59f04eecad8d229814d83/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
 1. Press the above ``Deploy to Bluemix`` button and then click on ``Deploy``.
@@ -58,6 +58,100 @@ Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
     * wbc-discovery-service
     * wbc-natural-language-understanding-service
     * wbc-tone-analyzer-service
+
+## Deploy to Kubernetes on Bluemix
+
+The following steps outline the process for deploying this application as-is to Kubernetes on IBM Bluemix.  You can read more about [Kubernetes Support and the IBM Cloud Developer Tools CLI on the Bluemix blog](https://www.ibm.com/blogs/bluemix/2017/09/deploying-kubernetes-ibm-cloud-ibm-cloud-developer-tools-cli/).
+
+1. [Create a Kubernetes cluster on Bluemix](https://console.bluemix.net/containers-kubernetes/launch?) if you do not already have one. 
+
+   *Note: This may take up to 15 minutes for a cluster to be provisioned.*
+
+2. Install the [IBM Cloud Developer Tools CLI](https://github.com/IBM-Bluemix/ibm-cloud-developer-tools/)
+
+    If you're on a MacOS or Linux machine, open up a terminal and execute the following command:
+
+    ```
+    curl -sL https://ibm.biz/idt-installer | bash
+    ```
+
+    If you're on a windows machine, open Windows PowerShell by right-clicking and select "Run as Administrator":
+
+    ```
+    Set-ExecutionPolicy Unrestricted; iex(New-Object Net.WebClient).DownloadString('http://ibm.biz/idt-win-installer')
+    ``` 
+
+    This will install the IBM Cloud Developer Tools CLI, the Bluemix CLI, Docker, the Kubernetes CLI, and all other dependencies if they are not already installed.
+
+3. [Create a namespace in the IBM Container Registry](https://console.bluemix.net/docs/services/Registry/index.html#registry_namespace_add), if you do not already have one.
+
+    * Open a terminal or command prompt.
+    * Log into the Bluemix CLI:
+        ```
+        bx login
+        ```
+    * Create a namespace using the `bx cr` command:
+
+        ```
+        bx cr namespace-add <my_namespace>
+        ```
+        
+      This will add a namespace to create your own image repository. Replace `<my_namespace>` with your preferred namespace.
+
+4. Follow all 6 steps in the instructions below to [run locally](#run-locally).
+
+5. Open a terminal and cd into the folder containing the project downloaded in the `run locally` steps.   Within a terminal use the `bx dev enable` command and answer all questions to generate Kubernetes deployment assets.
+
+    ```
+    cd watson-banking-chatbot/
+    bx dev enable
+    ```
+
+    You can learn more about the `bx dev enable` process on the [Bluemix blog](https://www.ibm.com/blogs/bluemix/2017/09/enable-existing-projects-ibm-cloud-ibm-cloud-developer-tools-cli/). 
+
+6. Open the generated `cli-config.yml` file and append entries at the end of the file to instruct the `bx dev deploy` command to target the Kubernetes environment:
+
+    ```
+    deploy-target: "container"
+    ibm-cluster: "<my_cluster>"
+    deploy-image-target: "registry.ng.bluemix.net/<my_namespace>/watson-banking-chatbot"
+    ```     
+
+    The `deploy-target` value instructs the CLI to target Kubernetes deployment.  
+    
+    The `ibm-cluster` value will contain the name of your Kubernetes cluster on IBM Bluemix.  Replace `<my_cluster>` with the name of your cluster.
+
+    The `deploy-image-target` value will point to the Docker container registry where the CLI will push the application's compiled Docker image.  Replace `<my_namespace>` with the namespace that you created in the Bluemix Container Registry.
+
+7. Invoke the `deploy` command to start the Kubernetes deployment.
+
+    ```
+    bx dev deploy
+    ```
+
+    The `deploy` command will compile the application's Docker image, push that image to the IBM Bluemix Container Registry, and then perform a Kubernetes deployment using the Helm chart (Kubernetes deployment template) that was generated as part of the `bx dev enable` process.    
+
+    You can use the Kubernetes CLI's `kubectl proxy` command to view the status of the Kubernetes deployment.
+
+8. Once your deployment is complete, the application will be running on your Kubernetes cluster's public node and exposed service port.   Use the following command to see this configuration:
+
+    ```
+    kubectl get nodes,services
+    ```
+
+    A sample output from this command is:
+
+    ```
+    NAME                STATUS    AGE       VERSION
+    no/173.193.100.91   Ready     53d       v1.5.6-4+abe34653415733
+
+    NAME                       CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
+    svc/kubernetes             10.10.10.1     <none>        443/TCP          53d
+    svc/watsonbankingchatbot   10.10.10.187   <nodes>       3000:31310/TCP   1h
+    ```
+    
+    In this case, the node's public IP address is `173.193.100.91` and the "watsonbankingchatbot" service's public port is `31310`, so the application will be available at http://173.193.100.91:31310. Note: These ports can be configured in paid Kubernetes clusters, but not in the free tier.
+
 
 ## Run locally
 > NOTE: These steps are only needed when running locally instead of using the ``Deploy to Bluemix`` button.
