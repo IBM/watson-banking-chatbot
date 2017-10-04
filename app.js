@@ -59,6 +59,7 @@ const app = express();
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
 require('cf-deployment-tracker-client').track();
+require('metrics-tracker-client').track();
 
 // setupError will be set to an error message if we cannot recover from service setup or init error.
 let setupError = '';

@@ -17,14 +17,15 @@
     "express": "^4.13.4",
     "http": "0.0.0",
     "https": "^1.0.0",
+    "metrics-tracker-client": "*",
+    "numeral": "^1.5.3",
     "vcap_services": "^0.2.0",
-    "watson-developer-cloud": "^2.32.0",
-    "numeral": "^1.5.3"
+    "watson-developer-cloud": "^2.32.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/IBM/watson-banking-chatbot.git"
-    },
+  },
   "engines": {
     "node": ">=4"
   },
@@ -42,5 +43,5 @@
     "prettier": "1.1.0",
     "sinon": "^2.3.2",
     "sinon-test": "^1.0.0"
- }
+  }
 }
