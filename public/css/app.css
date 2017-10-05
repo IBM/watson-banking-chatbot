@@ -6,10 +6,10 @@
 
 body {
     background-color: white;
-    background-image: url("../img/OFN.jpg");
+    /*background-image: url("../img/OFN.jpg");
     background-repeat:no-repeat;
     background-position:center;
-    background-attachment:fixed;
+    background-attachment:fixed;*/
  	margin: 0;
   	padding: 0;
   	background-size:contain;
@@ -48,7 +48,7 @@ div {
   display: inline-block;
 }
 
-#contentParent {	
+#contentParent {
   height: 100%;
 }
 
@@ -70,15 +70,18 @@ div {
 
 #chat-column-holder {
   text-align: center;
+  display: flex;
+  padding: 2rem 0px;
 }
 
 .chat-column {
   height: 70%;
+  min-height: 500px
   padding: 0.9375rem 0 0.625rem 0;
   margin: auto;
-  position: absolute;
+  /*position: absolute;
   bottom: 10;
-  left:50%;
+  left:50%;*/
   text-align: left;
   max-width: 25rem;
   min-width: 9.375rem;
@@ -86,6 +89,7 @@ div {
   border-style:none;
   border-color:none;
   background-color: #f2f4f4;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 }
 
 #scrollingChat {
@@ -149,7 +153,7 @@ div {
   position: absolute;
 }
 
-.from-user 
+.from-user
 {
   padding: 0 0.91rem 0 0;
 }
@@ -210,7 +214,7 @@ div {
   line-height: 1.3125rem;
   height: 2.5rem;
   max-width: 100%;
-  padding-left: 0.125rem;
+  padding-left: 0.5rem;
   margin-bottom: -0.125rem;
   font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
   background-color:#FFFFFF;
@@ -244,11 +248,11 @@ input:-moz-placeholder {
 
 .inputOutline {
   display: block;
-  margin-left: 1.6rem;
-  margin-right: 0.5rem;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
   margin-bottom:0.1rem;
   border: 1px solid #f5f5dc;
-  padding: 1px; 
+  padding: 1px;
   background-color:#FFFFFF;
 }
 
@@ -451,7 +455,7 @@ html{
     color: #fff;
     background-color: #337ab7;
     border-color: #2e6da4;
-	
+
 	padding: 5px 10px;
     font-size: 12px;
     line-height: 1.5;
@@ -478,7 +482,7 @@ html{
 display: inline-block;
 margin-right: 20px;
   }
-  
+
  .p1{
 background-image: url("../img/watch.png");
 }
@@ -486,10 +490,9 @@ background-image: url("../img/watch.png");
 
 .p2{
 background-image: url("../img/phone1.jpg");
-} 
- 
+}
+
  .html
-{background:url("../img/OFNpage.png") no-repeat center fixed; 
+{background:url("../img/OFNpage.png") no-repeat center fixed;
 background-size:cover;
-}  
-  
+}
