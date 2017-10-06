@@ -18,7 +18,7 @@ applications:
   instances: 1
   name: watson-banking-chatbot
   disk_quota: 256M
-  random-route: true
+  random-route: false
   services:
   - wbc-conversation-service
   - wbc-tone-analyzer-service
