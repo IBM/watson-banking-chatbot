@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/IBM/watson-banking-chatbot.svg?branch=master)](https://travis-ci.org/IBM/watson-banking-chatbot)
-![Bluemix Deployments](https://deployment-tracker.mybluemix.net/stats/3999122db8b59f04eecad8d229814d83/badge.svg)
+![Bluemix Deployments](https://metrics-tracker.mybluemix.net/stats/527357940ca5e1027fbf945add3b15c4/badge.svg)
 
 # Create a banking chatbot with FAQ discovery, anger detection and natural language understanding
 In this developer journey, we will create a chatbot using Node.js and Watson Conversation. The Conversation flow will be enhanced by using Natural Language Understanding to identify entities and using Tone Analyzer to detect customer emotions. For FAQs, a call to the Discovery service will use passage retrieval to pull answers from a collection of documents.
@@ -46,7 +46,7 @@ Want to take your Watson app to the next level? Looking to leverage Watson Brand
 Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
 
 ## Deploy to Bluemix
-[![Deploy to Bluemix](https://deployment-tracker.mybluemix.net/stats/3999122db8b59f04eecad8d229814d83/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
+[![Deploy to Bluemix](https://metrics-tracker.mybluemix.net/stats/527357940ca5e1027fbf945add3b15c4/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
 1. Press the above ``Deploy to Bluemix`` button and then click on ``Deploy``.
 
@@ -208,8 +208,8 @@ using the default configuration.
 
 # Privacy Notice
 If using the `Deploy to Bluemix` button some metrics are tracked, the following
-information is sent to a [Deployment Tracker](https://github.com/IBM-Bluemix/cf-deployment-tracker-service) service
-on each deployment:
+information is sent to [Deployment Tracker](https://github.com/IBM-Bluemix/cf-deployment-tracker-service) and 
+[Metrics collector](https://github.com/IBM/metrics-collector-service) service on each deployment:
 
 * Node.js package version
 * Node.js repository URL
@@ -219,11 +219,13 @@ on each deployment:
 * Space ID (`space_id`)
 * Application Version (`application_version`)
 * Application URIs (`application_uris`)
+* Cloud Foundry API (`cf_api`)
 * Labels of bound services
 * Number of instances for each bound service and associated plan information
+* Metadata in the repository.yaml file
 
-This data is collected from the `package.json` file in the sample application and the `VCAP_APPLICATION` and `VCAP_SERVICES` environment variables in IBM Bluemix and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Bluemix to measure the usefulness of our examples, so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
+This data is collected from the `package.json` and `repository.yaml` file in the sample application and the `VCAP_APPLICATION` and `VCAP_SERVICES` environment variables in IBM Bluemix and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Bluemix to measure the usefulness of our examples, so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
 
 ## Disabling Deployment Tracking
 
-To disable tracking, simply remove ``require("cf-deployment-tracker-client").track();`` from the ``app.js`` file in the top level directory.
+To disable tracking, simply remove ``require("cf-deployment-tracker-client").track();`` and ``require('metrics-tracker-client').track();`` from the ``app.js`` file in the top level directory.
