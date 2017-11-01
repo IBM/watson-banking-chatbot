@@ -11,7 +11,7 @@ declared-services:
     plan: free
   wbc-tone-analyzer-service:
     label: tone_analyzer
-    plan: standard
+    plan: lite
 applications:
 - path: .
   memory: 256M
