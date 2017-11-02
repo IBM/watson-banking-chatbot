@@ -73,7 +73,7 @@ const discoveryCredentials = vcapServices.getCredentials('discovery');
 const discovery = watson.discovery({
   password: discoveryCredentials.password,
   username: discoveryCredentials.username,
-  version_date: '2017-04-27',
+  version_date: '2017-10-16',
   version: 'v1'
 });
 let discoveryParams; // discoveryParams will be set after Discovery is validated and setup.
