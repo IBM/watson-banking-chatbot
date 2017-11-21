@@ -1,0 +1,47 @@
+{
+  "name": "Create a cognitive banking chatbot",
+  "description": "Use Node.js and Watson to detect emotion, identify entities, and discover answers",
+  "thumbnailURL": "blueprint/thumbnail.svg",
+  "appIconURL": "blueprint/appicon.svg",
+  "previewURLs": [],
+  "type": "WEB",
+  "tags": [
+    "node",
+    "watson"
+  ],
+  "generators": {
+    "node": [
+      "generator-starterkit-content-downloader",
+      "generator-ibm-cloud-enablement"
+    ]
+  },
+  "generatorOptions": {
+    "generator-starterkit-content-downloader": {
+      "registry": "https://npm-registry.whitewater.ibm.com",
+      "scope": "@arf",
+      "version": "0.0.x"
+    },
+    "generator-ibm-cloud-enablement": {
+      "version": "0.0.x"
+    }
+  },
+  "requiredCapabilities": [
+    "conversation",
+    "discovery",
+    "naturalLanguageUnderstanding",
+    "toneAnalyzer"
+  ],
+  "requiredCapabilitiesURLs": {
+    "conversation": "https://console.bluemix.net/catalog/services/conversation",
+    "discovery": "https://console.bluemix.net/catalog/services/discovery",
+    "naturalLanguageUnderstanding": "https://console.bluemix.net/catalog/services/natural-language-understanding",
+    "toneAnalyzer": "https://console.bluemix.net/catalog/services/tone-analyzer"
+  },
+  "servicePlans": {
+    "conversation": "free",
+    "discovery": "lite",
+    "naturalLanguageUnderstanding": "free",
+    "toneAnalyzer": "lite"
+  },
+  "email": "cloud@us.ibm.com"
+}

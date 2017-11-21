@@ -16,9 +16,10 @@ applications:
 - path: .
   memory: 256M
   instances: 1
-  name: watson-banking-chatbot
+  name: watsonbankingchatbot
   disk_quota: 256M
-  random-route: false
+  random-route: true
+  timeout: 180
   services:
   - wbc-conversation-service
   - wbc-tone-analyzer-service
