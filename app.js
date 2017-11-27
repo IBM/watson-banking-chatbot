@@ -90,7 +90,7 @@ discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
 
 // Create the service wrapper
 const conversation = watson.conversation({
-  url: 'https://gateway.watsonplatform.net/conversation/api',
+  url: conversationCredentials.url,
   username: conversationCredentials.username,
   password: conversationCredentials.password,
   version_date: '2016-07-11',
@@ -113,7 +113,7 @@ conversationSetup.setupConversationWorkspace(conversationSetupParams, (err, data
 const toneAnalyzer = watson.tone_analyzer({
   username: toneAnalyzerCredentials.username,
   password: toneAnalyzerCredentials.password,
-  url: 'https://gateway.watsonplatform.net/tone-analyzer/api',
+  url: toneAnalyzerCredentials.url,
   version: 'v3',
   version_date: '2016-05-19'
 });
