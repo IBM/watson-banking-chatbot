@@ -43,12 +43,12 @@ Want to take your Watson app to the next level? Looking to leverage Watson Brand
 
 # Steps
 
-Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
+Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locally.
 
-## Deploy to Bluemix
+## Deploy to IBM Cloud
 [![Deploy to Bluemix](https://metrics-tracker.mybluemix.net/stats/527357940ca5e1027fbf945add3b15c4/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
-1. Press the above ``Deploy to Bluemix`` button and then click on ``Deploy``.
+1. Press the above ``Deploy to IBM Cloud`` button and then click on ``Deploy``.
 
 2. In Toolchains, click on Delivery Pipeline to watch while the app is deployed. Once deployed, the app can be viewed by clicking 'View app'.
 ![](doc/source/images/toolchain-pipeline.png)
@@ -60,10 +60,10 @@ Use the ``Deploy to Bluemix`` button **OR** create the services and run locally.
     * wbc-tone-analyzer-service
 
 ## Run locally
-> NOTE: These steps are only needed when running locally instead of using the ``Deploy to Bluemix`` button.
+> NOTE: These steps are only needed when running locally instead of using the ``Deploy to IBM Cloud`` button.
 
 1. [Clone the repo](#1-clone-the-repo)
-2. [Create Watson services with IBM Bluemix](#2-create-watson-services-with-ibm-bluemix)
+2. [Create Watson services with IBM Cloud](#2-create-watson-services-with-ibm-bluemix)
 3. [Import the Conversation workspace](#3-import-the-conversation-workspace)
 4. [Load the Discovery documents](#4-load-the-discovery-documents)
 5. [Configure credentials](#5-configure-credentials)
@@ -80,7 +80,7 @@ $ git clone https://github.com/IBM/watson-banking-chatbot
 We’ll be using the file [`data/conversation/workspaces/banking.json`](data/conversation/workspaces/banking.json) and the folder
 [`data/conversation/workspaces/`](data/conversation/workspaces/)
 
-### 2. Create Watson services with IBM Bluemix
+### 2. Create Watson services with IBM Cloud
 
 Create the following services:
 
@@ -125,8 +125,8 @@ Under `Add data to this collection` use `Drag and drop your documents here or br
 
 ### 5. Configure credentials
 
-The credentials for Bluemix services (Conversation, Discovery, Tone Analyzer and
-Natural Language Understanding), can be found in the ``Services`` menu in Bluemix,
+The credentials for IBM Cloud services (Conversation, Discovery, Tone Analyzer and
+Natural Language Understanding), can be found in the ``Services`` menu in IBM Cloud,
 by selecting the ``Service Credentials`` option for each service.
 
 The other settings for Conversation and Discovery were collected during the
@@ -193,7 +193,7 @@ TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
 
   > This is common during the first run. The app tries to start before the Discovery
 environment is fully created. Allow a minute or two to pass. The environment should
-be usable on restart. If you used `Deploy to Bluemix` the restart should be automatic.
+be usable on restart. If you used `Deploy to IBM Cloud` the restart should be automatic.
 
 * Error: Only one free environent is allowed per organization
 
@@ -207,8 +207,8 @@ using the default configuration.
 [Apache 2.0](LICENSE)
 
 # Privacy Notice
-If using the `Deploy to Bluemix` button some metrics are tracked, the following
-information is sent to [Deployment Tracker](https://github.com/IBM-Bluemix/cf-deployment-tracker-service) and 
+If using the `Deploy to IBM Cloud` button some metrics are tracked, the following
+information is sent to [Deployment Tracker](https://github.com/IBM-Bluemix/cf-deployment-tracker-service) and
 [Metrics collector](https://github.com/IBM/metrics-collector-service) service on each deployment:
 
 * Node.js package version
@@ -224,7 +224,7 @@ information is sent to [Deployment Tracker](https://github.com/IBM-Bluemix/cf-de
 * Number of instances for each bound service and associated plan information
 * Metadata in the repository.yaml file
 
-This data is collected from the `package.json` and `repository.yaml` file in the sample application and the `VCAP_APPLICATION` and `VCAP_SERVICES` environment variables in IBM Bluemix and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Bluemix to measure the usefulness of our examples, so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
+This data is collected from the `package.json` and `repository.yaml` file in the sample application and the `VCAP_APPLICATION` and `VCAP_SERVICES` environment variables in IBM Cloud and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Cloud to measure the usefulness of our examples, so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
 
 ## Disabling Deployment Tracking
 
