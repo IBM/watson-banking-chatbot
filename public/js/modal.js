@@ -29,20 +29,20 @@ $(document).ready(function () {
         }else if(curStep.attr("id") == "step-3"){
         	eKYC();
         }
-        
+
         if (validateForm(curStep)){
         	 nextStepWizard.removeAttr('disabled').trigger('click');
              $("#squarespaceModal").scrollTop(0);
-        }       
+        }
     });
-    
+
     $('#finalBtn').click(function (e) {
     	var curStep = $(this).closest(".setup-content");
     	 if (validateForm(curStep)){
     		 eSign();
-    	 }      
+    	 }
     });
-    
+
     function validateForm(curStep){
         var curInputs = curStep.find("input[type='text'],input[type='url'],input[type='number'],input[type='checkbox']"),
         isValid = true, isReadonly = false;
@@ -64,13 +64,13 @@ $(document).ready(function () {
 	    }
 	    return isValid;
     }
-    
+
     $('div.setup-panel div a.btn-primary').trigger('click');
 });
 
 
 function showModal(){
-	$('#squarespaceModal').modal('show'); 
+	$('#squarespaceModal').modal('show');
 }
 
 function eKYCOTP(){
@@ -108,7 +108,7 @@ function generatePdf(){
     doc.text(20, 110, 'Address: ' + dummyKycData.address.street + ", " + dummyKycData.address.locality + ",");
     doc.text(44, 116, dummyKycData.address.district + ", " + dummyKycData.address.state + ", " + dummyKycData.address.pincode);
 
-    
+
     doc.addImage(dummyKycData.image, 'JPEG', 150, 50, 40, 40);
 
     doc.addPage();
@@ -117,7 +117,7 @@ function generatePdf(){
     doc.line(10, 30, 180, 30);
     doc.setFontSize(16);
     doc.text(20, 40, doc.splitTextToSize(junkText + "\n\n" + junkText, 180));
-    
+
     doc.addPage();
     doc.setFontSize(25);
     doc.text(20, 20, "Declaration");

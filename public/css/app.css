@@ -48,7 +48,7 @@ div {
   display: inline-block;
 }
 
-#contentParent {	
+#contentParent {
   height: 100%;
 }
 
@@ -149,7 +149,7 @@ div {
   position: absolute;
 }
 
-.from-user 
+.from-user
 {
   padding: 0 0.91rem 0 0;
 }
@@ -248,7 +248,7 @@ input:-moz-placeholder {
   margin-right: 0.5rem;
   margin-bottom:0.1rem;
   border: 1px solid #f5f5dc;
-  padding: 1px; 
+  padding: 1px;
   background-color:#FFFFFF;
 }
 
@@ -451,7 +451,7 @@ html{
     color: #fff;
     background-color: #337ab7;
     border-color: #2e6da4;
-	
+
 	padding: 5px 10px;
     font-size: 12px;
     line-height: 1.5;
@@ -478,7 +478,7 @@ html{
 display: inline-block;
 margin-right: 20px;
   }
-  
+
  .p1{
 background-image: url("../img/watch.png");
 }
@@ -486,10 +486,9 @@ background-image: url("../img/watch.png");
 
 .p2{
 background-image: url("../img/phone1.jpg");
-} 
- 
+}
+
  .html
-{background:url("../img/OFNpage.png") no-repeat center fixed; 
+{background:url("../img/OFNpage.png") no-repeat center fixed;
 background-size:cover;
-}  
-  
+}
