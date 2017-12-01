@@ -53,7 +53,7 @@
 	text-align: center;
 	position: relative;
 }
- 
+
 .btn-circle {
 	width: 30px;
 	height: 30px;
@@ -104,7 +104,7 @@
 			<h3 class="modal-title" id="lineModalLabel">Home Loan Application</h3>
 		</div>
 		<div class="modal-body">
-			
+
             <!-- content goes here -->
             <div class="stepwizard">
 				<div class="stepwizard-row setup-panel">
@@ -132,19 +132,19 @@
 					<div class="col-md-12">
 						<h3>Applicant Details</h3>
 						<div class="form-group">
-							<label class="control-label">Full Name</label> 
+							<label class="control-label">Full Name</label>
 							<input maxlength="50" type="text" id="nameInput" required="required" class="form-control" placeholder="Enter Full Name" />
 						</div>
 						<div class="form-group">
-							<label class="control-label">PAN number (10 character alphanumeric)</label> 
+							<label class="control-label">PAN number (10 character alphanumeric)</label>
 							<input maxlength="10" minlength="10" type="text" required="required" class="form-control" placeholder="Enter PAN number" pattern="[a-zA-Z0-9]+"/>
 						</div>
 						<div class="form-group">
-							<label class="control-label">Aadhaar number (12 digit)</label> 
+							<label class="control-label">Aadhaar number (12 digit)</label>
 							<input min="100000000000" max="999999999999" type="number" id="aadharInput" required="required" class="form-control" placeholder="Enter Aadhaar number" />
 						</div>
 						<div class="form-group">
-							<label class="control-label">Mobile number (10 digit)</label> 
+							<label class="control-label">Mobile number (10 digit)</label>
 							<input min="1000000000" max="9999999999" type="number" id="phoneInput" required="required" class="form-control" placeholder="Enter Mobile number" />
 						</div>
 						<button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Next</button>
@@ -156,15 +156,15 @@
 					<div class="col-md-12">
 						<h3>Loan Details</h3>
 						<div class="form-group">
-							<label class="control-label">Loan Amount (in the range 10 to 40 lakhs)</label> 
+							<label class="control-label">Loan Amount (in the range 10 to 40 lakhs)</label>
 							<input min="1000000" max="4000000" type="number" required="required" class="form-control" placeholder="Amount in Rs" />
 						</div>
 						<div class="form-group">
-							<label class="control-label">Loan tenure (in the range 5 to 20 years)</label> 
+							<label class="control-label">Loan tenure (in the range 5 to 20 years)</label>
 							<input min="5" max="20" type="number" required="required" class="form-control" placeholder="Tenure in years" />
 						</div>
 						<div class="form-group">
-							<label class="control-label">Interest rate</label> 
+							<label class="control-label">Interest rate</label>
 							<input maxlength="100" type="text" class="form-control" placeholder="8.25%" disabled="disabled"/>
 						</div>
 						<button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Next</button>
@@ -176,16 +176,16 @@
 					<div class="col-md-12">
 						<h3>Aadhaar eKYC</h3>
 						<div class="form-group">
-							<label class="control-label">Aadhaar No.</label> 
+							<label class="control-label">Aadhaar No.</label>
 							<input type="text" class="form-control aadhaarBox" placeholder="Aadhaar No." readonly="readonly"/>
 							<button class="btn btn-primary" type="button" onclick="eKYCOTP()">Get OTP</button>
 						</div>
 						<div class="form-group">
-							<label class="control-label">OTP (6 digit)</label> 
+							<label class="control-label">OTP (6 digit)</label>
 							<input min="100000" max="999999" type="number" class="form-control" id="ekycOtp" placeholder="OTP" required="required" readonly="readonly"/>
 						</div>
 						<hr>
-						<label class="control-label">CONSENT FOR AADHAAR AUTHENTICATION</label> 
+						<label class="control-label">CONSENT FOR AADHAAR AUTHENTICATION</label>
 						<div class="checkbox">
 						  <label><input type="checkbox" required="required">I am the holder of above Aadhaar Number. I hereby agree to authenticate myself using Aadhaar through Open Financial Bank, and provide my consent to collect my Aadhaar and OTP, to retrieve my details along with my email ID / mobile number (if available) from UIDAI. I have understood Open Financial Bank's declaration that, my identity information will only be used for subscribing the service. I have understood that, my biometrics / OTP is encrypted and will not be stored / shared and will be submitted to UIDAI (CIDR) only for the purpose of this transaction.</label>
 						</div>
@@ -201,20 +201,20 @@
         				</object>
 						<hr>
 						<div class="form-group">
-							<label class="control-label">Aadhaar No.</label> 
+							<label class="control-label">Aadhaar No.</label>
 							<input type="text" class="form-control aadhaarBox" placeholder="Aadhaar No." readonly="readonly"/>
 							<button class="btn btn-primary" type="button" onclick="eSignOTP()">Get OTP</button>
 						</div>
 						<div class="form-group">
-							<label class="control-label">OTP (6 digit)</label> 
+							<label class="control-label">OTP (6 digit)</label>
 							<input min="100000" max="999999" type="number" class="form-control" id="esignOtp" placeholder="OTP" required="required" readonly="readonly"/>
 						</div>
 						<hr>
-						<label class="control-label">CONSENT FOR AADHAAR AUTHENTICATION</label> 
+						<label class="control-label">CONSENT FOR AADHAAR AUTHENTICATION</label>
 						<div class="checkbox">
 						  <label><input type="checkbox" required="required">I am the holder of above Aadhaar Number. I hereby agree to authenticate myself using Aadhaar through Open Financial Bank, and provide my consent to collect my Aadhaar and OTP, to retrieve my details along with my email ID / mobile number (if available) from UIDAI. I have understood Open Financial Bank's declaration that, my identity information will only be used for subscribing the service. I have understood that, my biometrics / OTP is encrypted and will not be stored / shared and will be submitted to UIDAI (CIDR) only for the purpose of this transaction.</label>
 						</div>
-						
+
 						<button class="btn btn-success btn-lg pull-right" id="finalBtn" type="button">eSign</button>
 					</div>
 				</div>
