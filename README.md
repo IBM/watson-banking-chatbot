@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/IBM/watson-banking-chatbot.svg?branch=master)](https://travis-ci.org/IBM/watson-banking-chatbot)
-![Bluemix Deployments](https://metrics-tracker.mybluemix.net/stats/527357940ca5e1027fbf945add3b15c4/badge.svg)
+![IBM Cloud Deployments](https://metrics-tracker.mybluemix.net/stats/527357940ca5e1027fbf945add3b15c4/badge.svg)
 
 # Create a banking chatbot with FAQ discovery, anger detection and natural language understanding
 In this developer journey, we will create a chatbot using Node.js and Watson Conversation. The Conversation flow will be enhanced by using Natural Language Understanding to identify entities and using Tone Analyzer to detect customer emotions. For FAQs, a call to the Discovery service will use passage retrieval to pull answers from a collection of documents.
@@ -46,14 +46,14 @@ Want to take your Watson app to the next level? Looking to leverage Watson Brand
 Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locally.
 
 ## Deploy to IBM Cloud
-[![Deploy to Bluemix](https://metrics-tracker.mybluemix.net/stats/527357940ca5e1027fbf945add3b15c4/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
+[![Deploy to IBM Cloud](https://metrics-tracker.mybluemix.net/stats/527357940ca5e1027fbf945add3b15c4/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
 1. Press the above ``Deploy to IBM Cloud`` button and then click on ``Deploy``.
 
 2. In Toolchains, click on Delivery Pipeline to watch while the app is deployed. Once deployed, the app can be viewed by clicking 'View app'.
 ![](doc/source/images/toolchain-pipeline.png)
 
-3. To see the app and services created and configured for this journey, use the Bluemix dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the `wbc-` prefix:
+3. To see the app and services created and configured for this journey, use the IBM Cloud dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the `wbc-` prefix:
     * wbc-conversation-service
     * wbc-discovery-service
     * wbc-natural-language-understanding-service
@@ -208,7 +208,7 @@ using the default configuration.
 
 # Privacy Notice
 If using the `Deploy to IBM Cloud` button some metrics are tracked, the following
-information is sent to [Deployment Tracker](https://github.com/IBM-Bluemix/cf-deployment-tracker-service) and
+information is sent to [Deployment Tracker](https://github.com/IBM-IBM Cloud/cf-deployment-tracker-service) and
 [Metrics collector](https://github.com/IBM/metrics-collector-service) service on each deployment:
 
 * Node.js package version
