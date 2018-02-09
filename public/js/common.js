@@ -82,7 +82,7 @@ var Common = (function() {
 
 
 
- function accounType (response){
+ function accountType (response){
 console.log(response);
 var res=response;
 
