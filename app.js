@@ -37,10 +37,10 @@ const vcapServices = require('vcap_services');
 
 const bankingServices = require('./banking_services');
 const WatsonDiscoverySetup = require('./lib/watson-discovery-setup');
-const WatsonConversationSetup = require('./lib/watson-conversation-setup');
+const WatsonAssistant for BusinessSetup = require('./lib/watson-conversation-setup');
 
 const DEFAULT_NAME = 'watson-banking-chatbot';
-const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Conversation action is still 'rnr'.
+const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Assistant for Business action is still 'rnr'.
 const DISCOVERY_DOCS = [
   './data/discovery/docs/BankFaqRnR-DB-Failure-General.docx',
   './data/discovery/docs/BankFaqRnR-DB-Terms-General.docx',
@@ -98,14 +98,14 @@ const conversation = watson.conversation({
 });
 
 let workspaceID; // workspaceID will be set when the workspace is created or validated.
-const conversationSetup = new WatsonConversationSetup(conversation);
+const conversationSetup = new WatsonAssistant for BusinessSetup(conversation);
 const workspaceJson = JSON.parse(fs.readFileSync('data/conversation/workspaces/banking.json'));
 const conversationSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJson };
-conversationSetup.setupConversationWorkspace(conversationSetupParams, (err, data) => {
+conversationSetup.setupAssistant for BusinessWorkspace(conversationSetupParams, (err, data) => {
   if (err) {
     handleSetupError(err);
   } else {
-    console.log('Conversation is ready!');
+    console.log('Assistant for Business is ready!');
     workspaceID = data;
   }
 });
@@ -135,7 +135,7 @@ app.post('/api/message', function(req, res) {
   if (!workspaceID) {
     return res.json({
       output: {
-        text: 'Conversation initialization in progress. Please try again.'
+        text: 'Assistant for Business initialization in progress. Please try again.'
       }
     });
   }
