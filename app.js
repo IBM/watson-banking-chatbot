@@ -40,7 +40,7 @@ const WatsonDiscoverySetup = require('./lib/watson-discovery-setup');
 const WatsonConversationSetup = require('./lib/watson-conversation-setup');
 
 const DEFAULT_NAME = 'watson-banking-chatbot';
-const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Conversation action is still 'rnr'.
+const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Assistant action is still 'rnr'.
 const DISCOVERY_DOCS = [
   './data/discovery/docs/BankFaqRnR-DB-Failure-General.docx',
   './data/discovery/docs/BankFaqRnR-DB-Terms-General.docx',
@@ -105,7 +105,7 @@ conversationSetup.setupConversationWorkspace(conversationSetupParams, (err, data
   if (err) {
     handleSetupError(err);
   } else {
-    console.log('Conversation is ready!');
+    console.log('Watson Assistant is ready!');
     workspaceID = data;
   }
 });
@@ -135,7 +135,7 @@ app.post('/api/message', function(req, res) {
   if (!workspaceID) {
     return res.json({
       output: {
-        text: 'Conversation initialization in progress. Please try again.'
+        text: 'Assistant initialization in progress. Please try again.'
       }
     });
   }
