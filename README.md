@@ -2,11 +2,11 @@
 ![Bluemix Deployments](https://metrics-tracker.mybluemix.net/stats/527357940ca5e1027fbf945add3b15c4/badge.svg)
 
 # Create a banking chatbot with FAQ discovery, anger detection and natural language understanding
-In this developer journey, we will create a chatbot using Node.js and Watson Assistant for Business. The Assistant for Business flow will be enhanced by using Natural Language Understanding to identify entities and using Tone Analyzer to detect customer emotions. For FAQs, a call to the Discovery service will use passage retrieval to pull answers from a collection of documents.
+In this developer journey, we will create a chatbot using Node.js and Watson Assistant. The Assistant flow will be enhanced by using Natural Language Understanding to identify entities and using Tone Analyzer to detect customer emotions. For FAQs, a call to the Discovery service will use passage retrieval to pull answers from a collection of documents.
 
 When the reader has completed this journey, they will understand how to:
 
-* Create a chatbot that converses via a web UI using Watson Assistant for Business and Node.js
+* Create a chatbot that converses via a web UI using Watson Assistant and Node.js
 * Use Watson Discovery with passage retrieval to find answers in FAQ documents
 * Use Watson Tone Analyzer to detect emotion in a conversation
 * Identify entities with Watson Natural Language Understanding
@@ -18,7 +18,7 @@ When the reader has completed this journey, they will understand how to:
 2. The user interacts with a chatbot via the app UI.
 3. User input is processed with Tone Analyzer to detect anger. An anger score is added to the context.
 4. User input is processed with Natural Language Understanding (NLU). The context is enriched with NLU-detected entities and keywords (e.g., a location).
-5. The input and enriched context is sent to Assistant for Business. Assistant for Business recognizes intent, entities and dialog paths. It responds with a reply and/or action.
+5. The input and enriched context is sent to Assistant. Assistant recognizes intent, entities and dialog paths. It responds with a reply and/or action.
 6. Optionally, a requested action is performed by the app. This may include one of the following:
    * Lookup additional information from bank services to append to the reply
    * Use Discovery to reply with an answer from the FAQ documents
@@ -29,7 +29,7 @@ Want to take your Watson app to the next level? Looking to leverage Watson Brand
 
 ## Included components
 
-* [IBM Watson Assistant for Business](https://www.ibm.com/watson/developercloud/conversation.html): Build, test and deploy a bot or virtual agent across mobile devices, messaging platforms, or even on a physical robot.
+* [IBM Watson Assistant](https://www.ibm.com/watson/developercloud/conversation.html): Build, test and deploy a bot or virtual agent across mobile devices, messaging platforms, or even on a physical robot.
 * [IBM Watson Discovery](https://www.ibm.com/watson/developercloud/discovery.html): A cognitive search and content analytics engine for applications to identify patterns, trends, and actionable insights.
 * [IBM Watson Natural Language Understanding](https://www.ibm.com/watson/developercloud/natural-language-understanding.html): Analyze text to extract meta-data from content such as concepts, entities, keywords, categories, sentiment, emotion, relations, semantic roles, using natural language understanding.
 * [IBM Watson Tone Analyzer](https://www.ibm.com/watson/developercloud/speech-to-text.html): Uses linguistic analysis to detect communication tones in written text.
@@ -64,7 +64,7 @@ Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locall
 
 1. [Clone the repo](#1-clone-the-repo)
 2. [Create Watson services with IBM Cloud](#2-create-watson-services-with-ibm-bluemix)
-3. [Import the Assistant for Business workspace](#3-import-the-conversation-workspace)
+3. [Import the Watson Assistant workspace](#3-import-the-conversation-workspace)
 4. [Load the Discovery documents](#4-load-the-discovery-documents)
 5. [Configure credentials](#5-configure-credentials)
 5. [Run the application](#6-run-the-application)
@@ -84,14 +84,14 @@ We’ll be using the file [`data/conversation/workspaces/banking.json`](data/con
 
 Create the following services:
 
-* [**Watson Assistant for Business**](https://console.ng.bluemix.net/catalog/services/conversation)
+* [**Watson Assistant**](https://console.ng.bluemix.net/catalog/services/conversation)
 * [**Watson Discovery**](https://console.ng.bluemix.net/catalog/services/discovery)
 * [**Watson Tone Analyzer**](https://console.ng.bluemix.net/catalog/services/tone-analyzer)
 * [**Watson Natural Language Understanding**](https://console.ng.bluemix.net/catalog/services/natural-language-understanding)
 
-### 3. Import the Assistant for Business workspace
+### 3. Import the Assistant workspace
 
-Launch the **Watson Assistant for Business** tool. Use the **import** icon button on the right
+Launch the **Watson Assistant** tool. Use the **import** icon button on the right
 
 <p align="center">
   <img width="400" height="55" src="doc/source/images/import_conversation_workspace.png">
@@ -125,11 +125,11 @@ Under `Add data to this collection` use `Drag and drop your documents here or br
 
 ### 5. Configure credentials
 
-The credentials for IBM Cloud services (Assistant for Business, Discovery, Tone Analyzer and
+The credentials for IBM Cloud services (Assistant, Discovery, Tone Analyzer and
 Natural Language Understanding), can be found in the ``Services`` menu in IBM Cloud,
 by selecting the ``Service Credentials`` option for each service.
 
-The other settings for Assistant for Business and Discovery were collected during the
+The other settings for Assistant and Discovery were collected during the
 earlier setup steps (``DISCOVERY_COLLECTION_ID``, ``DISCOVERY_ENVIRONMENT_ID`` and
 ``WORKSPACE_ID``).
 

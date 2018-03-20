@@ -37,7 +37,7 @@ const vcapServices = require('vcap_services');
 
 const bankingServices = require('./banking_services');
 const WatsonDiscoverySetup = require('./lib/watson-discovery-setup');
-const WatsonAssistant for BusinessSetup = require('./lib/watson-conversation-setup');
+const WatsonConversationSetup = require('./lib/watson-conversation-setup');
 
 const DEFAULT_NAME = 'watson-banking-chatbot';
 const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Assistant for Business action is still 'rnr'.
@@ -98,10 +98,10 @@ const conversation = watson.conversation({
 });
 
 let workspaceID; // workspaceID will be set when the workspace is created or validated.
-const conversationSetup = new WatsonAssistant for BusinessSetup(conversation);
+const conversationSetup = new WatsonConversationSetup(conversation);
 const workspaceJson = JSON.parse(fs.readFileSync('data/conversation/workspaces/banking.json'));
 const conversationSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJson };
-conversationSetup.setupAssistant for BusinessWorkspace(conversationSetupParams, (err, data) => {
+conversationSetup.setupConversationWorkspace(conversationSetupParams, (err, data) => {
   if (err) {
     handleSetupError(err);
   } else {
