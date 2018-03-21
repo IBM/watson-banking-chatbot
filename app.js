@@ -64,15 +64,20 @@ require('metrics-tracker-client').track();
 // setupError will be set to an error message if we cannot recover from service setup or init error.
 let setupError = '';
 
-// Credentials for services
-const conversationCredentials = vcapServices.getCredentials('conversation');
-const nluCredentials = vcapServices.getCredentials('natural-language-understanding');
-const toneAnalyzerCredentials = vcapServices.getCredentials('tone_analyzer');
-const discoveryCredentials = vcapServices.getCredentials('discovery');
-
+let discoveryCredentials = vcapServices.getCredentials('discovery');
+let discoveryUrl = discoveryCredentials.url;
+let discoveryUsername = discoveryCredentials.username;
+let discoveryPassword = discoveryCredentials.password;
+if (process.env.service_watson_discovery !== undefined) {
+  discoveryCredentials = JSON.parse(process.env.service_watson_discovery);
+  discoveryUrl = discoveryCredentials['url'];
+  discoveryUsername = discoveryCredentials['username'];
+  discoveryPassword = discoveryCredentials['password'];
+}
 const discovery = watson.discovery({
-  password: discoveryCredentials.password,
-  username: discoveryCredentials.username,
+  url: discoveryUrl,
+  username: discoveryUsername,
+  password: discoveryPassword,
   version_date: '2017-10-16',
   version: 'v1'
 });
@@ -89,10 +94,20 @@ discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
 });
 
 // Create the service wrapper
+let conversationCredentials = vcapServices.getCredentials('conversation');
+let conversationUrl = conversationCredentials.url;
+let conversationUsername = conversationCredentials.username;
+let conversationPassword = conversationCredentials.password;
+if (process.env.service_watson_discovery !== undefined) {
+  conversationCredentials = JSON.parse(process.env.service_watson_conversation);
+  conversationUrl = conversationCredentials['url'];
+  conversationUsername = conversationCredentials['username'];
+  conversationPassword = conversationCredentials['password'];
+}
 const conversation = watson.conversation({
-  url: conversationCredentials.url,
-  username: conversationCredentials.username,
-  password: conversationCredentials.password,
+  url: conversationUrl,
+  username: conversationUsername,
+  password: conversationPassword,
   version_date: '2016-07-11',
   version: 'v1'
 });
@@ -110,19 +125,40 @@ conversationSetup.setupConversationWorkspace(conversationSetupParams, (err, data
   }
 });
 
+let toneAnalyzerCredentials = vcapServices.getCredentials('tone_analyzer');
+let toneAnalyzerUrl = toneAnalyzerCredentials.url;
+let toneAnalyzerUsername = toneAnalyzerCredentials.username;
+let toneAnalyzerPassword = toneAnalyzerCredentials.password;
+if (process.env.service_watson_discovery !== undefined) {
+  toneAnalyzerCredentials = JSON.parse(process.env.service_watson_tone_analyzer);
+  toneAnalyzerUrl = toneAnalyzerCredentials['url'];
+  toneAnalyzerUsername = toneAnalyzerCredentials['username'];
+  toneAnalyzerPassword = toneAnalyzerCredentials['password'];
+}
 const toneAnalyzer = watson.tone_analyzer({
-  username: toneAnalyzerCredentials.username,
-  password: toneAnalyzerCredentials.password,
-  url: toneAnalyzerCredentials.url,
+  url: toneAnalyzerUrl,
+  username: toneAnalyzerUsername,
+  password: toneAnalyzerPassword,
   version: 'v3',
   version_date: '2016-05-19'
 });
 
 /* ******** NLU ************ */
+let naturalLanguageUnderstandingCredentials = vcapServices.getCredentials('natural-language-understanding');
+let naturalLanguageUnderstandingUrl = naturalLanguageUnderstandingCredentials.url;
+let naturalLanguageUnderstandingUsername = naturalLanguageUnderstandingCredentials.username;
+let naturalLanguageUnderstandingPassword = naturalLanguageUnderstandingCredentials.password;
+if (process.env.service_watson_discovery !== undefined) {
+  naturalLanguageUnderstandingCredentials = JSON.parse(process.env.service_watson_natural_language_understanding);
+  naturalLanguageUnderstandingUrl = naturalLanguageUnderstandingCredentials['url'];
+  naturalLanguageUnderstandingUsername = naturalLanguageUnderstandingCredentials['username'];
+  naturalLanguageUnderstandingPassword = naturalLanguageUnderstandingCredentials['password'];
+}
 const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
 const nlu = new NaturalLanguageUnderstandingV1({
-  username: nluCredentials.username,
-  password: nluCredentials.password,
+  url: naturalLanguageUnderstandingUrl,
+  username: naturalLanguageUnderstandingUsername,
+  password: naturalLanguageUnderstandingPassword,
   version_date: '2017-02-27'
 });
 
