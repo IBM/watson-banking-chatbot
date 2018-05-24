@@ -1,5 +1,4 @@
 [![构建状态](https://travis-ci.org/IBM/watson-banking-chatbot.svg?branch=master)](https://travis-ci.org/IBM/watson-banking-chatbot)
-![Bluemix 部署](https://metrics-tracker.mybluemix.net/stats/527357940ca5e1027fbf945add3b15c4/badge.svg)
 
 *阅读本文的其他语言版本：[English](README.md)。*
 
@@ -53,7 +52,6 @@
 使用 ``Deploy to IBM Cloud`` 按钮**或**在本地创建服务并运行。
 
 ## Deploy to IBM Cloud
-[![部署到 Bluemix](https://metrics-tracker.mybluemix.net/stats/527357940ca5e1027fbf945add3b15c4/button.svg)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
 1.按上面的 ``Deploy to IBM Cloud`` 按钮，然后单击 ``Deploy``。
 
