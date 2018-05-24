@@ -1,6 +1,7 @@
 [![构建状态](https://travis-ci.org/IBM/watson-banking-chatbot.svg?branch=master)](https://travis-ci.org/IBM/watson-banking-chatbot)
 
 *阅读本文的其他语言版本：[English](README.md)。*
+> Watson Conversation 现在改名 Watson Assistant。尽管本 Code Pattern 中的图片展示的服务名还是 Watson Conversation，但步骤及处理过程依旧有效。
 
 # 利用 FAQ Discovery、Anger Detection 和 Natural Language Understanding 来创建银行业务聊天机器人
 在次 Code Pattern 中，我们将使用 Node.js 和 Watson Conversation 来创建一个聊天机器人。通过使用 Natural Language Understanding 来识别实体并使用 Tone Analyzer 来检测客户情绪，从而改进 Conversation 流程。要获取 FAQ，请调用 Discovery 服务，使用段落检索从文档集合中提取答案。
