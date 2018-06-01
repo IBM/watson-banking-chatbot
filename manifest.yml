@@ -18,7 +18,7 @@ applications:
   instances: 1
   name: watsonbankingchatbot
   disk_quota: 256M
-  random-route: true
+  random-route: false
   timeout: 180
   services:
   - wbc-conversation-service

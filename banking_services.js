@@ -151,7 +151,7 @@ const bankingServices = {
 
   _transactions: [
     {
-      amount: 700.00,
+      amount: 700.0,
       account_number: 'xxx7685',
       category: 'dining',
       description: 'Sweekar Restaurant',
@@ -159,7 +159,7 @@ const bankingServices = {
       date: '08-29-2016'
     },
     {
-      amount: 500.00,
+      amount: 500.0,
       account_number: 'xxx7685',
       category: 'dining',
       description: 'McDonalds',
@@ -167,7 +167,7 @@ const bankingServices = {
       date: '08-27-2016'
     },
     {
-      amount: 2000.90,
+      amount: 2000.9,
       account_number: 'xxx7685',
       category: 'grocery',
       description: 'DMart',
@@ -183,7 +183,7 @@ const bankingServices = {
       date: '08-24-2016'
     },
     {
-      amount: 5000.00,
+      amount: 5000.0,
       account_number: 'xxx7685',
       category: 'travel',
       description: 'Air India',
@@ -191,7 +191,7 @@ const bankingServices = {
       date: '08-24-2016'
     },
     {
-      amount: 1000.00,
+      amount: 1000.0,
       account_number: 'xxx7685',
       category: 'fuel',
       description: 'Indian Oil',
@@ -199,7 +199,7 @@ const bankingServices = {
       date: '08-20-2016'
     },
     {
-      amount: 800.00,
+      amount: 800.0,
       account_number: 'xxx7685',
       category: 'utility',
       description: 'Reliance Energy',
@@ -207,7 +207,7 @@ const bankingServices = {
       date: '09-16-2016'
     },
     {
-      amount: 700.00,
+      amount: 700.0,
       account_number: 'xxx7685',
       category: 'utility',
       description: 'BSNL',
@@ -215,7 +215,7 @@ const bankingServices = {
       date: '08-16-2016'
     },
     {
-      amount: 500.00,
+      amount: 500.0,
       account_number: 'xxx7685',
       category: 'utility',
       description: 'Mahanagar Gas Ltd',
@@ -223,7 +223,7 @@ const bankingServices = {
       date: '08-16-2016'
     },
     {
-      amount: 1000.00,
+      amount: 1000.0,
       account_number: 'xxx7685',
       category: 'utility',
       description: 'Mahanagar Gas Ltd',
@@ -231,7 +231,7 @@ const bankingServices = {
       date: '09-16-2016'
     },
     {
-      amount: 6000.00,
+      amount: 6000.0,
       account_number: 'xxx7685',
       category: 'investment',
       description: 'Open Finance Mutual Fund',
@@ -239,7 +239,7 @@ const bankingServices = {
       date: '09-25-2016'
     },
     {
-      amount: 10000.00,
+      amount: 10000.0,
       account_number: 'xxx7685',
       category: 'education',
       description: 'Annual Fee',

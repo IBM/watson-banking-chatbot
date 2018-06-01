@@ -25,13 +25,6 @@ const bodyParser = require('body-parser'); // parser for post requests
 const watson = require('watson-developer-cloud'); // watson sdk
 const fs = require('fs'); // file system for loading JSON
 
-// cfenv provides access to your Cloud Foundry environment
-// for more info, see: https://www.npmjs.com/package/cfenv
-// const cfenv = require('cfenv');
-// const url = require('url');
-// const http = require('http');
-// const https = require('https');
-
 const numeral = require('numeral');
 const vcapServices = require('vcap_services');
 
@@ -417,10 +410,8 @@ app.post('/api/message', function(req, res) {
 });
 
 /**
-*
-* Looks for actions requested by conversation service and provides the requested data.
-*
-**/
+ * Looks for actions requested by conversation service and provides the requested data.
+ */
 function checkForLookupRequests(data, callback) {
   console.log('checkForLookupRequests');
 
