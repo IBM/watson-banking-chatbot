@@ -10,37 +10,33 @@
     "unit": "istanbul cover _mocha test/unit -- -R spec"
   },
   "dependencies": {
-    "body-parser": "^1.15.2",
-    "cf-deployment-tracker-client": "*",
-    "cfenv": "^1.0.3",
-    "dotenv": "^2.0.0",
-    "express": "^4.13.4",
+    "body-parser": "^1.18.3",
+    "cfenv": "^1.1.0",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
     "http": "0.0.0",
     "https": "^1.0.0",
-    "numeral": "^1.5.3",
-    "vcap_services": "^0.2.0",
-    "watson-developer-cloud": "^2.32.0"
+    "numeral": "^2.0.6",
+    "vcap_services": "^0.3.4",
+    "watson-developer-cloud": "^3.4.3"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/IBM/watson-banking-chatbot.git"
-  },
+  "repository": "github:IBM/watson-banking-chatbot",
   "engines": {
-    "node": ">=4"
+    "node": ">=6"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
-    "eslint": "^3.14.1",
-    "eslint-config-google": "^0.7.1",
-    "eslint-config-prettier": "^2.1.0",
-    "eslint-plugin-node": "^4.0.0",
-    "eslint-plugin-prettier": "^2.0.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.19.1",
+    "eslint-config-google": "^0.9.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-prettier": "^2.6.0",
     "istanbul": "^0.4.5",
-    "jsondiffpatch": "^0.2.4",
     "jshint": "^2.9.4",
-    "mocha": "^3.4.1",
-    "prettier": "1.1.0",
-    "sinon": "^2.3.2",
-    "sinon-test": "^1.0.0"
+    "jsondiffpatch": "^0.3.10",
+    "mocha": "^5.2.0",
+    "prettier": "^1.13.3",
+    "sinon": "^5.0.10",
+    "sinon-test": "^2.2.0"
   }
 }
