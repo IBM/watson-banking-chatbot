@@ -6,13 +6,13 @@
 
 body {
     background-color: white;
-    background-image: url("../img/OFN.jpg");
+    background-image: url("../img/bg.png");
     background-repeat:no-repeat;
     background-position:center;
     background-attachment:fixed;
  	margin: 0;
   	padding: 0;
-  	background-size:contain;
+  	background-size:cover;
   	}
 
 div {
@@ -78,7 +78,7 @@ div {
   margin: auto;
   position: absolute;
   bottom: 10;
-  left:50%;
+  right:8%;
   text-align: left;
   max-width: 25rem;
   min-width: 9.375rem;
@@ -86,6 +86,7 @@ div {
   border-style:none;
   border-color:none;
   background-color: #f2f4f4;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 }
 
 #scrollingChat {
@@ -210,7 +211,7 @@ div {
   line-height: 1.3125rem;
   height: 2.5rem;
   max-width: 100%;
-  padding-left: 0.125rem;
+  padding-left: 0.5rem;
   margin-bottom: -0.125rem;
   font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
   background-color:#FFFFFF;
@@ -244,8 +245,8 @@ input:-moz-placeholder {
 
 .inputOutline {
   display: block;
-  margin-left: 1.6rem;
-  margin-right: 0.5rem;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
   margin-bottom:0.1rem;
   border: 1px solid #f5f5dc;
   padding: 1px;
