@@ -18,15 +18,15 @@
 
 const bankingServices = {
   _person: {
-    fname: 'Krishna',
-    lname: 'Kumar',
+    fname: 'John',
+    lname: 'Doe',
     address: {
-      line1: 'B 101 Amar CHS Ltd',
-      line2: 'Bandra West',
-      city: 'Mumbai',
-      state: 'MH',
-      zip: 400001,
-      country: 'India'
+      line1: '3028 Austin st.',
+      line2: 'Apt #top floor',
+      city: 'Austin',
+      state: 'TX',
+      zip: 78759,
+      country: 'USA'
     },
     customer_id: 7829706,
     tone_anger_threshold: 0.7
@@ -91,19 +91,19 @@ const bankingServices = {
   },
   _beneficiary: [
     {
-      name: 'Saurav',
+      name: 'David',
       number: 'xxx0744',
       type: 'savings',
       bank: 'ING'
     },
     {
-      name: 'Rajesh',
+      name: 'Scott',
       number: 'xxx0744',
       type: 'savings',
-      bank: 'Finance Bank'
+      bank: 'Bank of America'
     },
     {
-      name: 'Ramesh',
+      name: 'Willie',
       number: 'xxx7685',
       type: 'savings',
       bank: 'Citi'
@@ -170,7 +170,7 @@ const bankingServices = {
       amount: 2000.9,
       account_number: 'xxx7685',
       category: 'grocery',
-      description: 'DMart',
+      description: 'Walmart',
       type: 'debit',
       date: '08-26-2016'
     },
@@ -178,7 +178,7 @@ const bankingServices = {
       amount: 1500,
       account_number: 'xxx7685',
       category: 'grocery',
-      description: 'Hyper City',
+      description: 'HEB',
       type: 'debit',
       date: '08-24-2016'
     },
@@ -186,7 +186,7 @@ const bankingServices = {
       amount: 5000.0,
       account_number: 'xxx7685',
       category: 'travel',
-      description: 'Air India',
+      description: 'Emirates',
       type: 'debit',
       date: '08-24-2016'
     },
@@ -194,7 +194,7 @@ const bankingServices = {
       amount: 1000.0,
       account_number: 'xxx7685',
       category: 'fuel',
-      description: 'Indian Oil',
+      description: 'Shell',
       type: 'debit',
       date: '08-20-2016'
     },
@@ -202,7 +202,7 @@ const bankingServices = {
       amount: 800.0,
       account_number: 'xxx7685',
       category: 'utility',
-      description: 'Reliance Energy',
+      description: 'ConEdison',
       type: 'debit',
       date: '09-16-2016'
     },
@@ -210,7 +210,7 @@ const bankingServices = {
       amount: 700.0,
       account_number: 'xxx7685',
       category: 'utility',
-      description: 'BSNL',
+      description: 'Life Energy',
       type: 'debit',
       date: '08-16-2016'
     },
@@ -218,7 +218,7 @@ const bankingServices = {
       amount: 500.0,
       account_number: 'xxx7685',
       category: 'utility',
-      description: 'Mahanagar Gas Ltd',
+      description: 'Atmos Energy',
       type: 'debit',
       date: '08-16-2016'
     },
@@ -226,7 +226,7 @@ const bankingServices = {
       amount: 1000.0,
       account_number: 'xxx7685',
       category: 'utility',
-      description: 'Mahanagar Gas Ltd',
+      description: 'Atmos Energy',
       type: 'debit',
       date: '09-16-2016'
     },
@@ -242,7 +242,7 @@ const bankingServices = {
       amount: 10000.0,
       account_number: 'xxx7685',
       category: 'education',
-      description: 'Annual Fee',
+      description: 'University of Austin Texas',
       type: 'debit',
       date: '08-15-2016'
     }
@@ -268,32 +268,32 @@ const bankingServices = {
       hours: '10AM–4PM'
     },
     {
-      location: 'cochin',
-      address: 'Cochin Shipyard, Mahatma Gandhi Rd, Ernakulam, Kerala 682015',
-      phone: '0484 0000 0000',
+      location: 'Austin',
+      address: '13501 Burned Rd, Austin, TX, 78759',
+      phone: '512-347-1200',
       hours: '10AM–4PM'
     },
     {
-      location: 'andheri',
-      address: 'Swami Vivekanand Road, Andheri West, Mumbai, Maharashtra 400058',
-      phone: '022 0000 0000',
+      location: 'san fransisco',
+      address: '413 Market St, San Fransisco, CA, 94105',
+      phone: '415-213-4567',
       hours: '10AM–5PM'
     },
     {
-      location: 'delhi',
-      address: 'Rohini, Delhi, 110042',
-      phone: '011 0000 0000',
+      location: 'seattle',
+      address: '1200 5th Ave, Seattle, WA',
+      phone: '425-666-0000',
       hours: '10AM–5PM'
     },
     {
-      location: 'bangalore',
-      address: 'Bangalore Airport Exit Road, Bengaluru, Karnataka 560017',
+      location: 'florida',
+      address: '112 Florida st, Miami, Fl, 12345',
       phone: '080 0000 0000',
       hours: '10AM–5PM'
     },
     {
-      location: 'mumbai',
-      address: 'Nariman point, Mumbai, Maharashtra 400023',
+      location: 'boston',
+      address: '1234 Boston St, Boston, MA 65320',
       phone: '022 1111 1111',
       hours: '10AM–5PM'
     }
