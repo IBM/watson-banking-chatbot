@@ -22,7 +22,7 @@ const bankingServices = {
     lname: 'Doe',
     address: {
       line1: '3028 Austin st.',
-      line2: 'Apt #top floor',
+      line2: 'Apt #7',
       city: 'Austin',
       state: 'TX',
       zip: 78759,
@@ -94,19 +94,19 @@ const bankingServices = {
       name: 'David',
       number: 'xxx0744',
       type: 'savings',
-      bank: 'ING'
+      bank: 'Company A'
     },
     {
       name: 'Scott',
       number: 'xxx0744',
       type: 'savings',
-      bank: 'Bank of America'
+      bank: 'Company B'
     },
     {
       name: 'Willie',
       number: 'xxx7685',
       type: 'savings',
-      bank: 'Citi'
+      bank: 'Company C'
     }
   ],
   getBeneficiaryInfo: function(customerId, callback) {
@@ -154,7 +154,7 @@ const bankingServices = {
       amount: 700.0,
       account_number: 'xxx7685',
       category: 'dining',
-      description: 'Sweekar Restaurant',
+      description: 'Restaurant A',
       type: 'debit',
       date: '08-29-2016'
     },
@@ -162,7 +162,7 @@ const bankingServices = {
       amount: 500.0,
       account_number: 'xxx7685',
       category: 'dining',
-      description: 'McDonalds',
+      description: 'Restaurant B',
       type: 'debit',
       date: '08-27-2016'
     },
@@ -170,7 +170,7 @@ const bankingServices = {
       amount: 2000.9,
       account_number: 'xxx7685',
       category: 'grocery',
-      description: 'Walmart',
+      description: 'Grocery Store A',
       type: 'debit',
       date: '08-26-2016'
     },
@@ -178,7 +178,7 @@ const bankingServices = {
       amount: 1500,
       account_number: 'xxx7685',
       category: 'grocery',
-      description: 'HEB',
+      description: 'Grocery Store B',
       type: 'debit',
       date: '08-24-2016'
     },
@@ -186,7 +186,7 @@ const bankingServices = {
       amount: 5000.0,
       account_number: 'xxx7685',
       category: 'travel',
-      description: 'Emirates',
+      description: 'A Airways',
       type: 'debit',
       date: '08-24-2016'
     },
@@ -194,7 +194,7 @@ const bankingServices = {
       amount: 1000.0,
       account_number: 'xxx7685',
       category: 'fuel',
-      description: 'Shell',
+      description: 'Gas Company A',
       type: 'debit',
       date: '08-20-2016'
     },
@@ -202,7 +202,7 @@ const bankingServices = {
       amount: 800.0,
       account_number: 'xxx7685',
       category: 'utility',
-      description: 'ConEdison',
+      description: 'Utility Company A',
       type: 'debit',
       date: '09-16-2016'
     },
@@ -210,7 +210,7 @@ const bankingServices = {
       amount: 700.0,
       account_number: 'xxx7685',
       category: 'utility',
-      description: 'Life Energy',
+      description: 'Utility Company B',
       type: 'debit',
       date: '08-16-2016'
     },
@@ -218,7 +218,7 @@ const bankingServices = {
       amount: 500.0,
       account_number: 'xxx7685',
       category: 'utility',
-      description: 'Atmos Energy',
+      description: 'Energy Company A',
       type: 'debit',
       date: '08-16-2016'
     },
@@ -226,7 +226,7 @@ const bankingServices = {
       amount: 1000.0,
       account_number: 'xxx7685',
       category: 'utility',
-      description: 'Atmos Energy',
+      description: 'Energy Company B',
       type: 'debit',
       date: '09-16-2016'
     },
@@ -234,7 +234,7 @@ const bankingServices = {
       amount: 6000.0,
       account_number: 'xxx7685',
       category: 'investment',
-      description: 'Open Finance Mutual Fund',
+      description: 'A Investment Firm',
       type: 'debit',
       date: '09-25-2016'
     },
@@ -242,7 +242,7 @@ const bankingServices = {
       amount: 10000.0,
       account_number: 'xxx7685',
       category: 'education',
-      description: 'University of Austin Texas',
+      description: 'University A',
       type: 'debit',
       date: '08-15-2016'
     }
@@ -281,20 +281,20 @@ const bankingServices = {
     },
     {
       location: 'seattle',
-      address: '1200 5th Ave, Seattle, WA',
+      address: '1234 5th Ave, Seattle, WA',
       phone: '425-666-0000',
       hours: '10AM–5PM'
     },
     {
       location: 'florida',
       address: '112 Florida st, Miami, Fl, 12345',
-      phone: '080 0000 0000',
+      phone: '305-666-0000',
       hours: '10AM–5PM'
     },
     {
       location: 'boston',
       address: '1234 Boston St, Boston, MA 65320',
-      phone: '022 1111 1111',
+      phone: '523-666-0000',
       hours: '10AM–5PM'
     }
   ],
