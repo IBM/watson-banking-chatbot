@@ -441,13 +441,13 @@ function checkForLookupRequests(data, callback) {
           let accountsResultText = '';
 
           for (let i = 0; i < len; i++) {
-            accounts[i].balance = accounts[i].balance ? numeral(accounts[i].balance).format('INR 0,0.00') : '';
+            accounts[i].balance = accounts[i].balance ? numeral(accounts[i].balance).format('USD 0,0.00') : '';
 
             if (accounts[i].available_credit)
-              accounts[i].available_credit = accounts[i].available_credit ? numeral(accounts[i].available_credit).format('INR 0,0.00') : '';
+              accounts[i].available_credit = accounts[i].available_credit ? numeral(accounts[i].available_credit).format('USD 0,0.00') : '';
 
             if (accounts[i].last_statement_balance)
-              accounts[i].last_statement_balance = accounts[i].last_statement_balance ? numeral(accounts[i].last_statement_balance).format('INR 0,0.00') : '';
+              accounts[i].last_statement_balance = accounts[i].last_statement_balance ? numeral(accounts[i].last_statement_balance).format('USD 0,0.00') : '';
 
             if (appendAccountResponse === true) {
               accountsResultText += accounts[i].number + ' ' + accounts[i].type + ' Balance: ' + accounts[i].balance + '<br/>';
@@ -492,7 +492,7 @@ function checkForLookupRequests(data, callback) {
         } else {
           let responseTxtAppend = '';
           if (data.context.action.append_total && data.context.action.append_total === true) {
-            responseTxtAppend += 'Total = <b>' + numeral(transactionResponse.total).format('INR 0,0.00') + '</b>';
+            responseTxtAppend += 'Total = <b>' + numeral(transactionResponse.total).format('USD 0,0.00') + '</b>';
           }
 
           if (transactionResponse.transactions && transactionResponse.transactions.length > 0) {
@@ -507,7 +507,7 @@ function checkForLookupRequests(data, callback) {
                 if (tDt > sDt && tDt < eDt) {
                   if (data.context.action.append_response && data.context.action.append_response === true) {
                     responseTxtAppend +=
-                      '<br/>' + transaction.date + ' &nbsp;' + numeral(transaction.amount).format('INR 0,0.00') + ' &nbsp;' + transaction.description;
+                      '<br/>' + transaction.date + ' &nbsp;' + numeral(transaction.amount).format('USD 0,0.00') + ' &nbsp;' + transaction.description;
                   }
                 }
               }
@@ -516,7 +516,7 @@ function checkForLookupRequests(data, callback) {
                 const transaction1 = transactionResponse.transactions[i];
                 if (data.context.action.append_response && data.context.action.append_response === true) {
                   responseTxtAppend +=
-                    '<br/>' + transaction1.date + ' &nbsp;' + numeral(transaction1.amount).format('INR 0,0.00') + ' &nbsp;' + transaction1.description;
+                    '<br/>' + transaction1.date + ' &nbsp;' + numeral(transaction1.amount).format('USD 0,0.00') + ' &nbsp;' + transaction1.description;
                 }
               }
             }
@@ -546,7 +546,7 @@ function checkForLookupRequests(data, callback) {
         } else {
           let responseTxtAppend = '';
           if (data.context.action.append_total && data.context.action.append_total === true) {
-            responseTxtAppend += 'Total = <b>' + numeral(transactionResponse.total).format('INR 0,0.00') + '</b>';
+            responseTxtAppend += 'Total = <b>' + numeral(transactionResponse.total).format('USD 0,0.00') + '</b>';
           }
 
           transactionResponse.transactions.sort(function(a1, b1) {
@@ -562,7 +562,7 @@ function checkForLookupRequests(data, callback) {
               const transaction = transactionResponse.transactions[i];
               if (data.context.action.append_response && data.context.action.append_response === true) {
                 responseTxtAppend +=
-                  '<br/>' + transaction.date + ' &nbsp;' + numeral(transaction.amount).format('INR 0,0.00') + ' &nbsp;' + transaction.description;
+                  '<br/>' + transaction.date + ' &nbsp;' + numeral(transaction.amount).format('USD 0,0.00') + ' &nbsp;' + transaction.description;
               }
             }
           }
