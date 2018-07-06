@@ -22,15 +22,22 @@ require('dotenv').config({
 
 const express = require('express'); // app server
 const bodyParser = require('body-parser'); // parser for post requests
-const watson = require('watson-developer-cloud'); // watson sdk
+const numeral = require('numeral');
 const fs = require('fs'); // file system for loading JSON
 
-const numeral = require('numeral');
-const vcapServices = require('vcap_services');
+const AssistantV1 = require('watson-developer-cloud/assistant/v1');
+const DiscoveryV1 = require('watson-developer-cloud/discovery/v1');
+const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
+const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+
+const assistant = new AssistantV1({ version: '2018-02-16' });
+const discovery = new DiscoveryV1({ version: '2018-03-05' });
+const nlu = new NaturalLanguageUnderstandingV1({ version: '2018-03-16' });
+const toneAnalyzer = new ToneAnalyzerV3({ version: '2017-09-21' });
 
 const bankingServices = require('./banking_services');
 const WatsonDiscoverySetup = require('./lib/watson-discovery-setup');
-const WatsonConversationSetup = require('./lib/watson-conversation-setup');
+const WatsonAssistantSetup = require('./lib/watson-assistant-setup');
 
 const DEFAULT_NAME = 'watson-banking-chatbot';
 const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Assistant action is still 'rnr'.
@@ -55,23 +62,6 @@ app.use(bodyParser.json());
 // setupError will be set to an error message if we cannot recover from service setup or init error.
 let setupError = '';
 
-let discoveryCredentials = vcapServices.getCredentials('discovery');
-let discoveryUrl = discoveryCredentials.url;
-let discoveryUsername = discoveryCredentials.username;
-let discoveryPassword = discoveryCredentials.password;
-if (process.env.service_watson_discovery !== undefined) {
-  discoveryCredentials = JSON.parse(process.env.service_watson_discovery);
-  discoveryUrl = discoveryCredentials['url'];
-  discoveryUsername = discoveryCredentials['username'];
-  discoveryPassword = discoveryCredentials['password'];
-}
-const discovery = watson.discovery({
-  url: discoveryUrl,
-  username: discoveryUsername,
-  password: discoveryPassword,
-  version_date: '2017-10-16',
-  version: 'v1'
-});
 let discoveryParams; // discoveryParams will be set after Discovery is validated and setup.
 const discoverySetup = new WatsonDiscoverySetup(discovery);
 const discoverySetupParams = { default_name: DEFAULT_NAME, documents: DISCOVERY_DOCS };
@@ -84,73 +74,17 @@ discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
   }
 });
 
-// Create the service wrapper
-let conversationCredentials = vcapServices.getCredentials('conversation');
-let conversationUrl = conversationCredentials.url;
-let conversationUsername = conversationCredentials.username;
-let conversationPassword = conversationCredentials.password;
-if (process.env.service_watson_discovery !== undefined) {
-  conversationCredentials = JSON.parse(process.env.service_watson_conversation);
-  conversationUrl = conversationCredentials['url'];
-  conversationUsername = conversationCredentials['username'];
-  conversationPassword = conversationCredentials['password'];
-}
-const conversation = watson.conversation({
-  url: conversationUrl,
-  username: conversationUsername,
-  password: conversationPassword,
-  version_date: '2016-07-11',
-  version: 'v1'
-});
-
 let workspaceID; // workspaceID will be set when the workspace is created or validated.
-const conversationSetup = new WatsonConversationSetup(conversation);
+const assistantSetup = new WatsonAssistantSetup(assistant);
 const workspaceJson = JSON.parse(fs.readFileSync('data/conversation/workspaces/banking.json'));
-const conversationSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJson };
-conversationSetup.setupConversationWorkspace(conversationSetupParams, (err, data) => {
+const assistantSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJson };
+assistantSetup.setupAssistantWorkspace(assistantSetupParams, (err, data) => {
   if (err) {
     handleSetupError(err);
   } else {
     console.log('Watson Assistant is ready!');
     workspaceID = data;
   }
-});
-
-let toneAnalyzerCredentials = vcapServices.getCredentials('tone_analyzer');
-let toneAnalyzerUrl = toneAnalyzerCredentials.url;
-let toneAnalyzerUsername = toneAnalyzerCredentials.username;
-let toneAnalyzerPassword = toneAnalyzerCredentials.password;
-if (process.env.service_watson_discovery !== undefined) {
-  toneAnalyzerCredentials = JSON.parse(process.env.service_watson_tone_analyzer);
-  toneAnalyzerUrl = toneAnalyzerCredentials['url'];
-  toneAnalyzerUsername = toneAnalyzerCredentials['username'];
-  toneAnalyzerPassword = toneAnalyzerCredentials['password'];
-}
-const toneAnalyzer = watson.tone_analyzer({
-  url: toneAnalyzerUrl,
-  username: toneAnalyzerUsername,
-  password: toneAnalyzerPassword,
-  version: 'v3',
-  version_date: '2016-05-19'
-});
-
-/* ******** NLU ************ */
-let naturalLanguageUnderstandingCredentials = vcapServices.getCredentials('natural-language-understanding');
-let naturalLanguageUnderstandingUrl = naturalLanguageUnderstandingCredentials.url;
-let naturalLanguageUnderstandingUsername = naturalLanguageUnderstandingCredentials.username;
-let naturalLanguageUnderstandingPassword = naturalLanguageUnderstandingCredentials.password;
-if (process.env.service_watson_discovery !== undefined) {
-  naturalLanguageUnderstandingCredentials = JSON.parse(process.env.service_watson_natural_language_understanding);
-  naturalLanguageUnderstandingUrl = naturalLanguageUnderstandingCredentials['url'];
-  naturalLanguageUnderstandingUsername = naturalLanguageUnderstandingCredentials['username'];
-  naturalLanguageUnderstandingPassword = naturalLanguageUnderstandingCredentials['password'];
-}
-const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
-const nlu = new NaturalLanguageUnderstandingV1({
-  url: naturalLanguageUnderstandingUrl,
-  username: naturalLanguageUnderstandingUsername,
-  password: naturalLanguageUnderstandingPassword,
-  version_date: '2017-02-27'
 });
 
 // Endpoint to be called from the client side
@@ -222,14 +156,14 @@ app.post('/api/message', function(req, res) {
 
     } */
 
-    callconversation(payload);
+    callAssistant(payload);
   });
 
   /**
-   * Send the input to the conversation service.
+   * Send the input to the Assistant service.
    * @param payload
    */
-  function callconversation(payload) {
+  function callAssistant(payload) {
     const queryInput = JSON.stringify(payload.input);
     // const context_input = JSON.stringify(payload.context);
 
@@ -378,11 +312,11 @@ app.post('/api/message', function(req, res) {
               */
             }
 
-            conversation.message(payload, function(err, data) {
+            assistant.message(payload, function(err, data) {
               if (err) {
                 return res.status(err.code || 500).json(err);
               } else {
-                console.log('conversation.message :: ', JSON.stringify(data));
+                console.log('assistant.message :: ', JSON.stringify(data));
                 // lookup actions
                 checkForLookupRequests(data, function(err, data) {
                   if (err) {
@@ -395,11 +329,11 @@ app.post('/api/message', function(req, res) {
             });
           });
         } else {
-          conversation.message(payload, function(err, data) {
+          assistant.message(payload, function(err, data) {
             if (err) {
               return res.status(err.code || 500).json(err);
             } else {
-              console.log('conversation.message :: ', JSON.stringify(data));
+              console.log('assistant.message :: ', JSON.stringify(data));
               return res.json(data);
             }
           });
@@ -410,7 +344,7 @@ app.post('/api/message', function(req, res) {
 });
 
 /**
- * Looks for actions requested by conversation service and provides the requested data.
+ * Looks for actions requested by Assistant service and provides the requested data.
  */
 function checkForLookupRequests(data, callback) {
   console.log('checkForLookupRequests');
@@ -422,7 +356,7 @@ function checkForLookupRequests(data, callback) {
       input: data.input
     };
 
-    // conversation requests a data lookup action
+    // Assistant requests a data lookup action
     if (data.context.action.lookup === LOOKUP_BALANCE) {
       console.log('Lookup Balance requested');
       // if account type is specified (checking, savings or credit card)
@@ -460,13 +394,13 @@ function checkForLookupRequests(data, callback) {
           payload.context.action = {};
 
           if (!appendAccountResponse) {
-            console.log('call conversation.message with lookup results.');
-            conversation.message(payload, function(err, data) {
+            console.log('call assistant.message with lookup results.');
+            assistant.message(payload, function(err, data) {
               if (err) {
-                console.log('Error while calling conversation.message with lookup result', err);
+                console.log('Error while calling assistant.message with lookup result', err);
                 callback(err, null);
               } else {
-                console.log('checkForLookupRequests conversation.message :: ', JSON.stringify(data));
+                console.log('checkForLookupRequests assistant.message :: ', JSON.stringify(data));
                 callback(null, data);
               }
             });
@@ -618,13 +552,13 @@ function checkForLookupRequests(data, callback) {
         payload.context.action = {};
 
         if (!appendBranchResponse) {
-          console.log('call conversation.message with lookup results.');
-          conversation.message(payload, function(err, data) {
+          console.log('call assistant.message with lookup results.');
+          assistant.message(payload, function(err, data) {
             if (err) {
-              console.log('Error while calling conversation.message with lookup result', err);
+              console.log('Error while calling assistant.message with lookup result', err);
               callback(err, null);
             } else {
-              console.log('checkForLookupRequests conversation.message :: ', JSON.stringify(data));
+              console.log('checkForLookupRequests assistant.message :: ', JSON.stringify(data));
               callback(null, data);
             }
           });
