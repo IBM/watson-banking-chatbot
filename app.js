@@ -165,181 +165,178 @@ app.post('/api/message', function(req, res) {
    */
   function callAssistant(payload) {
     const queryInput = JSON.stringify(payload.input);
-    // const context_input = JSON.stringify(payload.context);
 
-    toneAnalyzer.tone(
-      {
-        text: queryInput,
-        tones: 'emotion'
-      },
-      function(err, tone) {
-        let toneAngerScore = '';
-        if (err) {
-          console.log('Error occurred while invoking Tone analyzer. ::', err);
-          // return res.status(err.code || 500).json(err);
-        } else {
-          const emotionTones = tone.document_tone.tone_categories[0].tones;
+    const toneParams = {
+      tone_input: { text: queryInput },
+      content_type: 'application/json'
+    };
+    toneAnalyzer.tone(toneParams, function(err, tone) {
+      let toneAngerScore = '';
+      if (err) {
+        console.log('Error occurred while invoking Tone analyzer. ::', err);
+      } else {
+        console.log(JSON.stringify(tone, null, 2));
+        const emotionTones = tone.document_tone.tone_categories[0].tones;
 
-          const len = emotionTones.length;
-          for (let i = 0; i < len; i++) {
-            if (emotionTones[i].tone_id === 'anger') {
-              console.log('Input = ', queryInput);
-              console.log('emotion_anger score = ', 'Emotion_anger', emotionTones[i].score);
-              toneAngerScore = emotionTones[i].score;
-              break;
-            }
+        const len = emotionTones.length;
+        for (let i = 0; i < len; i++) {
+          if (emotionTones[i].tone_id === 'anger') {
+            console.log('Input = ', queryInput);
+            console.log('emotion_anger score = ', 'Emotion_anger', emotionTones[i].score);
+            toneAngerScore = emotionTones[i].score;
+            break;
           }
         }
+      }
 
-        payload.context['tone_anger_score'] = toneAngerScore;
+      payload.context['tone_anger_score'] = toneAngerScore;
 
-        if (payload.input.text != '') {
-          // console.log('input text payload = ', payload.input.text);
-          const parameters = {
-            text: payload.input.text,
-            features: {
-              entities: {
-                emotion: true,
-                sentiment: true,
-                limit: 2
-              },
-              keywords: {
-                emotion: true,
-                sentiment: true,
-                limit: 2
-              }
+      if (payload.input.text != '') {
+        // console.log('input text payload = ', payload.input.text);
+        const parameters = {
+          text: payload.input.text,
+          features: {
+            entities: {
+              emotion: true,
+              sentiment: true,
+              limit: 2
+            },
+            keywords: {
+              emotion: true,
+              sentiment: true,
+              limit: 2
             }
-          };
+          }
+        };
 
-          nlu.analyze(parameters, function(err, response) {
-            if (err) {
-              console.log('error:', err);
-            } else {
-              const nluOutput = response;
+        nlu.analyze(parameters, function(err, response) {
+          if (err) {
+            console.log('error:', err);
+          } else {
+            const nluOutput = response;
 
-              payload.context['nlu_output'] = nluOutput;
-              // console.log('NLU = ', nlu_output);
-              // identify location
-              const entities = nluOutput.entities;
-              let location = entities.map(function(entry) {
-                if (entry.type == 'Location') {
-                  return entry.text;
-                }
-              });
-              location = location.filter(function(entry) {
-                if (entry != null) {
-                  return entry;
-                }
-              });
-              if (location.length > 0) {
-                payload.context['Location'] = location[0];
-                console.log('Location = ', payload.context['Location']);
-              } else {
-                payload.context['Location'] = '';
-              }
-
-              /*
-              // identify Company
-
-              let company = entities.map(function(entry) {
-                if (entry.type == 'Company') {
-                  return entry.text;
-                }
-              });
-              company = company.filter(function(entry) {
-                if (entry != null) {
-                  return entry;
-                }
-              });
-              if (company.length > 0) {
-                payload.context.userCompany = company[0];
-              } else {
-                delete payload.context.userCompany;
-              }
-
-              // identify Person
-
-              let person = entities.map(function(entry) {
-                if (entry.type == 'Person') {
-                  return entry.text;
-                }
-              });
-              person = person.filter(function(entry) {
-                if (entry != null) {
-                  return entry;
-                }
-              });
-              if (person.length > 0) {
-                payload.context.Person = person[0];
-              } else {
-                delete payload.context.Person;
-              }
-
-              // identify Vehicle
-
-              let vehicle = entities.map(function(entry) {
-                if (entry.type == 'Vehicle') {
-                  return entry.text;
-                }
-              });
-              vehicle = vehicle.filter(function(entry) {
-                if (entry != null) {
-                  return entry;
-                }
-              });
-              if (vehicle.length > 0) {
-                payload.context.userVehicle = vehicle[0];
-              } else {
-                delete payload.context.userVehicle;
-              }
-              // identify Email
-
-              let email = entities.map(function(entry) {
-                if(entry.type == 'EmailAddress') {
-                  return(entry.text);
-                }
-              });
-              email = email.filter(function(entry) {
-                if(entry != null) {
-                  return(entry);
-                }
-              });
-              if(email.length > 0) {
-                payload.context.userEmail = email[0];
-              } else {
-                delete payload.context.userEmail;
-              }
-              */
-            }
-
-            assistant.message(payload, function(err, data) {
-              if (err) {
-                return res.status(err.code || 500).json(err);
-              } else {
-                console.log('assistant.message :: ', JSON.stringify(data));
-                // lookup actions
-                checkForLookupRequests(data, function(err, data) {
-                  if (err) {
-                    return res.status(err.code || 500).json(err);
-                  } else {
-                    return res.json(data);
-                  }
-                });
+            payload.context['nlu_output'] = nluOutput;
+            // console.log('NLU = ', nlu_output);
+            // identify location
+            const entities = nluOutput.entities;
+            let location = entities.map(function(entry) {
+              if (entry.type == 'Location') {
+                return entry.text;
               }
             });
-          });
-        } else {
+            location = location.filter(function(entry) {
+              if (entry != null) {
+                return entry;
+              }
+            });
+            if (location.length > 0) {
+              payload.context['Location'] = location[0];
+              console.log('Location = ', payload.context['Location']);
+            } else {
+              payload.context['Location'] = '';
+            }
+
+            /*
+            // identify Company
+
+            let company = entities.map(function(entry) {
+              if (entry.type == 'Company') {
+                return entry.text;
+              }
+            });
+            company = company.filter(function(entry) {
+              if (entry != null) {
+                return entry;
+              }
+            });
+            if (company.length > 0) {
+              payload.context.userCompany = company[0];
+            } else {
+              delete payload.context.userCompany;
+            }
+
+            // identify Person
+
+            let person = entities.map(function(entry) {
+              if (entry.type == 'Person') {
+                return entry.text;
+              }
+            });
+            person = person.filter(function(entry) {
+              if (entry != null) {
+                return entry;
+              }
+            });
+            if (person.length > 0) {
+              payload.context.Person = person[0];
+            } else {
+              delete payload.context.Person;
+            }
+
+            // identify Vehicle
+
+            let vehicle = entities.map(function(entry) {
+              if (entry.type == 'Vehicle') {
+                return entry.text;
+              }
+            });
+            vehicle = vehicle.filter(function(entry) {
+              if (entry != null) {
+                return entry;
+              }
+            });
+            if (vehicle.length > 0) {
+              payload.context.userVehicle = vehicle[0];
+            } else {
+              delete payload.context.userVehicle;
+            }
+            // identify Email
+
+            let email = entities.map(function(entry) {
+              if(entry.type == 'EmailAddress') {
+                return(entry.text);
+              }
+            });
+            email = email.filter(function(entry) {
+              if(entry != null) {
+                return(entry);
+              }
+            });
+            if(email.length > 0) {
+              payload.context.userEmail = email[0];
+            } else {
+              delete payload.context.userEmail;
+            }
+            */
+          }
+
           assistant.message(payload, function(err, data) {
             if (err) {
               return res.status(err.code || 500).json(err);
             } else {
               console.log('assistant.message :: ', JSON.stringify(data));
-              return res.json(data);
+              // lookup actions
+              checkForLookupRequests(data, function(err, data) {
+                if (err) {
+                  return res.status(err.code || 500).json(err);
+                } else {
+                  return res.json(data);
+                }
+              });
             }
           });
-        }
+        });
+      } else {
+        assistant.message(payload, function(err, data) {
+          if (err) {
+            return res.status(err.code || 500).json(err);
+          } else {
+            console.log('assistant.message :: ', JSON.stringify(data));
+            return res.json(data);
+          }
+        });
       }
-    );
+    });
   }
 });
 
