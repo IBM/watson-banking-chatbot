@@ -14,21 +14,6 @@ env:
   - CF_ORGANIZATION=saurav.raiguru@in.ibm.com
   - CF_SPACE=dev
 before_deploy: npm install -g cf-blue-green
-deploy:
-  provider: bluemixcloudfoundry
-  username: saurav.raiguru91@gmail.com
-  on:
-    branch: master
-    repo: IBM/watson-banking-chatbot
-  skip_cleanup: true
-  password:
-    secure: H4tTr1BL8xNaKud6slcy/8ptdCIZo80iIPUrvutl2hkUzRWX9eul3LN/gB+i7l3Q4Ga7uc3rUjgU9mFKkmCII3KTP+C3VhmwepbxHeKi4Kg6ExTTDvfkJl0+ngbeoscJHBYYcISxWwaDhmwbChb5qTeoiZ3KybGdHyBmxunt96xv9rnvED5TAXooy3wI6tZFdYMcvbM28TWnNw5+OqvwyCSp/EFk885fb0kAFBZl9Af6VUQICs7EaF6UuOgKE0Z5SShUf28q6lA07vTlhPSWnFih5EfDM2cNptevBn/hEhlI5p6OGAVVLq9W0gO88eWwRtQWT+29bYqEQat+shOsl6lE+VaDzCQsBS/8aj58Bcr04xfN97Mc4EVllVp+3TAj8+SaQBa5VloJq4FpV4qbwYs3ut5omK5pKy5Hc2ndV/Z39+6TZGIhr5rm6UhLbmm1/9WV8W1yF+O+7y2Sdf3iXFstOsKvQ0OBzzqN2mO7j5c7HVxZsiGoC2kiRvP52XITV6nsuR1fkYAWg2/kDTEk5zUi4ZZrSEYxy42qOj3JjZLT2R5Oy9+HNqSBx3ZEwMalc28685dkLWxfONEWhh4eD5+A6oPLO3v1bA3w7aIn5SCrW05PK0M9mhxZcAv6AuWIOCbyRxwQi5TmnQZS9cHeYHQYs7L0KJt8viVNIZ2syds=
-  organization: saurav.raiguru91@gmail.com
-  space: mydev
-  manifest: manifest.yml
-  region: ng
-  api: https://api.ng.bluemix.net
 notifications:
   email:
   - saurav.raiguru@in.ibm.com
-  - jacobmat@in.ibm.com
