@@ -176,7 +176,7 @@ app.post('/api/message', function(req, res) {
         console.log('Error occurred while invoking Tone analyzer. ::', err);
       } else {
         console.log(JSON.stringify(tone, null, 2));
-        const emotionTones = tone.document_tone.tone_categories[0].tones;
+        const emotionTones = tone.document_tone.tones;
 
         const len = emotionTones.length;
         for (let i = 0; i < len; i++) {
