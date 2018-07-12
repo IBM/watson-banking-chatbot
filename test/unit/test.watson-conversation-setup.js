@@ -23,17 +23,17 @@ require('dotenv').config({
 const chai = require('chai');
 const sinon = require('sinon');
 const sinonTest = require('sinon-test');
-const watson = require('watson-developer-cloud');
+const AssistantV1 = require('watson-developer-cloud/assistant/v1');
 
 sinon.test = sinonTest.configureTest(sinon, { useFakeTimers: false }); // For using sinon.test with async.
 const expect = chai.expect;
 
-const WatsonConversationSetup = require('../../lib/watson-conversation-setup');
+const WatsonAssistantSetup = require('../../lib/watson-assistant-setup');
 
-describe('test watson-conversation-setup', function() {
+describe('test watson-assistant-setup', function() {
   let c;
   beforeEach(function() {
-    c = watson.conversation({
+    c = new AssistantV1({
       username: 'fake',
       password: 'fake',
       url: 'fake',
@@ -58,9 +58,9 @@ describe('test watson-conversation-setup', function() {
       const cw = sinon.stub(c, 'createWorkspace');
       cw.yields(null, WS);
 
-      const wcs = new WatsonConversationSetup(c);
+      const wcs = new WatsonAssistantSetup(c);
 
-      wcs.setupConversationWorkspace({ default_name: WS_NAME, workspace_json: WS_JSON }, (err, data) => {
+      wcs.setupAssistantWorkspace({ default_name: WS_NAME, workspace_json: WS_JSON }, (err, data) => {
         if (err) {
           done(err);
         } else {
@@ -84,9 +84,9 @@ describe('test watson-conversation-setup', function() {
       const cw = sinon.stub(c, 'createWorkspace');
       cw.yields(new Error(ERROR_MSG), null);
 
-      const wcs = new WatsonConversationSetup(c);
+      const wcs = new WatsonAssistantSetup(c);
 
-      wcs.setupConversationWorkspace({ default_name: WS_NAME, workspace_json: WS_JSON }, (err, data) => {
+      wcs.setupAssistantWorkspace({ default_name: WS_NAME, workspace_json: WS_JSON }, (err, data) => {
         if (err) {
           sinon.assert.calledWith(lw, null);
           sinon.assert.calledWithMatch(cw, WS_JSON);
@@ -106,8 +106,8 @@ describe('test watson-conversation-setup', function() {
       lw.yields(new Error('intentional test fail'), null);
       const cw = sinon.spy(c, 'createWorkspace');
 
-      const wcs = new WatsonConversationSetup(c);
-      wcs.setupConversationWorkspace({}, (err, data) => {
+      const was = new WatsonAssistantSetup(c);
+      was.setupAssistantWorkspace({}, (err, data) => {
         sinon.assert.calledWith(lw, null);
         sinon.assert.notCalled(cw);
         if (err) {
@@ -127,8 +127,8 @@ describe('test watson-conversation-setup', function() {
       const cw = sinon.spy(c, 'createWorkspace');
       process.env.WORKSPACE_ID = WS_ID;
 
-      const wcs = new WatsonConversationSetup(c);
-      wcs.setupConversationWorkspace({}, (err, data) => {
+      const was = new WatsonAssistantSetup(c);
+      was.setupAssistantWorkspace({}, (err, data) => {
         if (err) {
           done(err);
         } else {
@@ -149,8 +149,8 @@ describe('test watson-conversation-setup', function() {
       const cw = sinon.spy(c, 'createWorkspace');
       process.env.WORKSPACE_ID = WS_ID;
 
-      const wcs = new WatsonConversationSetup(c);
-      wcs.setupConversationWorkspace({}, (err, data) => {
+      const was = new WatsonAssistantSetup(c);
+      was.setupAssistantWorkspace({}, (err, data) => {
         if (err) {
           sinon.assert.calledWith(lw, null);
           sinon.assert.notCalled(cw);
@@ -176,8 +176,8 @@ describe('test watson-conversation-setup', function() {
       lw.yields(null, { workspaces: [{ name: 'other' }, WS] });
       const cw = sinon.spy(c, 'createWorkspace');
 
-      const wcs = new WatsonConversationSetup(c);
-      wcs.setupConversationWorkspace(testParams, (err, data) => {
+      const was = new WatsonAssistantSetup(c);
+      was.setupAssistantWorkspace(testParams, (err, data) => {
         if (err) {
           done(err);
         } else {

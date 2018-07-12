@@ -66,8 +66,8 @@ Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locall
 > NOTE: These steps are only needed when running locally instead of using the ``Deploy to IBM Cloud`` button.
 
 1. [Clone the repo](#1-clone-the-repo)
-2. [Create Watson services with IBM Cloud](#2-create-watson-services-with-ibm-bluemix)
-3. [Import the Watson Assistant workspace](#3-import-the-conversation-workspace)
+2. [Create Watson services with IBM Cloud](#2-create-watson-services-with-ibm-cloud)
+3. [Import the Watson Assistant workspace](#3-import-the-watson-assistant-workspace)
 4. [Load the Discovery documents](#4-load-the-discovery-documents)
 5. [Configure credentials](#5-configure-credentials)
 5. [Run the application](#6-run-the-application)
@@ -92,7 +92,7 @@ Create the following services:
 * [**Watson Tone Analyzer**](https://console.ng.bluemix.net/catalog/services/tone-analyzer)
 * [**Watson Natural Language Understanding**](https://console.ng.bluemix.net/catalog/services/natural-language-understanding)
 
-### 3. Import the Assistant workspace
+### 3. Import the Watson Assistant workspace
 
 Launch the **Watson Assistant** tool. Use the **import** icon button on the right
 
@@ -146,27 +146,33 @@ Edit the `.env` file with the necessary settings.
 #### `env.sample:`
 
 ```
-# Replace the credentials here with your own.
-# Rename this file to .env before starting the app.
+# Copy this file to .env and replace the credentials with 
+# your own before starting the app.
 
-# Watson conversation
-CONVERSATION_USERNAME=<add_conversation_username>
-CONVERSATION_PASSWORD=<add_conversation_password>
-WORKSPACE_ID=<add_conversation_workspace>
+# Watson Assistant
+WORKSPACE_ID=<add_assistant_workspace>
+ASSISTANT_URL=<add_assistant_url>
+## Un-comment and use either username+password or IAM apikey.
+# ASSISTANT_USERNAME=<add_assistant_username>
+# ASSISTANT_PASSWORD=<add_assistant_password>
+# ASSISTANT_IAM_APIKEY=<add_assistant_apikey>
 
 # Watson Discovery
 DISCOVERY_USERNAME=<add_discovery_username>
 DISCOVERY_PASSWORD=<add_discovery_password>
+DISCOVERY_URL=<add_discovery_url>
 DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment>
 DISCOVERY_COLLECTION_ID=<add_discovery_collection>
 
 # Watson Natural Language Understanding
 NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<add_nlu_username>
 NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<add_nlu_password>
+NATURAL_LANGUAGE_UNDERSTANDING_URL=<add_nlu_url>
 
 # Watson Tone Analyzer
 TONE_ANALYZER_USERNAME=<add_tone_analyzer_username>
 TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
+TONE_ANALYZER_URL=<add_tone_analyzer_url>
 
 # Run locally on a non-default port (default is 3000)
 # PORT=3000
