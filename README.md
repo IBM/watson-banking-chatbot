@@ -155,7 +155,7 @@ ASSISTANT_URL=<add_assistant_url>
 ## Un-comment and use either username+password or IAM apikey.
 # ASSISTANT_USERNAME=<add_assistant_username>
 # ASSISTANT_PASSWORD=<add_assistant_password>
-# ASSISTANT_IAM_APIKEY=<add_assistant_apikey>
+# ASSISTANT_IAM_APIKEY=<add_assistant_iam_apikey>
 
 # Watson Discovery
 DISCOVERY_URL=<add_discovery_url>
@@ -164,21 +164,21 @@ DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
 ## Un-comment and use either username+password or IAM apikey.
 # DISCOVERY_USERNAME=<add_discovery_username>
 # DISCOVERY_PASSWORD=<add_discovery_password>
-# DISCOVERY_IAM_APIKEY=<add_discovery_apikey>
+# DISCOVERY_IAM_APIKEY=<add_discovery_iam_apikey>
 
 # Watson Natural Language Understanding
 NATURAL_LANGUAGE_UNDERSTANDING_URL=<use_nlu_url>
 ## Un-comment and use either username+password or IAM apikey.
 # NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<use_nlu_username>
 # NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<use_nlu_password>
-# NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<use_nlu_apikey>
+# NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<use_nlu_iam_apikey>
 
 # Watson Tone Analyzer
 TONE_ANALYZER_URL=<use_tone_analyzer_url>
 ## Un-comment and use either username+password or IAM apikey.
 # TONE_ANALYZER_USERNAME=<use_tone_analyzer_username>
 # TONE_ANALYZER_PASSWORD=<use_tone_analyzer_password>
-# TONE_ANALYZER_IAM_APIKEY=<user_tone_analyzer_apikey>
+# TONE_ANALYZER_IAM_APIKEY=<user_tone_analyzer_iam_apikey>
 
 # Run locally on a non-default port (default is 3000)
 # PORT=3000
