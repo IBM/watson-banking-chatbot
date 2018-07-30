@@ -155,34 +155,40 @@ ASSISTANT_URL=<add_assistant_url>
 ## Un-comment and use either username+password or IAM apikey.
 # ASSISTANT_USERNAME=<add_assistant_username>
 # ASSISTANT_PASSWORD=<add_assistant_password>
-# ASSISTANT_IAM_APIKEY=<add_assistant_apikey>
+# ASSISTANT_IAM_APIKEY=<add_assistant_iam_apikey>
 
 # Watson Discovery
-DISCOVERY_USERNAME=<add_discovery_username>
-DISCOVERY_PASSWORD=<add_discovery_password>
 DISCOVERY_URL=<add_discovery_url>
-DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment>
-DISCOVERY_COLLECTION_ID=<add_discovery_collection>
+DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment_id>
+DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
+## Un-comment and use either username+password or IAM apikey.
+# DISCOVERY_USERNAME=<add_discovery_username>
+# DISCOVERY_PASSWORD=<add_discovery_password>
+# DISCOVERY_IAM_APIKEY=<add_discovery_iam_apikey>
 
 # Watson Natural Language Understanding
-NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<add_nlu_username>
-NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<add_nlu_password>
 NATURAL_LANGUAGE_UNDERSTANDING_URL=<add_nlu_url>
+## Un-comment and use either username+password or IAM apikey.
+# NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<add_nlu_username>
+# NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<add_nlu_password>
+# NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<add_nlu_iam_apikey>
 
 # Watson Tone Analyzer
-TONE_ANALYZER_USERNAME=<add_tone_analyzer_username>
-TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
 TONE_ANALYZER_URL=<add_tone_analyzer_url>
+## Un-comment and use either username+password or IAM apikey.
+# TONE_ANALYZER_USERNAME=<add_tone_analyzer_username>
+# TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
+# TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
 
 # Run locally on a non-default port (default is 3000)
 # PORT=3000
-
 ```
 
 ### 6. Run the application
 1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
 1. Start the app by running `npm install`, followed by `npm start`.
 1. Use the chatbot at `localhost:3000`.
+
 > Note: server host can be changed as required in server.js and `PORT` can be set in `.env`.
 
 # Sample output
