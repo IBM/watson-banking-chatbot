@@ -167,18 +167,18 @@ DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
 # DISCOVERY_IAM_APIKEY=<add_discovery_iam_apikey>
 
 # Watson Natural Language Understanding
-NATURAL_LANGUAGE_UNDERSTANDING_URL=<use_nlu_url>
+NATURAL_LANGUAGE_UNDERSTANDING_URL=<add_nlu_url>
 ## Un-comment and use either username+password or IAM apikey.
-# NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<use_nlu_username>
-# NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<use_nlu_password>
-# NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<use_nlu_iam_apikey>
+# NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<add_nlu_username>
+# NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<add_nlu_password>
+# NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<add_nlu_iam_apikey>
 
 # Watson Tone Analyzer
-TONE_ANALYZER_URL=<use_tone_analyzer_url>
+TONE_ANALYZER_URL=<add_tone_analyzer_url>
 ## Un-comment and use either username+password or IAM apikey.
-# TONE_ANALYZER_USERNAME=<use_tone_analyzer_username>
-# TONE_ANALYZER_PASSWORD=<use_tone_analyzer_password>
-# TONE_ANALYZER_IAM_APIKEY=<user_tone_analyzer_iam_apikey>
+# TONE_ANALYZER_USERNAME=<add_tone_analyzer_username>
+# TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
+# TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
 
 # Run locally on a non-default port (default is 3000)
 # PORT=3000
@@ -188,6 +188,7 @@ TONE_ANALYZER_URL=<use_tone_analyzer_url>
 1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
 1. Start the app by running `npm install`, followed by `npm start`.
 1. Use the chatbot at `localhost:3000`.
+
 > Note: server host can be changed as required in server.js and `PORT` can be set in `.env`.
 
 # Sample output
