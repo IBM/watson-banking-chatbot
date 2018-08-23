@@ -4,7 +4,7 @@
 > Watson Conversation 现在改名 Watson Assistant。尽管本 Code Pattern 中的图片展示的服务名还是 Watson Conversation，但步骤及处理过程依旧有效。
 
 # 利用 FAQ Discovery、Anger Detection 和 Natural Language Understanding 来创建银行业务聊天机器人
-在次 Code Pattern 中，我们将使用 Node.js 和 Watson Conversation 来创建一个聊天机器人。通过使用 Natural Language Understanding 来识别实体并使用 Tone Analyzer 来检测客户情绪，从而改进 Conversation 流程。要获取 FAQ，请调用 Discovery 服务，使用段落检索从文档集合中提取答案。
+在此 Code Pattern 中，我们将使用 Node.js 和 Watson Conversation 来创建一个聊天机器人。通过使用 Natural Language Understanding 来识别实体并使用 Tone Analyzer 来检测客户情绪，从而改进 Conversation 流程。要获取 FAQ，请调用 Discovery 服务，使用段落检索从文档集合中提取答案。
 
 读者完成本 Code Pattern 后，将会掌握如何：
 
@@ -53,6 +53,7 @@
 使用 ``Deploy to IBM Cloud`` 按钮**或**在本地创建服务并运行。
 
 ## Deploy to IBM Cloud
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
 1.按上面的 ``Deploy to IBM Cloud`` 按钮，然后单击 ``Deploy``。
 
@@ -73,7 +74,7 @@
 ## 在本地运行
 > 注：只有在本地运行（而不是使用 ``Deploy to IBM Cloud`` 按钮）时，才需要执行这些步骤。
 
-1.[克隆存储库](#1-clone-the-repo)
+1.[克隆仓库](#1-clone-the-repo)
 
 2.[使用 IBM Cloud 创建 Watson 服务](#2-create-watson-services-with-ibm-bluemix)
 
@@ -86,7 +87,7 @@
 6.[运行应用程序](#6-run-the-application)
 
 
-### 1.克隆存储库
+### 1.克隆仓库
 
 在本地克隆 `watson-banking-chatbot`。在终端中，运行：
 
@@ -106,9 +107,9 @@ $ git clone https://github.com/IBM/watson-banking-chatbot
 * [**Watson Tone Analyzer**](https://console.ng.bluemix.net/catalog/services/tone-analyzer)
 * [**Watson Natural Language Understanding**](https://console.ng.bluemix.net/catalog/services/natural-language-understanding)
 
-### 3.导入 Conversation 工作空间
+### 3.导入 Watson Assistant 工作空间
 
-启动 **Watson Conversation** 工具。使用右侧的 **import** 图标按钮
+启动 **Watson Watson Assistant** 工具。使用右侧的 **import** 图标按钮
 
 <p align="center">
   <img width="400" height="55" src="doc/source/images/import_conversation_workspace.png">
@@ -159,31 +160,42 @@ $ cp env.sample .env
 #### `env.sample:`
 
 ```
-# Replace the credentials here with your own.
-# Rename this file to .env before starting the app.
+# Copy this file to .env and replace the credentials with 
+# your own before starting the app.
 
-# Watson Conversation
-CONVERSATION_USERNAME=<add_conversation_username>
-CONVERSATION_PASSWORD=<add_conversation_password>
-WORKSPACE_ID=<add_conversation_workspace>
+# Watson Assistant
+WORKSPACE_ID=<add_assistant_workspace>
+ASSISTANT_URL=<add_assistant_url>
+## Un-comment and use either username+password or IAM apikey.
+# ASSISTANT_USERNAME=<add_assistant_username>
+# ASSISTANT_PASSWORD=<add_assistant_password>
+# ASSISTANT_IAM_APIKEY=<add_assistant_iam_apikey>
 
 # Watson Discovery
-DISCOVERY_USERNAME=<add_discovery_username>
-DISCOVERY_PASSWORD=<add_discovery_password>
-DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment>
-DISCOVERY_COLLECTION_ID=<add_discovery_collection>
+DISCOVERY_URL=<add_discovery_url>
+DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment_id>
+DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
+## Un-comment and use either username+password or IAM apikey.
+# DISCOVERY_USERNAME=<add_discovery_username>
+# DISCOVERY_PASSWORD=<add_discovery_password>
+# DISCOVERY_IAM_APIKEY=<add_discovery_iam_apikey>
 
 # Watson Natural Language Understanding
-NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<add_nlu_username>
-NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<add_nlu_password>
+NATURAL_LANGUAGE_UNDERSTANDING_URL=<add_nlu_url>
+## Un-comment and use either username+password or IAM apikey.
+# NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<add_nlu_username>
+# NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<add_nlu_password>
+# NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<add_nlu_iam_apikey>
 
 # Watson Tone Analyzer
-TONE_ANALYZER_USERNAME=<add_tone_analyzer_username>
-TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
+TONE_ANALYZER_URL=<add_tone_analyzer_url>
+## Un-comment and use either username+password or IAM apikey.
+# TONE_ANALYZER_USERNAME=<add_tone_analyzer_username>
+# TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
+# TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
 
 # Run locally on a non-default port (default is 3000)
 # PORT=3000
-
 ```
 
 ### 6.运行应用程序
@@ -195,13 +207,13 @@ TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
 
 > 注：可根据需要在 server.js 中更改服务器主机，可在 `.env` 中设置 `PORT`。
 
-# 样本输出
+# 样例输出
 
 ![](doc/source/images/sample_output.png)
 
 # 链接
 
-* [youku 上的演示](http://v.youku.com/v_show/id_XMzQ2MDc3NDIzNg==.html)
+* [优酷视频(YOUKU) 上的演示](http://v.youku.com/v_show/id_XMzQ2MDc3NDIzNg==.html)
 * [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk)
 * [Relevancy Training 演示手册](https://github.com/akmnua/relevancy_passage_bww)
 
@@ -230,7 +242,7 @@ Discovery 环境，此操作将失败。如果您尚未使用 Discovery，请查
 [Metrics collector](https://github.com/IBM/metrics-collector-service) 服务：
 
 * Node.js 程序包版本
-* Node.js 存储库 URL
+* Node.js 仓库 URL
 * 应用程序名称 (`application_name`)
 * 应用程序 GUID (`application_id`)
 * 应用程序实例索引编号 (`instance_index`)
