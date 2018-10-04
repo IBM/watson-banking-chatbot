@@ -26,10 +26,6 @@ When the reader has completed this journey, they will understand how to:
    * Lookup additional information from bank services to append to the reply
    * Use Discovery to reply with an answer from the FAQ documents
 
-## With Watson
-
-Want to take your Watson app to the next level? Looking to leverage Watson Brand assets? Join the [With Watson](https://www.ibm.com/watson/with-watson) program which provides exclusive brand, marketing, and tech resources to amplify and accelerate your Watson embedded commercial solution.
-
 ## Included components
 
 * [IBM Watson Assistant](https://www.ibm.com/watson/developercloud/conversation.html): Build, test and deploy a bot or virtual agent across mobile devices, messaging platforms, or even on a physical robot.
