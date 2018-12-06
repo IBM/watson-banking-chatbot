@@ -5,9 +5,10 @@
 > Watson Conversation is now Watson Assistant. Although some images in this code pattern may show the service as Watson Conversation, the steps and processes will still work.
 
 # Create a banking chatbot with FAQ discovery, anger detection and natural language understanding
-In this developer journey, we will create a chatbot using Node.js and Watson Assistant. The Assistant flow will be enhanced by using Natural Language Understanding to identify entities and using Tone Analyzer to detect customer emotions. For FAQs, a call to the Discovery service will use passage retrieval to pull answers from a collection of documents.
 
-When the reader has completed this journey, they will understand how to:
+In this code pattern, we will create a chatbot using Node.js and Watson Assistant. The Assistant flow will be enhanced by using Natural Language Understanding to identify entities and using Tone Analyzer to detect customer emotions. For FAQs, a call to the Discovery service will use passage retrieval to pull answers from a collection of documents.
+
+When the reader has completed this pattern, they will understand how to:
 
 * Create a chatbot that converses via a web UI using Watson Assistant and Node.js
 * Use Watson Discovery with passage retrieval to find answers in FAQ documents
@@ -17,6 +18,7 @@ When the reader has completed this journey, they will understand how to:
 ![](doc/source/images/architecture.png)
 
 ## Flow
+
 1. The FAQ documents are added to the Discovery collection.
 2. The user interacts with a chatbot via the app UI.
 3. User input is processed with Tone Analyzer to detect anger. An anger score is added to the context.
@@ -28,12 +30,13 @@ When the reader has completed this journey, they will understand how to:
 
 ## Included components
 
-* [IBM Watson Assistant](https://www.ibm.com/watson/developercloud/conversation.html): Build, test and deploy a bot or virtual agent across mobile devices, messaging platforms, or even on a physical robot.
-* [IBM Watson Discovery](https://www.ibm.com/watson/developercloud/discovery.html): A cognitive search and content analytics engine for applications to identify patterns, trends, and actionable insights.
-* [IBM Watson Natural Language Understanding](https://www.ibm.com/watson/developercloud/natural-language-understanding.html): Analyze text to extract meta-data from content such as concepts, entities, keywords, categories, sentiment, emotion, relations, semantic roles, using natural language understanding.
-* [IBM Watson Tone Analyzer](https://www.ibm.com/watson/developercloud/speech-to-text.html): Uses linguistic analysis to detect communication tones in written text.
+* [IBM Watson Assistant](https://www.ibm.com/cloud/watson-assistant/): Build, test and deploy a bot or virtual agent across mobile devices, messaging platforms, or even on a physical robot.
+* [IBM Watson Discovery](https://www.ibm.com/watson/services/discovery/): A cognitive search and content analytics engine for applications to identify patterns, trends, and actionable insights.
+* [IBM Watson Natural Language Understanding](https://www.ibm.com/watson/services/natural-language-understanding/): Analyze text to extract meta-data from content such as concepts, entities, keywords, categories, sentiment, emotion, relations, semantic roles, using natural language understanding.
+* [IBM Watson Tone Analyzer](https://www.ibm.com/watson/services/tone-analyzer/): Uses linguistic analysis to detect communication tones in written text.
 
 ## Featured technologies
+
 * [Node.js](https://nodejs.org/): An asynchronous event driven JavaScript runtime, designed to build scalable applications.
 
 # Watch the Video
@@ -66,14 +69,14 @@ Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locall
 3. [Import the Watson Assistant workspace](#3-import-the-watson-assistant-workspace)
 4. [Load the Discovery documents](#4-load-the-discovery-documents)
 5. [Configure credentials](#5-configure-credentials)
-5. [Run the application](#6-run-the-application)
+6. [Run the application](#6-run-the-application)
 
 ### 1. Clone the repo
 
 Clone the `watson-banking-chatbot` locally. In a terminal, run:
 
-```
-$ git clone https://github.com/IBM/watson-banking-chatbot
+```bash
+git clone https://github.com/IBM/watson-banking-chatbot
 ```
 
 We’ll be using the file [`data/conversation/workspaces/banking.json`](data/conversation/workspaces/banking.json) and the folder
@@ -88,99 +91,99 @@ Create the following services:
 * [**Watson Tone Analyzer**](https://console.ng.bluemix.net/catalog/services/tone-analyzer)
 * [**Watson Natural Language Understanding**](https://console.ng.bluemix.net/catalog/services/natural-language-understanding)
 
-### 3. Import the Watson Assistant workspace
+### 3. Import the Watson Assistant skill
 
-Launch the **Watson Assistant** tool. Use the **import** icon button on the right
+* Find the Assistant service in your IBM Cloud Dashboard.
+* Click on the service and then click on `Launch tool`.
+* Go to the `Skills` tab.
+* Click `Create new`
+* Click the `Import skill` tab.
+* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in `data/conversation/workspaces/banking.json`.
+* Select `Everything` and click `Import`.
 
-<p align="center">
-  <img width="400" height="55" src="doc/source/images/import_conversation_workspace.png">
-</p>
+To find the `WORKSPACE_ID` for Watson Assistant:
+* Go back to the `Skills` tab.
+* Click on the three dots in the upper right-hand corner of the **watson-banking-chatbot** card and select `View API Details`.
+* Copy the `Workspace ID` GUID.
 
-Find the local version of [`data/conversation/workspaces/banking.json`](data/conversation/workspaces/banking.json) and select
-**Import**. Find the **Workspace ID** by clicking on the context menu of the new
+Find the **Workspace ID** by clicking on the context menu of the new
 workspace and select **View details**. Save this ID for later.
 
-<p align="center">
-  <img width="400" src="doc/source/images/WCSViewdetails.png">
-</p>
+![view_api_details](doc/source/images/view_api_details.png)
 
-*Optionally*, to view the conversation dialog select the workspace and choose the
-**Dialog** tab, here's a snippet of the dialog:
+*Optionally*, to view the Assistant dialog, click on the skill and choose the
+`Dialog` tab. Here's a snippet of the dialog:
 
-![](doc/source/images/dialog.png)
+![dialog](doc/source/images/dialog.png)
 
 ### 4. Load the Discovery documents
 
-Launch the **Watson Discovery** tool. Create a **new data collection**
-and give the data collection a unique name.
-
-<p align="center">
-  <img width="400" src="doc/source/images/new_collection.png">
-</p>
-
-> Save the **environment_id** and **collection_id** for your `.env` file in the next step.
-
-Under `Add data to this collection` use `Drag and drop your documents here or browse from computer` to seed the content with the five documents in `data/discovery/docs`.
+* Find the Discovery service in your IBM Cloud Dashboard.
+* Click on the service and then click on `Launch tool`.
+* Create a new data collection by hitting the `Upload your own data` button.  
+  ![new_collection](doc/source/images/new_collection.png)
+  * Provide a collection name
+  * Keep the `Default Configuration` and `English` language
+  * Click `Create`
+* Use `Drag and drop your documents here or browse from computer` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
+* Click on `Use this collection in API` and save the `Environment Id` and `Collection Id` for your `.env` file in the next step.  
+![disco_guids](doc/source/images/disco_guids.png)
 
 ### 5. Configure credentials
 
-The credentials for IBM Cloud services (Assistant, Discovery, Tone Analyzer and
-Natural Language Understanding), can be found in the ``Services`` menu in IBM Cloud,
-by selecting the ``Service Credentials`` option for each service.
+Collect the credentials for the IBM Cloud services (Assistant, Discovery, Tone Analyzer and Natural Language Understanding). For each of these services:
+
+* Find the service in your IBM Cloud Dashboard.
+* Click on the service.
+* Hit `Manage` in the left sidebar menu.
+* Copy the `API Key` and `URL`.
 
 The other settings for Assistant and Discovery were collected during the
-earlier setup steps (``DISCOVERY_COLLECTION_ID``, ``DISCOVERY_ENVIRONMENT_ID`` and
-``WORKSPACE_ID``).
+earlier setup steps (`DISCOVERY_COLLECTION_ID`, `DISCOVERY_ENVIRONMENT_ID` and
+`WORKSPACE_ID`).
 
 Copy the [`env.sample`](env.sample) to `.env`.
 
+```bash
+cp env.sample .env
 ```
-$ cp env.sample .env
-```
-Edit the `.env` file with the necessary settings.
+
+Edit the `.env` file with the necessary credentials and settings.
 
 #### `env.sample:`
 
-```
-# Copy this file to .env and replace the credentials with 
+```bash
+# Copy this file to .env and replace the credentials with
 # your own before starting the app.
+
+# Note: If you are using older services, you may need _USERNAME and _PASSWORD
+# instead of _IAM_APIKEY.
 
 # Watson Assistant
 WORKSPACE_ID=<add_assistant_workspace>
 ASSISTANT_URL=<add_assistant_url>
-## Un-comment and use either username+password or IAM apikey.
-# ASSISTANT_USERNAME=<add_assistant_username>
-# ASSISTANT_PASSWORD=<add_assistant_password>
-# ASSISTANT_IAM_APIKEY=<add_assistant_iam_apikey>
+ASSISTANT_IAM_APIKEY=<add_assistant_iam_apikey>
 
 # Watson Discovery
 DISCOVERY_URL=<add_discovery_url>
 DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment_id>
 DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
-## Un-comment and use either username+password or IAM apikey.
-# DISCOVERY_USERNAME=<add_discovery_username>
-# DISCOVERY_PASSWORD=<add_discovery_password>
-# DISCOVERY_IAM_APIKEY=<add_discovery_iam_apikey>
+DISCOVERY_IAM_APIKEY=<add_discovery_iam_apikey>
 
 # Watson Natural Language Understanding
 NATURAL_LANGUAGE_UNDERSTANDING_URL=<add_nlu_url>
-## Un-comment and use either username+password or IAM apikey.
-# NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<add_nlu_username>
-# NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<add_nlu_password>
-# NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<add_nlu_iam_apikey>
+NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<add_nlu_iam_apikey>
 
 # Watson Tone Analyzer
 TONE_ANALYZER_URL=<add_tone_analyzer_url>
-## Un-comment and use either username+password or IAM apikey.
-# TONE_ANALYZER_USERNAME=<add_tone_analyzer_username>
-# TONE_ANALYZER_PASSWORD=<add_tone_analyzer_password>
-# TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
+TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
 
 # Run locally on a non-default port (default is 3000)
 # PORT=3000
 ```
 
 ### 6. Run the application
+
 1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
 1. Start the app by running `npm install`, followed by `npm start`.
 1. Use the chatbot at `localhost:3000`.
@@ -215,6 +218,7 @@ the app which environment you want it to use. A collection will be created in th
 using the default configuration.
 
 # License
-This code pattern is licensed under the Apache Software License, Version 2.  Separate third party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the [Developer Certificate of Origin, Version 1.1 (DCO)](https://developercertificate.org/) and the [Apache Software License, Version 2](http://www.apache.org/licenses/LICENSE-2.0.txt).
 
-[Apache Software License (ASL) FAQ](http://www.apache.org/foundation/license-faq.html#WhatDoesItMEAN)
+This code pattern is licensed under the Apache License, Version 2. Separate third-party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the [Developer Certificate of Origin, Version 1.1](https://developercertificate.org/) and the [Apache License, Version 2](https://www.apache.org/licenses/LICENSE-2.0.txt).
+
+[Apache License FAQ](https://www.apache.org/foundation/license-faq.html#WhatDoesItMEAN)
