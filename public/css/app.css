@@ -8,7 +8,7 @@ body {
     background-color: white;
     background-image: url("../img/OFN.jpg");
     background-repeat:no-repeat;
-    background-position:center;
+    background-position:left;
     background-attachment:fixed;
  	margin: 0;
   	padding: 0;
@@ -211,7 +211,7 @@ div {
   line-height: 1.3125rem;
   height: 2.5rem;
   max-width: 100%;
-  padding-left: 0.5rem;
+  padding-left: 0.125rem;
   margin-bottom: -0.125rem;
   font-family: Helvetica Neue for IBM, Helvetica Neue, Helvetica, Arial, sans-serif;
   background-color:#FFFFFF;
