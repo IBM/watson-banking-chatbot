@@ -61,19 +61,19 @@ describe('test watson-discovery-setup', function() {
       };
 
       // Stub the Watson SDK methods that need stubbing
-      const getEnvironments = sinon.stub(discoveryClient, 'getEnvironments');
+      const listEnvironments = sinon.stub(discoveryClient, 'listEnvironments');
       const createEnvironment = sinon.stub(discoveryClient, 'createEnvironment');
-      const getConfigurations = sinon.stub(discoveryClient, 'getConfigurations');
-      const getCollections = sinon.stub(discoveryClient, 'getCollections');
+      const listConfigurations = sinon.stub(discoveryClient, 'listConfigurations');
+      const listCollections = sinon.stub(discoveryClient, 'listCollections');
       const createCollection = sinon.stub(discoveryClient, 'createCollection');
       const getCollection = sinon.stub(discoveryClient, 'getCollection');
       const addDocument = sinon.stub(discoveryClient, 'addDocument');
 
       // Make the callbacks yield with the test data.
       createEnvironment.yields(null, fakeEvironment);
-      getEnvironments.yields(null, { environments: [] });
-      getCollections.yields(null, { collections: [] });
-      getConfigurations.yields(null, { configurations: [fakeConfiguration] });
+      listEnvironments.yields(null, { environments: [] });
+      listCollections.yields(null, { collections: [] });
+      listConfigurations.yields(null, { configurations: [fakeConfiguration] });
       createCollection.yields(null, { collection_id: 'test-collection' });
       getCollection.yields(null, {
         collection_id: 'test-collection-id',
@@ -100,9 +100,9 @@ describe('test watson-discovery-setup', function() {
           } else {
             sinon.assert.calledOnce(createEnvironment);
             sinon.assert.calledWith(createEnvironment, expectedCreateEnv);
-            sinon.assert.calledOnce(getEnvironments);
+            sinon.assert.calledOnce(listEnvironments);
             sinon.assert.calledOnce(createEnvironment);
-            sinon.assert.calledOnce(getCollections);
+            sinon.assert.calledOnce(listCollections);
             sinon.assert.calledOnce(createCollection);
             sinon.assert.callCount(addDocument, testDocuments.length);
 
@@ -138,18 +138,18 @@ describe('test watson-discovery-setup', function() {
       };
 
       // Stub the Watson SDK methods that need stubbing
-      const getEnvironments = sinon.stub(discoveryClient, 'getEnvironments');
+      const listEnvironments = sinon.stub(discoveryClient, 'listEnvironments');
       const createEnvironment = sinon.stub(discoveryClient, 'createEnvironment');
-      const getConfigurations = sinon.stub(discoveryClient, 'getConfigurations');
-      const getCollections = sinon.stub(discoveryClient, 'getCollections');
+      const listConfigurations = sinon.stub(discoveryClient, 'listConfigurations');
+      const listCollections = sinon.stub(discoveryClient, 'listCollections');
       const createCollection = sinon.stub(discoveryClient, 'createCollection');
       const getCollection = sinon.stub(discoveryClient, 'getCollection');
       const addDocument = sinon.stub(discoveryClient, 'addDocument');
 
       // Make the callbacks yield with the test data.
-      getEnvironments.yields(null, { environments: [fakeEnvironment] });
-      getCollections.yields(null, { collections: [fakeCollection] });
-      getConfigurations.yields(null, { configurations: [fakeConfiguration] });
+      listEnvironments.yields(null, { environments: [fakeEnvironment] });
+      listCollections.yields(null, { collections: [fakeCollection] });
+      listConfigurations.yields(null, { configurations: [fakeConfiguration] });
       createCollection.yields(null, { collection_id: 'test-collection' });
       const testDocuments = ['d1', 'd2', 'd3', 'd4', 'd5', 'dSIX'];
       getCollection.yields(null, {
@@ -170,8 +170,8 @@ describe('test watson-discovery-setup', function() {
             sinon.assert.notCalled(createEnvironment);
             sinon.assert.notCalled(createCollection);
             sinon.assert.notCalled(addDocument);
-            sinon.assert.calledOnce(getEnvironments);
-            sinon.assert.calledOnce(getCollections);
+            sinon.assert.calledOnce(listEnvironments);
+            sinon.assert.calledOnce(listCollections);
             done();
           }
         }
@@ -200,18 +200,18 @@ describe('test watson-discovery-setup', function() {
       };
 
       // Stub the Watson SDK methods that need stubbing
-      const getEnvironments = sinon.stub(discoveryClient, 'getEnvironments');
+      const listEnvironments = sinon.stub(discoveryClient, 'listEnvironments');
       const createEnvironment = sinon.stub(discoveryClient, 'createEnvironment');
-      const getConfigurations = sinon.stub(discoveryClient, 'getConfigurations');
-      const getCollections = sinon.stub(discoveryClient, 'getCollections');
+      const listConfigurations = sinon.stub(discoveryClient, 'listConfigurations');
+      const listCollections = sinon.stub(discoveryClient, 'listCollections');
       const createCollection = sinon.stub(discoveryClient, 'createCollection');
       const getCollection = sinon.stub(discoveryClient, 'getCollection');
       const addDocument = sinon.stub(discoveryClient, 'addDocument');
 
       // Make the callbacks yield with the test data.
-      getEnvironments.yields(null, { environments: [fakeEnvironment] });
-      getCollections.yields(null, { collections: [] });
-      getConfigurations.yields(null, { configurations: [fakeConfiguration] });
+      listEnvironments.yields(null, { environments: [fakeEnvironment] });
+      listCollections.yields(null, { collections: [] });
+      listConfigurations.yields(null, { configurations: [fakeConfiguration] });
       createCollection.yields(null, { collection_id: 'test-collection' });
       getCollection.yields(null, {
         collection_id: 'test-collection-id',
@@ -230,8 +230,8 @@ describe('test watson-discovery-setup', function() {
           } else {
             sinon.assert.notCalled(createEnvironment);
             sinon.assert.notCalled(addDocument);
-            sinon.assert.calledOnce(getEnvironments);
-            sinon.assert.calledOnce(getCollections);
+            sinon.assert.calledOnce(listEnvironments);
+            sinon.assert.calledOnce(listCollections);
             sinon.assert.calledOnce(createCollection);
             done();
           }
@@ -252,16 +252,16 @@ describe('test watson-discovery-setup', function() {
       });
 
       // Stub the Watson SDK methods that need stubbing
-      const getEnvironments = sinon.stub(discoveryClient, 'getEnvironments');
+      const listEnvironments = sinon.stub(discoveryClient, 'listEnvironments');
       const createEnvironment = sinon.stub(discoveryClient, 'createEnvironment');
 
       // Make the callbacks yield with the test data.
-      getEnvironments.yields(null, { environments: [{ environment_id: 'other' }] });
+      listEnvironments.yields(null, { environments: [{ environment_id: 'other' }] });
 
       const discoverySetup = new WatsonDiscoverySetup(discoveryClient);
       discoverySetup.setupDiscovery({}, (err, data) => {
         if (err) {
-          sinon.assert.calledOnce(getEnvironments);
+          sinon.assert.calledOnce(listEnvironments);
           sinon.assert.notCalled(createEnvironment);
           done(); // Expected this error.
         } else {
@@ -296,18 +296,18 @@ describe('test watson-discovery-setup', function() {
       };
 
       // Stub the Watson SDK methods that need stubbing
-      const getEnvironments = sinon.stub(discoveryClient, 'getEnvironments');
+      const listEnvironments = sinon.stub(discoveryClient, 'listEnvironments');
       const createEnvironment = sinon.stub(discoveryClient, 'createEnvironment');
-      const getConfigurations = sinon.stub(discoveryClient, 'getConfigurations');
-      const getCollections = sinon.stub(discoveryClient, 'getCollections');
+      const listConfigurations = sinon.stub(discoveryClient, 'listConfigurations');
+      const listCollections = sinon.stub(discoveryClient, 'listCollections');
       const createCollection = sinon.stub(discoveryClient, 'createCollection');
       const getCollection = sinon.stub(discoveryClient, 'getCollection');
       const addDocument = sinon.stub(discoveryClient, 'addDocument');
 
       // Make the callbacks yield with the test data.
-      getEnvironments.yields(null, { environments: [fakeEnvironment] });
-      getCollections.yields(null, { collections: [fakeCollections] });
-      getConfigurations.yields(null, { configurations: [fakeConfiguration] });
+      listEnvironments.yields(null, { environments: [fakeEnvironment] });
+      listCollections.yields(null, { collections: [fakeCollections] });
+      listConfigurations.yields(null, { configurations: [fakeConfiguration] });
       createCollection.yields(null, { collection_id: 'test-collection' });
       getCollection.yields(null, {
         collection_id: 'test-collection-id',
@@ -326,8 +326,8 @@ describe('test watson-discovery-setup', function() {
           } else {
             sinon.assert.notCalled(createEnvironment);
             sinon.assert.notCalled(addDocument);
-            sinon.assert.calledOnce(getEnvironments);
-            sinon.assert.calledOnce(getCollections);
+            sinon.assert.calledOnce(listEnvironments);
+            sinon.assert.calledOnce(listCollections);
             sinon.assert.notCalled(createCollection);
             done();
           }
