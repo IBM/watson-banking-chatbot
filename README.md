@@ -106,9 +106,6 @@ To find the `WORKSPACE_ID` for Watson Assistant:
 * Click on the three dots in the upper right-hand corner of the **watson-banking-chatbot** card and select `View API Details`.
 * Copy the `Workspace ID` GUID.
 
-Find the **Workspace ID** by clicking on the context menu of the new
-workspace and select **View details**. Save this ID for later.
-
 ![view_api_details](doc/source/images/view_api_details.png)
 
 *Optionally*, to view the Assistant dialog, click on the skill and choose the
