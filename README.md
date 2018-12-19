@@ -41,27 +41,32 @@ When the reader has completed this pattern, they will understand how to:
 
 # Watch the Video
 
-[![](http://img.youtube.com/vi/Jxi7U7VOMYg/0.jpg)](https://www.youtube.com/watch?v=Jxi7U7VOMYg)
+[![video](http://img.youtube.com/vi/Jxi7U7VOMYg/0.jpg)](https://www.youtube.com/watch?v=Jxi7U7VOMYg)
 
 # Steps
 
 Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locally.
 
 ## Deploy to IBM Cloud
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
-1. Press the above ``Deploy to IBM Cloud`` button and then click on ``Deploy``.
+[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
-2. In Toolchains, click on ``Delivery Pipeline`` to watch while the app is deployed. Once deployed, the app can be viewed by clicking ``View app.
-![](doc/source/images/toolchain-pipeline.png)
+1. Press the above `Deploy to IBM Cloud` button and then click on `Deploy`.
 
-3. To see the app and services created and configured for this journey, use the Bluemix dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the `wbc-` prefix:
+2. In Toolchains, click on `Delivery Pipeline` to watch while the app is deployed. Once deployed, the app can be viewed by clicking `View app`.
+
+   ![toolchain-pipeline](doc/source/images/toolchain-pipeline.png)
+
+3. To see the app and services created and configured for this journey, use the IBM Cloud dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the `wbc-` prefix:
     * wbc-conversation-service
     * wbc-discovery-service
     * wbc-natural-language-understanding-service
     * wbc-tone-analyzer-service
 
+If you encounter deployment errors, refer to [Troubleshooting](#Troubleshooting).
+
 ## Run locally
+
 > NOTE: These steps are only needed when running locally instead of using the ``Deploy to IBM Cloud`` button.
 
 1. [Clone the repo](#1-clone-the-repo)
@@ -102,11 +107,11 @@ Create the following services:
 * Select `Everything` and click `Import`.
 
 To find the `WORKSPACE_ID` for Watson Assistant:
+
 * Go back to the `Skills` tab.
 * Click on the three dots in the upper right-hand corner of the **watson-banking-chatbot** card and select `View API Details`.
 * Copy the `Workspace ID` GUID.
-
-![view_api_details](doc/source/images/view_api_details.png)
+  ![view_api_details](doc/source/images/view_api_details.png)
 
 *Optionally*, to view the Assistant dialog, click on the skill and choose the
 `Dialog` tab. Here's a snippet of the dialog:
@@ -124,7 +129,7 @@ To find the `WORKSPACE_ID` for Watson Assistant:
   * Click `Create`
 * Use `Drag and drop your documents here or browse from computer` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
 * Click on `Use this collection in API` and save the `Environment Id` and `Collection Id` for your `.env` file in the next step.  
-![disco_guids](doc/source/images/disco_guids.png)
+  ![disco_guids](doc/source/images/disco_guids.png)
 
 ### 5. Configure credentials
 
@@ -189,7 +194,7 @@ TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
 
 # Sample output
 
-![](doc/source/images/sample_output.png)
+![sample_output](doc/source/images/sample_output.png)
 
 # Links
 
@@ -200,11 +205,13 @@ TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
 
 # Troubleshooting
 
+* Error: Server error, status code: 409, error code: 60016, message: An operation for service instance wbc-discovery-service is in progress.
+
+  > This indicates that the Discovery service is still being provisioned. Wait a few minutes and click the `Run` button to restart the application.
+
 * Error: Environment {GUID} is still not active, retry once status is active
 
-  > This is common during the first run. The app tries to start before the Discovery
-environment is fully created. Allow a minute or two to pass. The environment should
-be usable on restart. If you used `Deploy to IBM Cloud` the restart should be automatic.
+  > This is common during the first run. The app tries to start before the Discovery environment is fully created. Wait a few minutes and click the `Run` button to restart the application.
 
 * Error: Only one free environment is allowed per organization
 
