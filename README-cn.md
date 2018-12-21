@@ -53,7 +53,7 @@
 使用 ``Deploy to IBM Cloud`` 按钮**或**在本地创建服务并运行。
 
 ## Deploy to IBM Cloud
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
+[![Deploy to Bluemix](https://cloud.ibm.com/deploy/button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
 1.按上面的 ``Deploy to IBM Cloud`` 按钮，然后单击 ``Deploy``。
 
@@ -102,10 +102,10 @@ $ git clone https://github.com/IBM/watson-banking-chatbot
 
 创建以下服务：
 
-* [**Watson Conversation**](https://console.ng.bluemix.net/catalog/services/conversation)
-* [**Watson Discovery**](https://console.ng.bluemix.net/catalog/services/discovery)
-* [**Watson Tone Analyzer**](https://console.ng.bluemix.net/catalog/services/tone-analyzer)
-* [**Watson Natural Language Understanding**](https://console.ng.bluemix.net/catalog/services/natural-language-understanding)
+* [**Watson Conversation**](https://cloud.ibm.com/catalog/services/conversation)
+* [**Watson Discovery**](https://cloud.ibm.com/catalog/services/discovery)
+* [**Watson Tone Analyzer**](https://cloud.ibm.com/catalog/services/tone-analyzer)
+* [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
 
 ### 3.导入 Watson Assistant 工作空间
 

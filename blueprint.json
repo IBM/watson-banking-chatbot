@@ -38,10 +38,10 @@
     "toneAnalyzer"
   ],
   "requiredCapabilitiesURLs": {
-    "conversation": "https://console.bluemix.net/catalog/services/conversation",
-    "discovery": "https://console.bluemix.net/catalog/services/discovery",
-    "naturalLanguageUnderstanding": "https://console.bluemix.net/catalog/services/natural-language-understanding",
-    "toneAnalyzer": "https://console.bluemix.net/catalog/services/tone-analyzer"
+    "conversation": "https://cloud.ibm.com/catalog/services/conversation",
+    "discovery": "https://cloud.ibm.com/catalog/services/discovery",
+    "naturalLanguageUnderstanding": "https://cloud.ibm.com/catalog/services/natural-language-understanding",
+    "toneAnalyzer": "https://cloud.ibm.com/catalog/services/tone-analyzer"
   },
   "servicePlans": {
     "conversation": "free",
