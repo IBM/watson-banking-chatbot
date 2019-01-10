@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/IBM/watson-banking-chatbot.svg?branch=master)](https://travis-ci.org/IBM/watson-banking-chatbot)
+[![Build Status](https://api.travis-ci.org/IBM/watson-banking-chatbot.svg?branch=master)](https://travis-ci.org/IBM/watson-banking-chatbot)
 
 *Read this in other languages: [中文](README-cn.md).*
 
@@ -41,7 +41,7 @@ When the reader has completed this pattern, they will understand how to:
 
 # Watch the Video
 
-[![video](http://img.youtube.com/vi/Jxi7U7VOMYg/0.jpg)](https://www.youtube.com/watch?v=Jxi7U7VOMYg)
+[![video](https://img.youtube.com/vi/Jxi7U7VOMYg/0.jpg)](https://www.youtube.com/watch?v=Jxi7U7VOMYg)
 
 # Steps
 
@@ -49,7 +49,7 @@ Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locall
 
 ## Deploy to IBM Cloud
 
-[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
+[![Deploy to IBM Cloud](https://cloud.ibm.com/devops/setup/deploy/button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
 1. Press the above `Deploy to IBM Cloud` button and then click on `Deploy`.
 
@@ -63,7 +63,7 @@ Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locall
     * wbc-natural-language-understanding-service
     * wbc-tone-analyzer-service
 
-If you encounter deployment errors, refer to [Troubleshooting](#Troubleshooting).
+If you encounter deployment errors, refer to [Troubleshooting](#troubleshooting).
 
 ## Run locally
 
@@ -71,7 +71,7 @@ If you encounter deployment errors, refer to [Troubleshooting](#Troubleshooting)
 
 1. [Clone the repo](#1-clone-the-repo)
 2. [Create Watson services with IBM Cloud](#2-create-watson-services-with-ibm-cloud)
-3. [Import the Watson Assistant workspace](#3-import-the-watson-assistant-workspace)
+3. [Import the Watson Assistant skill](#3-import-the-watson-assistant-skill)
 4. [Load the Discovery documents](#4-load-the-discovery-documents)
 5. [Configure credentials](#5-configure-credentials)
 6. [Run the application](#6-run-the-application)
@@ -91,10 +91,10 @@ We’ll be using the file [`data/conversation/workspaces/banking.json`](data/con
 
 Create the following services:
 
-* [**Watson Assistant**](https://console.ng.bluemix.net/catalog/services/conversation)
-* [**Watson Discovery**](https://console.ng.bluemix.net/catalog/services/discovery)
-* [**Watson Tone Analyzer**](https://console.ng.bluemix.net/catalog/services/tone-analyzer)
-* [**Watson Natural Language Understanding**](https://console.ng.bluemix.net/catalog/services/natural-language-understanding)
+* [**Watson Assistant**](https://cloud.ibm.com/catalog/services/conversation)
+* [**Watson Discovery**](https://cloud.ibm.com/catalog/services/discovery)
+* [**Watson Tone Analyzer**](https://cloud.ibm.com/catalog/services/tone-analyzer)
+* [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
 
 ### 3. Import the Watson Assistant skill
 
