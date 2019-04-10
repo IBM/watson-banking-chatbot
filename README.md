@@ -66,7 +66,7 @@ Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locall
     * wbc-natural-language-understanding-service
     * wbc-tone-analyzer-service
 
-> NOTE: The dialog has been reduced to work with Lite plans. If you are looking for any of the previous functionality, you can manually import `data/conversation/workspaces/full_banking.json`. Follow the instructions in [3. Import the Watson Assistant skill](#3-import-the-watson-assistant-skill) to import it, delete the Lite version that was automatically uploaded, and restart the app. The app will recognize the skill by name if only one is available.
+> NOTE: The dialog has been reduced to work with Lite plans. If you are looking for all of the previous functionality, you can manually import `data/conversation/workspaces/full_banking.json`. Follow the instructions in [3. Import the Watson Assistant skill](#3-import-the-watson-assistant-skill) to import it, delete the Lite version that was automatically uploaded, and restart the app. The app will recognize the skill by name if only one is available.
 
 ## Run locally
 
