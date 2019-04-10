@@ -1,6 +1,5 @@
 [![Build Status](https://api.travis-ci.org/IBM/watson-banking-chatbot.svg?branch=master)](https://travis-ci.org/IBM/watson-banking-chatbot)
 
-
 > Watson Conversation is now Watson Assistant. Although some images in this code pattern may show the service as Watson Conversation, the steps and processes will still work.
 
 # Create a banking chatbot with FAQ discovery, anger detection and natural language understanding
@@ -50,19 +49,24 @@ Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locall
 
 [![Deploy to IBM Cloud](https://cloud.ibm.com/devops/setup/deploy/button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
-1. Press the above `Deploy to IBM Cloud` button and then click on `Deploy`.
+1. Press the above `Deploy to IBM Cloud` button and then...
 
-2. In Toolchains, click on `Delivery Pipeline` to watch while the app is deployed. Once deployed, the app can be viewed by clicking `View app`.
+   * Click `Create+` to create an IBM Cloud API Key.
+   * Select your region, organization, and space (or use the defaults).
+   * Click `Deploy`.
+
+2. In Toolchains, click on `Delivery Pipeline` to watch while the app is deployed. Once deployed, the app can be viewed by clicking `Visit App URL`.  Note: You may need to re-run the deploy stage (see [Troubleshooting](#Troubleshooting)).
 
    ![toolchain-pipeline](doc/source/images/toolchain-pipeline.png)
 
-3. To see the app and services created and configured for this journey, use the IBM Cloud dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the `wbc-` prefix:
+3. To see the app and services created and configured for this code pattern, use the IBM Cloud dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the `wbc-` prefix:
+
     * wbc-conversation-service
     * wbc-discovery-service
     * wbc-natural-language-understanding-service
     * wbc-tone-analyzer-service
 
-If you encounter deployment errors, refer to [Troubleshooting](#troubleshooting).
+> NOTE: The dialog has been reduced to work with Lite plans. If you are looking for any of the previous functionality, you can manually import `data/conversation/workspaces/full_banking.json`. Follow the instructions in [3. Import the Watson Assistant skill](#3-import-the-watson-assistant-skill) to import it, delete the Lite version that was automatically uploaded, and restart the app. The app will recognize the skill by name if only one is available.
 
 ## Run locally
 
@@ -83,9 +87,6 @@ Clone the `watson-banking-chatbot` locally. In a terminal, run:
 git clone https://github.com/IBM/watson-banking-chatbot
 ```
 
-We’ll be using the file [`data/conversation/workspaces/banking.json`](data/conversation/workspaces/banking.json) and the folder
-[`data/conversation/workspaces/`](data/conversation/workspaces/)
-
 ### 2. Create Watson services with IBM Cloud
 
 Create the following services:
@@ -100,9 +101,9 @@ Create the following services:
 * Find the Assistant service in your IBM Cloud Dashboard.
 * Click on the service and then click on `Launch tool`.
 * Go to the `Skills` tab.
-* Click `Create new`
+* Click `Create skill`
 * Click the `Import skill` tab.
-* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in `data/conversation/workspaces/banking.json`.
+* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in `data/conversation/workspaces/banking.json` (or the old full version in `full_banking.json`).
 * Select `Everything` and click `Import`.
 
 To find the `WORKSPACE_ID` for Watson Assistant:
@@ -124,10 +125,10 @@ To find the `WORKSPACE_ID` for Watson Assistant:
 * Create a new data collection by hitting the `Upload your own data` button.  
   ![new_collection](doc/source/images/new_collection.png)
   * Provide a collection name
-  * Keep the `Default Configuration` and `English` language
+  * Select `English` language
   * Click `Create`
-* Use `Drag and drop your documents here or browse from computer` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
-* Click on `Use this collection in API` and save the `Environment Id` and `Collection Id` for your `.env` file in the next step.  
+* Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
+* Click on the upper-right `api` icon and save the `Environment Id` and `Collection Id` for your `.env` file in the next step.  
   ![disco_guids](doc/source/images/disco_guids.png)
 
 ### 5. Configure credentials
@@ -203,6 +204,10 @@ TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
 * [Relevancy Training Demo Notebook](https://github.com/akmnua/relevancy_passage_bww)
 
 # Troubleshooting
+
+* Fail: An operation for service instance wbc-discovery-service is in progress.
+
+  > This error occurs when starting the app before the service is ready. It is currently common behavior with the `Deploy to IBM Cloud` button. In this case, run the deploy stage again. It should succeed when the service is ready.
 
 * Error: Server error, status code: 409, error code: 60016, message: An operation for service instance wbc-discovery-service is in progress.
 
