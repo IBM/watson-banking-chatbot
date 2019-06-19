@@ -51,7 +51,7 @@ describe('test watson-discovery-setup', function() {
       const expectedCreateEnv = {
         description: 'Discovery environment created by ' + DEFAULT_NAME,
         name: DEFAULT_NAME,
-        size: '0'
+        size: 'LT'
       };
 
       const fakeEvironment = { environment_id: 'fake-env-id' };
