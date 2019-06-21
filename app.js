@@ -31,7 +31,7 @@ const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-unde
 const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 
 const assistant = new AssistantV1({ version: '2019-06-17' });
-const discovery = new DiscoveryV1({ version: '2019-06-17' });
+const discovery = new DiscoveryV1({ version: '2019-04-17' }); // PRE-SDU VERSION!
 const nlu = new NaturalLanguageUnderstandingV1({ version: '2019-06-17' });
 const toneAnalyzer = new ToneAnalyzerV3({ version: '2019-06-17' });
 
@@ -164,37 +164,46 @@ app.post('/api/message', function(req, res) {
    * @param payload
    */
   function callAssistant(payload) {
-    const queryInput = JSON.stringify(payload.input);
+    if (!('text' in payload.input) || payload.input.text == '') {
+      assistant.message(payload, function(err, data) {
+        if (err) {
+          return res.status(err.code || 500).json(err);
+        } else {
+          console.log('assistant.message :: ', JSON.stringify(data));
+          return res.json(data);
+        }
+      });
+    } else {
+      const queryInput = JSON.stringify(payload.input);
 
-    const toneParams = {
-      tone_input: { text: queryInput },
-      content_type: 'application/json'
-    };
-    toneAnalyzer.tone(toneParams, function(err, tone) {
-      let toneAngerScore = '';
-      if (err) {
-        console.log('Error occurred while invoking Tone analyzer. ::', err);
-      } else {
-        console.log(JSON.stringify(tone, null, 2));
-        const emotionTones = tone.document_tone.tones;
+      const toneParams = {
+        tone_input: { text: queryInput },
+        content_type: 'application/json'
+      };
+      toneAnalyzer.tone(toneParams, function(err, tone) {
+        let toneAngerScore = '';
+        if (err) {
+          console.log('Error occurred while invoking Tone analyzer. ::', err);
+        } else {
+          console.log(JSON.stringify(tone, null, 2));
+          const emotionTones = tone.document_tone.tones;
 
-        const len = emotionTones.length;
-        for (let i = 0; i < len; i++) {
-          if (emotionTones[i].tone_id === 'anger') {
-            console.log('Input = ', queryInput);
-            console.log('emotion_anger score = ', 'Emotion_anger', emotionTones[i].score);
-            toneAngerScore = emotionTones[i].score;
-            break;
+          const len = emotionTones.length;
+          for (let i = 0; i < len; i++) {
+            if (emotionTones[i].tone_id === 'anger') {
+              console.log('Input = ', queryInput);
+              console.log('emotion_anger score = ', 'Emotion_anger', emotionTones[i].score);
+              toneAngerScore = emotionTones[i].score;
+              break;
+            }
           }
         }
-      }
 
-      payload.context['tone_anger_score'] = toneAngerScore;
+        payload.context['tone_anger_score'] = toneAngerScore;
 
-      if (payload.input.text != '') {
-        // console.log('input text payload = ', payload.input.text);
         const parameters = {
           text: payload.input.text,
+          language: 'en', // To avoid language detection errors
           features: {
             entities: {
               emotion: true,
@@ -326,17 +335,8 @@ app.post('/api/message', function(req, res) {
             }
           });
         });
-      } else {
-        assistant.message(payload, function(err, data) {
-          if (err) {
-            return res.status(err.code || 500).json(err);
-          } else {
-            console.log('assistant.message :: ', JSON.stringify(data));
-            return res.json(data);
-          }
-        });
-      }
-    });
+      });
+    }
   }
 });
 
@@ -346,9 +346,17 @@ app.post('/api/message', function(req, res) {
 function checkForLookupRequests(data, callback) {
   console.log('checkForLookupRequests');
 
+  // The branchInfo intent is handled here to help keep our Assistant dialog
+  // within the limits of the free plan. Could simplify this with more dialog.
   // For branchInfo intent, set the action/location
-  if (data.intents.length > 0 && data.intents[0].intent === 'branchInfo' && data.context.hasOwnProperty('Location')) {
-    data.context['action'] = { lookup: 'branch' };
+  if (data.intents.length > 0 && data.intents[0].intent === 'branchInfo') {
+    if (data.context.Location) {
+      // with Location we'll do a branch lookup
+      data.context['action'] = { lookup: 'branch' };
+    } else {
+      // without a Location we'll just do Discovery for general branch question
+      data.intents[0]['intent'] = DISCOVERY_ACTION;
+    }
   }
 
   if (data.context && data.context.action && data.context.action.lookup && data.context.action.lookup != 'complete') {
