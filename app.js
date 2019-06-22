@@ -25,15 +25,15 @@ const bodyParser = require('body-parser'); // parser for post requests
 const numeral = require('numeral');
 const fs = require('fs'); // file system for loading JSON
 
-const AssistantV1 = require('watson-developer-cloud/assistant/v1');
-const DiscoveryV1 = require('watson-developer-cloud/discovery/v1');
-const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
-const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+const AssistantV1 = require('ibm-watson/assistant/v1');
+const DiscoveryV1 = require('ibm-watson/discovery/v1');
+const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
+const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 
-const assistant = new AssistantV1({ version: '2018-02-16' });
-const discovery = new DiscoveryV1({ version: '2018-03-05' });
-const nlu = new NaturalLanguageUnderstandingV1({ version: '2018-03-16' });
-const toneAnalyzer = new ToneAnalyzerV3({ version: '2017-09-21' });
+const assistant = new AssistantV1({ version: '2019-06-17' });
+const discovery = new DiscoveryV1({ version: '2019-04-17' }); // PRE-SDU VERSION!
+const nlu = new NaturalLanguageUnderstandingV1({ version: '2019-06-17' });
+const toneAnalyzer = new ToneAnalyzerV3({ version: '2019-06-17' });
 
 const bankingServices = require('./banking_services');
 const WatsonDiscoverySetup = require('./lib/watson-discovery-setup');
@@ -164,37 +164,46 @@ app.post('/api/message', function(req, res) {
    * @param payload
    */
   function callAssistant(payload) {
-    const queryInput = JSON.stringify(payload.input);
+    if (!('text' in payload.input) || payload.input.text == '') {
+      assistant.message(payload, function(err, data) {
+        if (err) {
+          return res.status(err.code || 500).json(err);
+        } else {
+          console.log('assistant.message :: ', JSON.stringify(data));
+          return res.json(data);
+        }
+      });
+    } else {
+      const queryInput = JSON.stringify(payload.input);
 
-    const toneParams = {
-      tone_input: { text: queryInput },
-      content_type: 'application/json'
-    };
-    toneAnalyzer.tone(toneParams, function(err, tone) {
-      let toneAngerScore = '';
-      if (err) {
-        console.log('Error occurred while invoking Tone analyzer. ::', err);
-      } else {
-        console.log(JSON.stringify(tone, null, 2));
-        const emotionTones = tone.document_tone.tones;
+      const toneParams = {
+        tone_input: { text: queryInput },
+        content_type: 'application/json'
+      };
+      toneAnalyzer.tone(toneParams, function(err, tone) {
+        let toneAngerScore = '';
+        if (err) {
+          console.log('Error occurred while invoking Tone analyzer. ::', err);
+        } else {
+          console.log(JSON.stringify(tone, null, 2));
+          const emotionTones = tone.document_tone.tones;
 
-        const len = emotionTones.length;
-        for (let i = 0; i < len; i++) {
-          if (emotionTones[i].tone_id === 'anger') {
-            console.log('Input = ', queryInput);
-            console.log('emotion_anger score = ', 'Emotion_anger', emotionTones[i].score);
-            toneAngerScore = emotionTones[i].score;
-            break;
+          const len = emotionTones.length;
+          for (let i = 0; i < len; i++) {
+            if (emotionTones[i].tone_id === 'anger') {
+              console.log('Input = ', queryInput);
+              console.log('emotion_anger score = ', 'Emotion_anger', emotionTones[i].score);
+              toneAngerScore = emotionTones[i].score;
+              break;
+            }
           }
         }
-      }
 
-      payload.context['tone_anger_score'] = toneAngerScore;
+        payload.context['tone_anger_score'] = toneAngerScore;
 
-      if (payload.input.text != '') {
-        // console.log('input text payload = ', payload.input.text);
         const parameters = {
           text: payload.input.text,
+          language: 'en', // To avoid language detection errors
           features: {
             entities: {
               emotion: true,
@@ -326,17 +335,8 @@ app.post('/api/message', function(req, res) {
             }
           });
         });
-      } else {
-        assistant.message(payload, function(err, data) {
-          if (err) {
-            return res.status(err.code || 500).json(err);
-          } else {
-            console.log('assistant.message :: ', JSON.stringify(data));
-            return res.json(data);
-          }
-        });
-      }
-    });
+      });
+    }
   }
 });
 
@@ -345,6 +345,19 @@ app.post('/api/message', function(req, res) {
  */
 function checkForLookupRequests(data, callback) {
   console.log('checkForLookupRequests');
+
+  // The branchInfo intent is handled here to help keep our Assistant dialog
+  // within the limits of the free plan. Could simplify this with more dialog.
+  // For branchInfo intent, set the action/location
+  if (data.intents.length > 0 && data.intents[0].intent === 'branchInfo') {
+    if (data.context.Location) {
+      // with Location we'll do a branch lookup
+      data.context['action'] = { lookup: 'branch' };
+    } else {
+      // without a Location we'll just do Discovery for general branch question
+      data.intents[0]['intent'] = DISCOVERY_ACTION;
+    }
+  }
 
   if (data.context && data.context.action && data.context.action.lookup && data.context.action.lookup != 'complete') {
     const payload = {
@@ -514,7 +527,7 @@ function checkForLookupRequests(data, callback) {
       });
     } else if (data.context.action.lookup === 'branch') {
       console.log('************** Branch details *************** InputText : ' + payload.input.text);
-      const loc = data.context.action.Location.toLowerCase();
+      const loc = data.context.Location.toLowerCase();
       bankingServices.getBranchInfo(loc, function(err, branchMaster) {
         if (err) {
           console.log('Error while calling bankingServices.getAccountInfo ', err);
@@ -522,25 +535,21 @@ function checkForLookupRequests(data, callback) {
           return;
         }
 
-        const appendBranchResponse = data.context.action.append_response && data.context.action.append_response === true ? true : false;
-
         let branchText = '';
 
-        if (appendBranchResponse === true) {
-          if (branchMaster != null) {
-            branchText =
-              'Here are the branch details at ' +
-              branchMaster.location +
-              ' <br/>Address: ' +
-              branchMaster.address +
-              '<br/>Phone: ' +
-              branchMaster.phone +
-              '<br/>Operation Hours: ' +
-              branchMaster.hours +
-              '<br/>';
-          } else {
-            branchText = "Sorry currently we don't have branch details for " + data.context.action.Location;
-          }
+        if (branchMaster != null) {
+          branchText =
+            'Here are the branch details at ' +
+            branchMaster.location +
+            ' <br/>Address: ' +
+            branchMaster.address +
+            '<br/>Phone: ' +
+            branchMaster.phone +
+            '<br/>Operation Hours: ' +
+            branchMaster.hours +
+            '<br/>';
+        } else {
+          branchText = "Sorry currently we don't have branch details for " + data.context.action.Location;
         }
 
         payload.context['branch'] = branchMaster;
@@ -548,28 +557,11 @@ function checkForLookupRequests(data, callback) {
         // clear the context's action since the lookup was completed.
         payload.context.action = {};
 
-        if (!appendBranchResponse) {
-          console.log('call assistant.message with lookup results.');
-          assistant.message(payload, function(err, data) {
-            if (err) {
-              console.log('Error while calling assistant.message with lookup result', err);
-              callback(err, null);
-            } else {
-              console.log('checkForLookupRequests assistant.message :: ', JSON.stringify(data));
-              callback(null, data);
-            }
-          });
-        } else {
-          console.log('append lookup results to the output.');
-          // append accounts list text to response array
-          if (data.output.text) {
-            data.output.text.push(branchText);
-          }
-          // clear the context's action since the lookup and append was completed.
-          data.context.action = {};
+        data.output.text = [branchText];
+        // clear the context's action since the lookup and append was completed.
+        data.context.action = {};
 
-          callback(null, data);
-        }
+        callback(null, data);
       });
     } else if (data.context.action.lookup === DISCOVERY_ACTION) {
       console.log('************** Discovery *************** InputText : ' + payload.input.text);

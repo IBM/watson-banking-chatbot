@@ -23,7 +23,7 @@ require('dotenv').config({
 const fs = require('fs');
 const sinon = require('sinon');
 const sinonTest = require('sinon-test');
-const watson = require('watson-developer-cloud');
+const DiscoveryV1 = require('ibm-watson/discovery/v1');
 
 sinon.test = sinonTest.configureTest(sinon, { useFakeTimers: false }); // For using sinon.test with async.
 
@@ -41,7 +41,7 @@ describe('test watson-discovery-setup', function() {
   it(
     'test initial path',
     sinon.test(function(done) {
-      const discoveryClient = watson.discovery({
+      const discoveryClient = new DiscoveryV1({
         username: 'fake',
         password: 'fake',
         url: 'fake',
@@ -51,7 +51,7 @@ describe('test watson-discovery-setup', function() {
       const expectedCreateEnv = {
         description: 'Discovery environment created by ' + DEFAULT_NAME,
         name: DEFAULT_NAME,
-        size: '0'
+        size: 'LT'
       };
 
       const fakeEvironment = { environment_id: 'fake-env-id' };
@@ -122,7 +122,7 @@ describe('test watson-discovery-setup', function() {
   it(
     'test restart path',
     sinon.test(function(done) {
-      const discoveryClient = watson.discovery({
+      const discoveryClient = new DiscoveryV1({
         username: 'fake',
         password: 'fake',
         url: 'fake',
@@ -185,7 +185,7 @@ describe('test watson-discovery-setup', function() {
       process.env.DISCOVERY_ENVIRONMENT_ID = 'env-id-to-find';
       const testDocuments = ['test.docx'];
 
-      const discoveryClient = watson.discovery({
+      const discoveryClient = new DiscoveryV1({
         username: 'fake',
         password: 'fake',
         url: 'fake',
@@ -243,7 +243,7 @@ describe('test watson-discovery-setup', function() {
     'test with ENVIRONMENT_ID to validate and fail',
     sinon.test(function(done) {
       process.env.DISCOVERY_ENVIRONMENT_ID = 'bogus';
-      const discoveryClient = watson.discovery({
+      const discoveryClient = new DiscoveryV1({
         username: 'fake',
         password: 'fake',
         url: 'fake',
@@ -280,7 +280,7 @@ describe('test watson-discovery-setup', function() {
       process.env.DISCOVERY_COLLECTION_ID = COL_ID;
       const testDocuments = ['test.docx'];
 
-      const discoveryClient = watson.discovery({
+      const discoveryClient = new DiscoveryV1({
         username: 'fake',
         password: 'fake',
         url: 'fake',

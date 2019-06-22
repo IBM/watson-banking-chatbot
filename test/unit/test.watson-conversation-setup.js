@@ -23,7 +23,7 @@ require('dotenv').config({
 const chai = require('chai');
 const sinon = require('sinon');
 const sinonTest = require('sinon-test');
-const AssistantV1 = require('watson-developer-cloud/assistant/v1');
+const AssistantV1 = require('ibm-watson/assistant/v1');
 
 sinon.test = sinonTest.configureTest(sinon, { useFakeTimers: false }); // For using sinon.test with async.
 const expect = chai.expect;
