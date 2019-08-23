@@ -83,11 +83,11 @@ describe('test watson-discovery-setup', function() {
       const discoverySetup = new WatsonDiscoverySetup(discoveryClient);
       // const testDocuments = ['d1', 'd2', 'd3', 'd4', 'd5', 'dSIX'];
       const testDocuments = [
-        './data/discovery/docs/BankFaqRnR-DB-Failure-General.docx',
-        './data/discovery/docs/BankFaqRnR-DB-Terms-General.docx',
-        './data/discovery/docs/BankFaqRnR-e2eAO-Terms.docx',
-        './data/discovery/docs/BankFaqRnR-e2ePL-Terms.docx',
-        './data/discovery/docs/BankRnR-OMP-General.docx'
+        './data/discovery/docs/en_IN/BankFaqRnR-DB-Failure-General.docx',
+        './data/discovery/docs/en_IN/BankFaqRnR-DB-Terms-General.docx',
+        './data/discovery/docs/en_IN/BankFaqRnR-e2eAO-Terms.docx',
+        './data/discovery/docs/en_IN/BankFaqRnR-e2ePL-Terms.docx',
+        './data/discovery/docs/en_IN/BankRnR-OMP-General.docx'
       ];
       discoverySetup.setupDiscovery(
         {
