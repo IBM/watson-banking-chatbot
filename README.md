@@ -103,7 +103,7 @@ Create the following services:
 * Go to the `Skills` tab.
 * Click `Create skill`
 * Click the `Import skill` tab.
-* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in `data/conversation/workspaces/banking.json` (or the old full version in `full_banking.json`).
+* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in `data/conversation/workspaces/banking_US.json` (or the old full version in `full_banking.json`). `banking_IN.json` is used for content for bankig in India and `banking_US.json` is used for content for bankig in United States.
 * Select `Everything` and click `Import`.
 
 To find the `WORKSPACE_ID` for Watson Assistant:
@@ -180,9 +180,11 @@ NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<add_nlu_iam_apikey>
 TONE_ANALYZER_URL=<add_tone_analyzer_url>
 TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
 
-# Run locally on a non-default port (default is 3000)
-# PORT=3000
+// locale could be either en_US or en_IN
+LOCALE=<en_US or en_IN>
 ```
+
+> Note: if you are trying to run this project as workshop in India then use `Locale=en_IN`
 
 ### 6. Run the application
 

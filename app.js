@@ -35,19 +35,33 @@ const discovery = new DiscoveryV1({ version: '2019-04-17' }); // PRE-SDU VERSION
 const nlu = new NaturalLanguageUnderstandingV1({ version: '2019-06-17' });
 const toneAnalyzer = new ToneAnalyzerV3({ version: '2019-06-17' });
 
-const bankingServices = require('./banking_services');
+const bankingServicesIN = require('./banking_services');
+const bankingServicesUS = require('./banking_services_us');
 const WatsonDiscoverySetup = require('./lib/watson-discovery-setup');
 const WatsonAssistantSetup = require('./lib/watson-assistant-setup');
 
 const DEFAULT_NAME = 'watson-banking-chatbot';
 const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Assistant action is still 'rnr'.
-const DISCOVERY_DOCS = [
+const locale = process.env.LOCALE;
+let DISCOVERY_DOCS = [
   './data/discovery/docs/BankFaqRnR-DB-Failure-General.docx',
   './data/discovery/docs/BankFaqRnR-DB-Terms-General.docx',
   './data/discovery/docs/BankFaqRnR-e2eAO-Terms.docx',
   './data/discovery/docs/BankFaqRnR-e2ePL-Terms.docx',
   './data/discovery/docs/BankRnR-OMP-General.docx'
 ];
+let bankingServices = bankingServicesIN;
+console.log(locale);
+if (locale === 'en_US') {
+  DISCOVERY_DOCS = [
+    './data/discovery/docs/BankFaqRnR-DB-Failure-General_US.docx',
+    './data/discovery/docs/BankFaqRnR-DB-Terms-General_US.docx',
+    './data/discovery/docs/BankFaqRnR-e2eAO-Terms_US.docx',
+    './data/discovery/docs/BankFaqRnR-e2ePL-Terms_US.docx',
+    './data/discovery/docs/BankRnR-OMP-General_US.docx'
+  ];
+  bankingServices = bankingServicesUS;
+}
 
 const LOOKUP_BALANCE = 'balance';
 const LOOKUP_TRANSACTIONS = 'transactions';
@@ -145,17 +159,6 @@ app.post('/api/message', function(req, res) {
       }
     }
 
-    /* if (req.body) {
-        if (req.body.input) {
-            payload.input = req.body.input;
-                        }
-        if (req.body.context) {
-            // The client must maintain context/state
-            payload.context = req.body.context;
-        }
-
-    } */
-
     callAssistant(payload);
   });
 
@@ -244,79 +247,6 @@ app.post('/api/message', function(req, res) {
             } else {
               payload.context['Location'] = '';
             }
-
-            /*
-            // identify Company
-
-            let company = entities.map(function(entry) {
-              if (entry.type == 'Company') {
-                return entry.text;
-              }
-            });
-            company = company.filter(function(entry) {
-              if (entry != null) {
-                return entry;
-              }
-            });
-            if (company.length > 0) {
-              payload.context.userCompany = company[0];
-            } else {
-              delete payload.context.userCompany;
-            }
-
-            // identify Person
-
-            let person = entities.map(function(entry) {
-              if (entry.type == 'Person') {
-                return entry.text;
-              }
-            });
-            person = person.filter(function(entry) {
-              if (entry != null) {
-                return entry;
-              }
-            });
-            if (person.length > 0) {
-              payload.context.Person = person[0];
-            } else {
-              delete payload.context.Person;
-            }
-
-            // identify Vehicle
-
-            let vehicle = entities.map(function(entry) {
-              if (entry.type == 'Vehicle') {
-                return entry.text;
-              }
-            });
-            vehicle = vehicle.filter(function(entry) {
-              if (entry != null) {
-                return entry;
-              }
-            });
-            if (vehicle.length > 0) {
-              payload.context.userVehicle = vehicle[0];
-            } else {
-              delete payload.context.userVehicle;
-            }
-            // identify Email
-
-            let email = entities.map(function(entry) {
-              if(entry.type == 'EmailAddress') {
-                return(entry.text);
-              }
-            });
-            email = email.filter(function(entry) {
-              if(entry != null) {
-                return(entry);
-              }
-            });
-            if(email.length > 0) {
-              payload.context.userEmail = email[0];
-            } else {
-              delete payload.context.userEmail;
-            }
-            */
           }
 
           assistant.message(payload, function(err, data) {
@@ -327,6 +257,7 @@ app.post('/api/message', function(req, res) {
               // lookup actions
               checkForLookupRequests(data, function(err, data) {
                 if (err) {
+                  console.log(err);
                   return res.status(err.code || 500).json(err);
                 } else {
                   return res.json(data);
