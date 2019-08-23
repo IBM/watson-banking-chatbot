@@ -1,14 +1,15 @@
 /*eslint-env browser */
 // The Common module is designed as an auxiliary module
 // to hold functions that are used in multiple other modules
-/* eslint no-unused-vars: "off" */
 
+/* eslint no-unused-vars: "off" */
 var Common = (function() {
   // Publicly accessible methods defined
   return {
     buildDomElement: buildDomElementFromJson,
     fireEvent: fireEvent,
-    listForEach: listForEach
+    listForEach: listForEach,
+    accountType: accountType
   };
 
   // Take in JSON object and build a DOM element out of it
@@ -83,15 +84,13 @@ var Common = (function() {
 
 
  function accountType (response){
-console.log(response);
 var res=response;
 
    var context;
       var latestResponse = Api.getResponsePayload();
       if (latestResponse) {
         context = latestResponse.context;
-      }
-
+      }      
       // Send the user message
       Api.sendRequest(res, context);
 

@@ -180,9 +180,11 @@ NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<add_nlu_iam_apikey>
 TONE_ANALYZER_URL=<add_tone_analyzer_url>
 TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
 
-# Run locally on a non-default port (default is 3000)
-# PORT=3000
+// locale could be either en_US or en_IN
+LOCALE=<en_US or en_IN>
 ```
+
+> Note: if you are trying to run this project as workshop in India then use `Locale=en_IN`
 
 ### 6. Run the application
 

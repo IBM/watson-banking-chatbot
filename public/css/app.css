@@ -5,8 +5,7 @@
 }
 
 body {
-    background-color: white;
-    background-image: url("../img/OFN.jpg");
+    background-color: white;    
     background-repeat:no-repeat;
     background-position:left;
     background-attachment:fixed;
@@ -48,10 +47,6 @@ div {
   display: inline-block;
 }
 
-#contentParent {
-  height: 100%;
-}
-
 .responsive-columns-wrapper {
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -73,27 +68,27 @@ div {
 }
 
 .chat-column {
-  height: 70%;
+  height: 60%;
   padding: 0.9375rem 0 0.625rem 0;
   margin: auto;
   position: absolute;
   bottom: 10;
-  right:8%;
+  right:3%;
   text-align: left;
   max-width: 25rem;
   min-width: 9.375rem;
-  border-size:2px;
-  border-style:none;
+  border: 1px solid #b2b2b2;
   border-color:none;
   background-color: #f2f4f4;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 }
 
 #scrollingChat {
-  margin: 0.75rem;
+  padding-left: 0.75rem;
   overflow-y: auto;
   overflow-x: hidden;
   height: calc(100% - 4rem);
+  border-bottom: 1px solid #b2b2b2;
 }
 
 .message-inner {
@@ -251,6 +246,7 @@ input:-moz-placeholder {
   border: 1px solid #f5f5dc;
   padding: 1px;
   background-color:#FFFFFF;
+  margin-top: 0.75rem;
 }
 
 #textInputDummy {
