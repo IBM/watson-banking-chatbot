@@ -90,7 +90,7 @@ discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
 
 let workspaceID; // workspaceID will be set when the workspace is created or validated.
 const assistantSetup = new WatsonAssistantSetup(assistant);
-const workspaceJson = JSON.parse(fs.readFileSync('data/conversation/workspaces/banking.json'));
+const workspaceJson = JSON.parse(fs.readFileSync('data/conversation/workspaces/banking_US.json'));
 const assistantSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJson };
 assistantSetup.setupAssistantWorkspace(assistantSetupParams, (err, data) => {
   if (err) {
@@ -524,7 +524,7 @@ function checkForLookupRequests(data, callback) {
             console.log('Passage text: ', bestPassage.passage_text);
 
             // Trim the passage to try to get just the answer part of it.
-            const lines = bestPassage.passage_text.split('\n');
+            const lines = bestPassage.passage_text.split('.');
             let bestLine;
             let questionFound = false;
             for (let i = 0, size = lines.length; i < size; i++) {
@@ -532,13 +532,15 @@ function checkForLookupRequests(data, callback) {
               if (!line) {
                 continue; // skip empty/blank lines
               }
+              console.log('line: ' + line);
+              let answer = '';
               if (line.includes('?') || line.includes('<h1')) {
                 // To get the answer we needed to know the Q/A format of the doc.
                 // Skip questions which either have a '?' or are a header '<h1'...
+                answer = line.split('?');
                 questionFound = true;
-                continue;
               }
-              bestLine = line; // Best so far, but can be tail of earlier answer.
+              bestLine = answer[1]; // Best so far, but can be tail of earlier answer.
               if (questionFound && bestLine) {
                 // We found the first non-blank answer after the end of a question. Use it.
                 break;

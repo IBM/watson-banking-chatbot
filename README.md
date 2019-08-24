@@ -37,10 +37,6 @@ When the reader has completed this pattern, they will understand how to:
 
 * [Node.js](https://nodejs.org/): An asynchronous event driven JavaScript runtime, designed to build scalable applications.
 
-# Watch the Video
-
-[![video](https://img.youtube.com/vi/Jxi7U7VOMYg/0.jpg)](https://www.youtube.com/watch?v=Jxi7U7VOMYg)
-
 # Steps
 
 Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locally.
@@ -196,7 +192,7 @@ LOCALE=<en_US or en_IN>
 
 # Sample output
 
-![sample_output](doc/source/images/sample_output.png)
+![sample_output](doc/source/images/demo.gif)
 
 # Links
 
