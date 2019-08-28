@@ -17,11 +17,13 @@ You will need a running OpenShift cluster, or OKD cluster. You can provision [Op
 
 ![Choose Node.js](https://github.com/IBM/pattern-utils/blob/master/openshift/openshift-choose-nodejs.png)
 
-* Give your app a name and add `https://github.com/IBM/watson-assistant-slots-intro` for the github repo, then click `Create`.
+* Give your app a name and add `https://github.com/IBM/watson-banking-chatbot` for the github repo, then click `Create`.
 
 ![Add github repo](https://github.com/IBM/pattern-utils/blob/master/openshift/openshift-add-github-repo.png)
 
-* You will need to export the key/value pairs from [env.sample](../../env.sample) as a config map. The key would be the key in env.sample and values would be the credentials of each key.
+* You will need to export the key/value pairs from [env.sample](../../env.sample) as a config map. The key would be the key in env.sample and values would be the credentials of each key that you got from IBM cloud.
+
+![configmap](../../doc/source/images/configmap.png)
 
 * Also add key `PORT` with the value `8080`.
 
@@ -29,8 +31,8 @@ You will need a running OpenShift cluster, or OKD cluster. You can provision [Op
 
 ![add config map to app](https://github.com/IBM/pattern-utils/blob/master/openshift/openshift-add-config-map-to-app.png)
 
-* Under `Applications` -> `Routes` you will see your app. Click on the `Hostname` to see your Pizza ordering chat bot in action.
+* Under `Applications` -> `Routes` you will see your app. Click on the `Hostname` to see your Watson banking chatbot in action.
 
-![pizza bot demo](images/pizza-bot-demo.png)
+![pizza bot demo](../../doc/source/images/demo.png)
 
 [![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-assistant-slots-intro#deployment-options)
