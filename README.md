@@ -41,7 +41,7 @@ When the reader has completed this pattern, they will understand how to:
 
 Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locally.
 
-## Deploy to IBM Cloud
+## Deployment options
 
 |   |   |   |   |
 | - | - | - | - |

@@ -35,4 +35,4 @@ You will need a running OpenShift cluster, or OKD cluster. You can provision [Op
 
 ![pizza bot demo](../../doc/source/images/demo.png)
 
-[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-assistant-slots-intro#deployment-options)
+[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#deployment-options)
