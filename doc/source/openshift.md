@@ -1,6 +1,6 @@
-# Run on RedHat OpenShift
+# Run on Red Hat OpenShift
 
-This document shows how to run the `watson-assistant-slots-intro` application in a container running on RedHat OpenShift.
+This document shows how to run the `Watson Banking Chatbot` application in a container running on Red Hat OpenShift.
 
 ## Prerequisites
 
@@ -33,6 +33,6 @@ You will need a running OpenShift cluster, or OKD cluster. You can provision [Op
 
 * Under `Applications` -> `Routes` you will see your app. Click on the `Hostname` to see your Watson banking chatbot in action.
 
-![pizza bot demo](../../doc/source/images/demo.png)
+![banking chatbot demo](../../doc/source/images/demo.png)
 
 [![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#deployment-options)
