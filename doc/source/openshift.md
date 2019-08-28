@@ -1,6 +1,6 @@
 # Run on RedHat OpenShift
 
-This document shows how to run the `watson-assistant-slots-intro` application in a container running on RedHat OpenShift.
+This document shows how to run the `Watson Banking Chatbot` application in a container running on Red Hat OpenShift.
 
 ## Prerequisites
 
