@@ -43,7 +43,10 @@ Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locall
 
 ## Deploy to IBM Cloud
 
-[![Deploy to IBM Cloud](https://cloud.ibm.com/devops/setup/deploy/button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
+|   |   |   |   |
+| - | - | - | - |
+| [![Deploy to IBM Cloud](https://cloud.ibm.com/devops/setup/deploy/button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git) | <a href="doc/source/openshift.md"><img src="https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/openshift.png" alt="drawing" width="155" height="32"/></a>|
+
 
 1. Press the above `Deploy to IBM Cloud` button and then...
 
