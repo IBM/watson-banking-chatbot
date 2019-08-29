@@ -13,7 +13,7 @@ When the reader has completed this pattern, they will understand how to:
 * Use Watson Tone Analyzer to detect emotion in a conversation
 * Identify entities with Watson Natural Language Understanding
 
-![](doc/source/images/architecture.png)
+![architecture](doc/source/images/architecture.png)
 
 ## Flow
 
@@ -37,174 +37,17 @@ When the reader has completed this pattern, they will understand how to:
 
 * [Node.js](https://nodejs.org/): An asynchronous event driven JavaScript runtime, designed to build scalable applications.
 
-# Steps
+### Deployment options
 
-Use the ``Deploy to IBM Cloud`` button **OR** create the services and run locally.
+| Cloud Foundry | OpenShift | Local |
+| :-: | :-: | :-: |
+| [![public](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/cf.png)](doc/source/cf.md) | [![openshift](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/openshift.png)](doc/source/openshift.md) | [![local](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/local.png)](doc/source/local.md) |
 
-## Deployment options
+## Sample output
 
-|   |   |
-| - | - |
-| [![Deploy to IBM Cloud](https://cloud.ibm.com/devops/setup/deploy/button.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git) | <a href="doc/source/openshift.md"><img src="https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/openshift.png" alt="drawing" width="155" height="32"/></a>|
+![demo](doc/source/images/demo.gif)
 
-
-1. Press the above `Deploy to IBM Cloud` button and then...
-
-   * Click `Create+` to create an IBM Cloud API Key.
-   * Select your region, organization, and space (or use the defaults).
-   * Click `Deploy`.
-
-2. In Toolchains, click on `Delivery Pipeline` to watch while the app is deployed. Once deployed, the app can be viewed by clicking `Visit App URL`.  Note: You may need to re-run the deploy stage (see [Troubleshooting](#Troubleshooting)).
-
-   ![toolchain-pipeline](doc/source/images/toolchain-pipeline.png)
-
-3. To see the app and services created and configured for this code pattern, use the IBM Cloud dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the `wbc-` prefix:
-
-    * wbc-conversation-service
-    * wbc-discovery-service
-    * wbc-natural-language-understanding-service
-    * wbc-tone-analyzer-service
-
-> NOTE: The dialog has been reduced to work with Lite plans. If you are looking for all of the previous functionality, you can manually import `data/conversation/workspaces/full_banking.json`. Follow the instructions in [3. Import the Watson Assistant skill](#3-import-the-watson-assistant-skill) to import it, delete the Lite version that was automatically uploaded, and restart the app. The app will recognize the skill by name if only one is available.
-
-## Run locally
-
-> NOTE: These steps are only needed when running locally instead of using the ``Deploy to IBM Cloud`` button.
-
-1. [Clone the repo](#1-clone-the-repo)
-2. [Create Watson services with IBM Cloud](#2-create-watson-services-with-ibm-cloud)
-3. [Import the Watson Assistant skill](#3-import-the-watson-assistant-skill)
-4. [Load the Discovery documents](#4-load-the-discovery-documents)
-5. [Configure credentials](#5-configure-credentials)
-6. [Run the application](#6-run-the-application)
-
-### 1. Clone the repo
-
-Clone the `watson-banking-chatbot` locally. In a terminal, run:
-
-```bash
-git clone https://github.com/IBM/watson-banking-chatbot
-```
-
-### 2. Create Watson services with IBM Cloud
-
-Create the following services:
-
-* [**Watson Assistant**](https://cloud.ibm.com/catalog/services/conversation)
-* [**Watson Discovery**](https://cloud.ibm.com/catalog/services/discovery)
-* [**Watson Tone Analyzer**](https://cloud.ibm.com/catalog/services/tone-analyzer)
-* [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
-
-### 3. Import the Watson Assistant skill
-
-* Find the Assistant service in your IBM Cloud Dashboard.
-* Click on the service and then click on `Launch tool`.
-* Go to the `Skills` tab.
-* Click `Create skill`
-* Click the `Import skill` tab.
-* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the workspace.json file in `data/conversation/workspaces/banking_US.json` (or the old full version in `full_banking.json`). `banking_IN.json` is used for content for bankig in India and `banking_US.json` is used for content for bankig in United States.
-* Select `Everything` and click `Import`.
-
-To find the `WORKSPACE_ID` for Watson Assistant:
-
-* Go back to the `Skills` tab.
-* Click on the three dots in the upper right-hand corner of the **watson-banking-chatbot** card and select `View API Details`.
-* Copy the `Workspace ID` GUID.
-  ![view_api_details](doc/source/images/view_api_details.png)
-
-*Optionally*, to view the Assistant dialog, click on the skill and choose the
-`Dialog` tab. Here's a snippet of the dialog:
-
-![dialog](doc/source/images/dialog.png)
-
-### 4. Load the Discovery documents
-
-* Find the Discovery service in your IBM Cloud Dashboard.
-* Click on the service and then click on `Launch tool`.
-* Create a new data collection by hitting the `Upload your own data` button.  
-  ![new_collection](doc/source/images/new_collection.png)
-  * Provide a collection name
-  * Select `English` language
-  * Click `Create`
-* Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
-* Click on the upper-right `api` icon and save the `Environment Id` and `Collection Id` for your `.env` file in the next step.  
-  ![disco_guids](doc/source/images/disco_guids.png)
-
-### 5. Configure credentials
-
-Collect the credentials for the IBM Cloud services (Assistant, Discovery, Tone Analyzer and Natural Language Understanding). For each of these services:
-
-* Find the service in your IBM Cloud Dashboard.
-* Click on the service.
-* Hit `Manage` in the left sidebar menu.
-* Copy the `API Key` and `URL`.
-
-The other settings for Assistant and Discovery were collected during the
-earlier setup steps (`DISCOVERY_COLLECTION_ID`, `DISCOVERY_ENVIRONMENT_ID` and
-`WORKSPACE_ID`).
-
-Copy the [`env.sample`](env.sample) to `.env`.
-
-```bash
-cp env.sample .env
-```
-
-Edit the `.env` file with the necessary credentials and settings.
-
-#### `env.sample:`
-
-```bash
-# Copy this file to .env and replace the credentials with
-# your own before starting the app.
-
-# Note: If you are using older services, you may need _USERNAME and _PASSWORD
-# instead of _IAM_APIKEY.
-
-# Watson Assistant
-WORKSPACE_ID=<add_assistant_workspace>
-ASSISTANT_URL=<add_assistant_url>
-ASSISTANT_IAM_APIKEY=<add_assistant_iam_apikey>
-
-# Watson Discovery
-DISCOVERY_URL=<add_discovery_url>
-DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment_id>
-DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
-DISCOVERY_IAM_APIKEY=<add_discovery_iam_apikey>
-
-# Watson Natural Language Understanding
-NATURAL_LANGUAGE_UNDERSTANDING_URL=<add_nlu_url>
-NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<add_nlu_iam_apikey>
-
-# Watson Tone Analyzer
-TONE_ANALYZER_URL=<add_tone_analyzer_url>
-TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
-
-// locale could be either en_US or en_IN
-LOCALE=<en_US or en_IN>
-```
-
-> Note: if you are trying to run this project as workshop in India then use `Locale=en_IN`
-
-### 6. Run the application
-
-1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
-1. Start the app by running `npm install`, followed by `npm start`.
-1. Use the chatbot at `localhost:3000`.
-
-> Note: server host can be changed as required in server.js and `PORT` can be set in `.env`.
-
-# Sample output
-
-![sample_output](doc/source/images/demo.gif)
-
-# Links
-
-* [Demo on Youtube](https://www.youtube.com/watch?v=Jxi7U7VOMYg)
-* [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk)
-* [Relevancy Training Demo Video](https://www.youtube.com/watch?v=8BiuQKPQZJk)
-* [Relevancy Training Demo Notebook](https://github.com/akmnua/relevancy_passage_bww)
-
-# Troubleshooting
+## Troubleshooting
 
 * Fail: An operation for service instance wbc-discovery-service is in progress.
 
@@ -220,13 +63,16 @@ LOCALE=<en_US or en_IN>
 
 * Error: Only one free environment is allowed per organization
 
-  > To work with a free trial, a small free Discovery environment is created. If you already have
-a Discovery environment, this will fail. If you are not using Discovery, check for an old
-service thay you may want to delete. Otherwise use the .env DISCOVERY_ENVIRONMENT_ID to tell
-the app which environment you want it to use. A collection will be created in this environment
-using the default configuration.
+  > To work with a free trial, a small free Discovery environment is created. If you already have a Discovery environment, this will fail. If you are not using Discovery, check for an old service thay you may want to delete. Otherwise use the .env DISCOVERY_ENVIRONMENT_ID to tell the app which environment you want it to use. A collection will be created in this environment using the default configuration.
 
-# License
+## Links
+
+* [Demo on Youtube](https://www.youtube.com/watch?v=Jxi7U7VOMYg)
+* [Watson Node.js SDK](https://github.com/watson-developer-cloud/node-sdk)
+* [Relevancy Training Demo Video](https://www.youtube.com/watch?v=8BiuQKPQZJk)
+* [Relevancy Training Demo Notebook](https://github.com/akmnua/relevancy_passage_bww)
+
+## License
 
 This code pattern is licensed under the Apache License, Version 2. Separate third-party code objects invoked within this code pattern are licensed by their respective providers pursuant to their own separate licenses. Contributions are subject to the [Developer Certificate of Origin, Version 1.1](https://developercertificate.org/) and the [Apache License, Version 2](https://www.apache.org/licenses/LICENSE-2.0.txt).
 
