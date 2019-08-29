@@ -130,4 +130,4 @@ LOCALE=<en_US or en_IN>
 
 > Note: server host can be changed as required in server.js and `PORT` can be set in `.env`.
 
-[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-assistant-slots-intro#deployment-options)
+[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#deployment-options)
