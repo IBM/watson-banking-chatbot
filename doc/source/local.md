@@ -98,7 +98,7 @@ Edit the `.env` file with the necessary credentials and settings.
 # instead of _IAM_APIKEY.
 
 # Watson Assistant
-SKILL_ID=<add_skill_id>
+WORKSPACE_ID=<add_skill_id>
 ASSISTANT_URL=<add_assistant_url>
 ASSISTANT_IAM_APIKEY=<add_assistant_iam_apikey>
 
