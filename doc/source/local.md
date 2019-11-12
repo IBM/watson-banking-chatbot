@@ -38,11 +38,11 @@ Create the following services:
 * Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
 * Select `Everything` and click `Import`.
 
-To find the `WORKSPACE_ID` for Watson Assistant:
+To find the `Skill_ID` for Watson Assistant:
 
 * Go back to the `Skills` tab.
 * Click on the three dots in the upper right-hand corner of the **watson-banking-chatbot** card and select `View API Details`.
-* Copy the `Workspace ID` GUID.
+* Copy the `Skill ID` GUID.
 
   ![view_api_details](images/view_api_details.png)
 
@@ -98,7 +98,7 @@ Edit the `.env` file with the necessary credentials and settings.
 # instead of _IAM_APIKEY.
 
 # Watson Assistant
-WORKSPACE_ID=<add_assistant_workspace>
+SKILL_ID=<add_skill_id>
 ASSISTANT_URL=<add_assistant_url>
 ASSISTANT_IAM_APIKEY=<add_assistant_iam_apikey>
 
