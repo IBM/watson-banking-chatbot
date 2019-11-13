@@ -50,11 +50,11 @@ const WORKSPACE_FILE_US = 'data/conversation/workspaces/banking_US.json';
 const WORKSPACE_FILE_IN = 'data/conversation/workspaces/banking_IN.json';
 
 const DISCOVERY_DOCS_US = [
-    './data/discovery/docs/en_US/BankFaqRnR-DB-Failure-General_US.docx',
-    './data/discovery/docs/en_US/BankFaqRnR-DB-Terms-General_US.docx',
-    './data/discovery/docs/en_US/BankFaqRnR-e2eAO-Terms_US.docx',
-    './data/discovery/docs/en_US/BankFaqRnR-e2ePL-Terms_US.docx',
-    './data/discovery/docs/en_US/BankRnR-OMP-General_US.docx'
+  './data/discovery/docs/en_US/BankFaqRnR-DB-Failure-General_US.docx',
+  './data/discovery/docs/en_US/BankFaqRnR-DB-Terms-General_US.docx',
+  './data/discovery/docs/en_US/BankFaqRnR-e2eAO-Terms_US.docx',
+  './data/discovery/docs/en_US/BankFaqRnR-e2ePL-Terms_US.docx',
+  './data/discovery/docs/en_US/BankRnR-OMP-General_US.docx'
 ];
 const DISCOVERY_DOCS_IN = [
   './data/discovery/docs/en_IN/BankFaqRnR-DB-Failure-General.docx',
