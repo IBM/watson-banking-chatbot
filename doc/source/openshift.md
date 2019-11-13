@@ -8,9 +8,29 @@ You will need a running OpenShift cluster, or OKD cluster. You can provision [Op
 
 ## Steps
 
-* In your cluster, open your project or click on `+ Create Project` to create one.
+1. [Create Watson services on IBM Cloud](#1-create-watson-services-on-ibm-cloud)
+1. [Create an OpenShift project](#2-create-an-openshift-project)
+1. [Create the config map](#3-create-the-config-map)
+1. [Run the web app](#4-run-the-web-app)
 
-* In the `Overview` tab, click on `Browse Catalog`
+## 1. Create Watson services on IBM Cloud
+
+Use the following links to create the Watson services on IBM Cloud. Copy/paste the `API Key` and `URL` or keep the browser tabs open. You'll need these later.
+
+* [**Watson Assistant**](https://cloud.ibm.com/catalog/services/conversation)
+* [**Watson Discovery**](https://cloud.ibm.com/catalog/services/discovery)
+* [**Watson Tone Analyzer**](https://cloud.ibm.com/catalog/services/tone-analyzer)
+* [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
+
+## 2. Create an OpenShift project
+
+* Using the OpenShift web console, select the `Application Console` view.
+
+  ![console-options](https://raw.githubusercontent.com/IBM/pattern-utils/master/openshift/openshift-app-console-option.png)
+
+* Use the `+Create Project` button to create a new project, then click on your project to open it.
+
+* In the `Overview` tab, click on `Browse Catalog`.
 
   ![Browse Catalog](https://raw.githubusercontent.com/IBM/pattern-utils/master/openshift/openshift-browse-catalog.png)
 
@@ -22,18 +42,32 @@ You will need a running OpenShift cluster, or OKD cluster. You can provision [Op
 
   ![Add github repo](https://raw.githubusercontent.com/IBM/pattern-utils/master/openshift/openshift-add-github-repo.png)
 
-* You will need to export the key/value pairs from [env.sample](../../env.sample) as a config map. The key would be the key in env.sample and values would be the credentials of each key that you got from IBM cloud.
+## 3. Create the config map
 
-  ![configmap](../../doc/source/images/configmap.png)
+* Click on the `Resources` tab and choose `Config Maps` and then click the `Create Config Map` button.
+  * Provide a `Name` for the config map.
+  * Add a key named `PORT` and paste in the `8080` under `Enter a value...`.
+  * Click `Add Item` and add a key named `ASSISTANT_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
+  * Click `Add Item` and add a key named `ASSISTANT_URL` and paste in the URL from step 1 under `Enter a value...`..
+  * Click `Add Item` and add a key named `DISCOVERY_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
+  * Click `Add Item` and add a key named `DISCOVERY_URL` and paste in the URL from step 1 under `Enter a value...`..
+  * Click `Add Item` and add a key named `NATURAL_LANGUAGE_UNDERSTANDING_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
+  * Click `Add Item` and add a key named `NATURAL_LANGUAGE_UNDERSTANDING_URL` and paste in the URL from step 1 under `Enter a value...`..
+  * Click `Add Item` and add a key named `TONE_ANALYZER_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
+  * Click `Add Item` and add a key named `TONE_ANALYZER_URL` and paste in the URL from step 1 under `Enter a value...`..
+  * Hit the `Create` button.
+  * Click on your new Config Map's name.
+  * Click the `Add to Application` button.
+  * Select your application from the pulldown.
+  * Click `Save`.
 
-* Also add key `PORT` with the value `8080`.
+  ![config_map.png](images/config_map.png)
 
-* Go to the `Applications` tab, choose `Deployments` and the `Environment` tab. Under `Environment From` `Config Map/Secret` choose the config map you just created [1]. Save the config [2]. The app will re-deploy automatically, or click `Deploy` to re-deploy manually [3]. To see the variables in the Config Map that will be exported in the app environment, click `View Details`.
+* Go to the `Applications` tab, choose `Deployments` to view the status of your application.
 
-  ![add config map to app](https://raw.githubusercontent.com/IBM/pattern-utils/master/openshift/openshift-add-config-map-to-app.png)
+## 4. Run the web app
 
-* Under `Applications` -> `Routes` you will see your app. Click on the `Hostname` to see your Watson banking chatbot in action.
+* Under `Applications` ▷ `Routes` you will see your app. Click on the `Hostname` to see your Watson banking chatbot in action.
+* Go back to the README to see an example using the bot.
 
-  ![banking chatbot demo](../../doc/source/images/demo.png)
-
-[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#deployment-options)
+[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#sample-output)
