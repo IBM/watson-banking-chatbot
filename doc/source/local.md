@@ -94,30 +94,27 @@ Edit the `.env` file with the necessary credentials and settings.
 # Copy this file to .env and replace the credentials with
 # your own before starting the app.
 
-# Note: If you are using older services, you may need _USERNAME and _PASSWORD
-# instead of _IAM_APIKEY.
-
 # Watson Assistant
-WORKSPACE_ID=<add_skill_id>
-ASSISTANT_URL=<add_assistant_url>
-ASSISTANT_IAM_APIKEY=<add_assistant_iam_apikey>
+ASSISTANT_APIKEY=zzZzzABCsU8DBrvi123HLZwVyHbRlBFf_97n9O123ABC
+ASSISTANT_URL=https://gateway.watsonplatform.net/assistant/api
 
 # Watson Discovery
-DISCOVERY_URL=<add_discovery_url>
-DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment_id>
-DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
-DISCOVERY_IAM_APIKEY=<add_discovery_iam_apikey>
+DISCOVERY_APIKEY=a1b2c3JZmZZZZSq3NYabckevKa123AwqD9HlWIUvabCd
+DISCOVERY_URL=https://gateway.watsonplatform.net/discovery/api
 
 # Watson Natural Language Understanding
-NATURAL_LANGUAGE_UNDERSTANDING_URL=<add_nlu_url>
-NATURAL_LANGUAGE_UNDERSTANDING_IAM_APIKEY=<add_nlu_iam_apikey>
+NATURAL_LANGUAGE_UNDERSTANDING_APIKEY=A1zzzzzz5E8yFG1t9H9kFeCBR_Lq123pWj7abcdFCE11
+NATURAL_LANGUAGE_UNDERSTANDING_URL=https://gateway.watsonplatform.net/natural-language-understanding/api
 
 # Watson Tone Analyzer
-TONE_ANALYZER_URL=<add_tone_analyzer_url>
-TONE_ANALYZER_IAM_APIKEY=<add_tone_analyzer_iam_apikey>
+TONE_ANALYZER_APIKEY=abcDEF-_zZZ4CTXnVabcde4tZZQOdhxPzoEcaGH1234W
+TONE_ANALYZER_URL=https://gateway.watsonplatform.net/tone-analyzer/api
 
-// locale could be either en_US or en_IN
-LOCALE=<en_US or en_IN>
+# Run locally on a non-default port (default is 3000)
+# PORT=3000
+
+# Set LOCALE=en_IN for the original India bank version.
+# LOCALE=en_IN
 ```
 
 > Note: if you are trying to run this project as workshop in India then use `Locale=en_IN`

@@ -42,30 +42,36 @@ const WatsonAssistantSetup = require('./lib/watson-assistant-setup');
 
 const DEFAULT_NAME = 'watson-banking-chatbot';
 const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Assistant action is still 'rnr'.
-const locale = process.env.LOCALE;
-let DISCOVERY_DOCS = [
-  './data/discovery/docs/BankFaqRnR-DB-Failure-General.docx',
-  './data/discovery/docs/BankFaqRnR-DB-Terms-General.docx',
-  './data/discovery/docs/BankFaqRnR-e2eAO-Terms.docx',
-  './data/discovery/docs/BankFaqRnR-e2ePL-Terms.docx',
-  './data/discovery/docs/BankRnR-OMP-General.docx'
-];
-let bankingServices = bankingServicesIN;
-console.log(locale);
-if (locale === 'en_US') {
-  DISCOVERY_DOCS = [
-    './data/discovery/docs/BankFaqRnR-DB-Failure-General_US.docx',
-    './data/discovery/docs/BankFaqRnR-DB-Terms-General_US.docx',
-    './data/discovery/docs/BankFaqRnR-e2eAO-Terms_US.docx',
-    './data/discovery/docs/BankFaqRnR-e2ePL-Terms_US.docx',
-    './data/discovery/docs/BankRnR-OMP-General_US.docx'
-  ];
-  bankingServices = bankingServicesUS;
-}
-
 const LOOKUP_BALANCE = 'balance';
 const LOOKUP_TRANSACTIONS = 'transactions';
 const LOOKUP_5TRANSACTIONS = '5transactions';
+
+const WORKSPACE_FILE_US = 'data/conversation/workspaces/banking_US.json';
+const WORKSPACE_FILE_IN = 'data/conversation/workspaces/banking_IN.json';
+
+const DISCOVERY_DOCS_US = [
+    './data/discovery/docs/en_US/BankFaqRnR-DB-Failure-General_US.docx',
+    './data/discovery/docs/en_US/BankFaqRnR-DB-Terms-General_US.docx',
+    './data/discovery/docs/en_US/BankFaqRnR-e2eAO-Terms_US.docx',
+    './data/discovery/docs/en_US/BankFaqRnR-e2ePL-Terms_US.docx',
+    './data/discovery/docs/en_US/BankRnR-OMP-General_US.docx'
+];
+const DISCOVERY_DOCS_IN = [
+  './data/discovery/docs/en_IN/BankFaqRnR-DB-Failure-General.docx',
+  './data/discovery/docs/en_IN/BankFaqRnR-DB-Terms-General.docx',
+  './data/discovery/docs/en_IN/BankFaqRnR-e2eAO-Terms.docx',
+  './data/discovery/docs/en_IN/BankFaqRnR-e2ePL-Terms.docx',
+  './data/discovery/docs/en_IN/BankRnR-OMP-General.docx'
+];
+
+// TODO: Change default if we are mostly documenting US version.
+// Default to the original India version.
+const locale = process.env.LOCALE || 'EN_IN';
+const EN_US = locale.toUpperCase === 'EN_US';
+const WORKSPACE_FILE = EN_US ? WORKSPACE_FILE_US : WORKSPACE_FILE_IN;
+const DISCOVERY_DOCS = EN_US ? DISCOVERY_DOCS_US : DISCOVERY_DOCS_IN;
+const bankingServices = EN_US ? bankingServicesUS : bankingServicesIN;
+const workspaceJson = JSON.parse(fs.readFileSync(WORKSPACE_FILE));
 
 const app = express();
 

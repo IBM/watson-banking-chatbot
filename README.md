@@ -51,11 +51,7 @@ When the reader has completed this pattern, they will understand how to:
 
 * Fail: An operation for service instance wbc-discovery-service is in progress.
 
-  > This error occurs when starting the app before the service is ready. It is currently common behavior with the `Deploy to IBM Cloud` button. In this case, run the deploy stage again. It should succeed when the service is ready.
-
-* Error: Server error, status code: 409, error code: 60016, message: An operation for service instance wbc-discovery-service is in progress.
-
-  > This indicates that the Discovery service is still being provisioned. Wait a few minutes and click the `Run` button to restart the application.
+  > This error occurs when starting the app before the service is ready. It is currently common behavior with the `Deploy to IBM Cloud` button. In this case, click the `Run` button to restart the application. It will succeed when the service is ready.
 
 * Error: Environment {GUID} is still not active, retry once status is active
 
