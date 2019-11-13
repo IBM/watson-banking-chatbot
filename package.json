@@ -21,7 +21,7 @@
   },
   "repository": "github:IBM/watson-banking-chatbot",
   "engines": {
-    "node": ">=6"
+    "node": ">=10.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
