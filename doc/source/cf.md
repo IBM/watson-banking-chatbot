@@ -25,8 +25,7 @@ This document shows how to run the application using Cloud Foundry on IBM Cloud.
     * `wbc-conversation-service`
     * `wbc-discovery-service`
     * `wbc-natural-language-understanding-service`
-    * `wbc-tone-analyzer-service`
 
-> NOTE: The dialog has been reduced to work with Lite plans. If you are looking for all of the previous functionality, you can manually import [`full_banking.json`](../../data/conversation/workspaces/full_banking.json). Follow the instructions in [3. Import the Watson Assistant skill](../../README.md#3-import-the-watson-assistant-skill) to import it, delete the Lite version that was automatically uploaded, and restart the app. The app will recognize the skill by name if only one is available.
+> NOTE: The dialog has been reduced to work with Lite plans. If you are looking for all of the previous functionality, you can manually import [`banking_US.json`](../../data/conversation/workspaces/banking_US.json) (or [`banking_IN.json`](../../data/conversation/workspaces/banking_IN.json) for the India version). Follow the instructions in [3. Import the Watson Assistant skill](../../README.md#3-import-the-watson-assistant-skill) to import it, delete the Lite version that was automatically uploaded, and restart the app. The app will recognize the skill by name if only one is available.
 
 [![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#deployment-options)

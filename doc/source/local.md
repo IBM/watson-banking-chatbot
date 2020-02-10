@@ -19,24 +19,48 @@ Clone the `watson-banking-chatbot` locally. In a terminal, run:
 git clone https://github.com/IBM/watson-banking-chatbot
 ```
 
-### 2. Create Watson services with IBM Cloud
+### 2. Create Watson services
 
 Create the following services:
 
 * [**Watson Assistant**](https://cloud.ibm.com/catalog/services/conversation)
 * [**Watson Discovery**](https://cloud.ibm.com/catalog/services/discovery)
-* [**Watson Tone Analyzer**](https://cloud.ibm.com/catalog/services/tone-analyzer)
 * [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
 
 ### 3. Import the Watson Assistant skill
 
+The following instructions will depend on if you are provisioning Assistant from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
+
+<details><summary>Provision on IBM Cloud</summary>
+<p>
+
 * Find the Assistant service in your IBM Cloud Dashboard.
 * Click on the service and then click on `Launch tool`.
 * Go to the `Skills` tab.
-* Click `Create skill`
+* Click `Create skill`.
+* Select the `Dialog skill` option and then click `Next`.
 * Click the `Import skill` tab.
-* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
+* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or use the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
 * Select `Everything` and click `Import`.
+
+</p>
+</details>
+
+<details><summary>Provision on IBM Cloud Pak for Data</summary>
+<p>
+
+* Find the Assistant service in your list of `Provisioned Instances` in your IBM Cloud Pak for Data Dashboard.
+* Click on `View Details` from the options menu associated with your Assistant service.
+* Click on `Open Watson Assistant`.
+* Go to the `Skills` tab.
+* Click `Create skill`
+* Select the `Dialog skill` option and then click `Next`.
+* Click the `Import skill` tab.
+* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or use the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
+* Select `Everything` and click `Import`.
+
+</p>
+</details>
 
 To find the `Skill_ID` for Watson Assistant:
 
@@ -53,6 +77,11 @@ To find the `Skill_ID` for Watson Assistant:
 
 ### 4. Load the Discovery documents
 
+The following instructions will depend on if you are provisioning Assistant from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
+
+<details><summary>Provision on IBM Cloud</summary>
+<p>
+
 * Find the Discovery service in your IBM Cloud Dashboard.
 * Click on the service and then click on `Launch tool`.
 * Create a new data collection by hitting the `Upload your own data` button.
@@ -66,6 +95,26 @@ To find the `Skill_ID` for Watson Assistant:
 * Click on the upper-right `api` icon and save the `Environment Id` and `Collection Id` for your `.env` file in the next step.
 
   ![disco_guids](images/disco_guids.png)
+
+</p>
+</details>
+
+<details><summary>Provision on IBM Cloud Pak for Data</summary>
+<p>
+
+* Find the Discovery service in your list of `Provisioned Instances` in your IBM Cloud Pak for Data Dashboard.
+* Click on `View Details` from the options menu associated with your Discovery service.
+* Click on `Open Watson Discovery`.
+* Click on an existing Discovery `Project`, or create a new one.
+* From your `Project` panel, click the `Collections` tab.
+* Click on `New Collection +`.
+* Select the `Upload data` option and click `Next`.
+* Provide a collection name.
+* Select `English` language.
+* Click `Finish` to create the collection.
+
+</p>
+</details>
 
 ### 5. Configure credentials
 

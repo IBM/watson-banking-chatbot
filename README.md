@@ -4,25 +4,27 @@
 
 # Create a banking chatbot with FAQ discovery, anger detection and natural language understanding
 
-In this code pattern, we will create a chatbot using Node.js and Watson Assistant. The Assistant flow will be enhanced by using Natural Language Understanding to identify entities and using Tone Analyzer to detect customer emotions. For FAQs, a call to the Discovery service will use passage retrieval to pull answers from a collection of documents.
+In this code pattern, we will create a chatbot using Node.js and Watson Assistant. The Assistant flow will be enhanced by using Natural Language Understanding to identify location entities. For FAQs, a call to the Discovery service will use passage retrieval (or Smart Document Understanding) to pull answers from a collection of documents.
 
 When the reader has completed this pattern, they will understand how to:
 
 * Create a chatbot that converses via a web UI using Watson Assistant and Node.js
 * Use Watson Discovery with passage retrieval to find answers in FAQ documents
-* Use Watson Tone Analyzer to detect emotion in a conversation
-* Identify entities with Watson Natural Language Understanding
+* Identify location entities with Watson Natural Language Understanding
+
+> **NOTE**: This code pattern has been updated to include instructions for accessing Watson services running on IBM Cloud Pak for Data. These updates can be found in the specific instructions for deploying your app [locally](doc/source/local.md), or deploying your app to [OpenShift on IBM Cloud](doc/source/openshift.md). The main change required is that your application will need additional credentials to access the IBM Cloud Pak for Data cluster that is hosting the Watson services.
+>
+> Click [here](https://www.ibm.com/products/cloud-pak-for-data) for more information about IBM Cloud Pak for Data.
 
 ![architecture](doc/source/images/architecture.png)
 
 ## Flow
 
 1. The FAQ documents are added to the Discovery collection.
-2. The user interacts with a chatbot via the app UI.
-3. User input is processed with Tone Analyzer to detect anger. An anger score is added to the context.
-4. User input is processed with Natural Language Understanding (NLU). The context is enriched with NLU-detected entities and keywords (e.g., a location).
-5. The input and enriched context is sent to Assistant. Assistant recognizes intent, entities and dialog paths. It responds with a reply and/or action.
-6. Optionally, a requested action is performed by the app. This may include one of the following:
+1. The user interacts with a chatbot via the app UI.
+1. User input is processed with Natural Language Understanding (NLU). The context is enriched with NLU-detected entities and keywords (e.g., a location).
+1. The input and enriched context is sent to Assistant. Assistant recognizes intent, entities and dialog paths. It responds with a reply and/or action.
+1. Optionally, a requested action is performed by the app. This may include one of the following:
    * Lookup additional information from bank services to append to the reply
    * Use Discovery to reply with an answer from the FAQ documents
 
@@ -31,7 +33,6 @@ When the reader has completed this pattern, they will understand how to:
 * [IBM Watson Assistant](https://www.ibm.com/cloud/watson-assistant/): Build, test and deploy a bot or virtual agent across mobile devices, messaging platforms, or even on a physical robot.
 * [IBM Watson Discovery](https://www.ibm.com/watson/services/discovery/): A cognitive search and content analytics engine for applications to identify patterns, trends, and actionable insights.
 * [IBM Watson Natural Language Understanding](https://www.ibm.com/watson/services/natural-language-understanding/): Analyze text to extract meta-data from content such as concepts, entities, keywords, categories, sentiment, emotion, relations, semantic roles, using natural language understanding.
-* [IBM Watson Tone Analyzer](https://www.ibm.com/watson/services/tone-analyzer/): Uses linguistic analysis to detect communication tones in written text.
 
 ## Featured technologies
 

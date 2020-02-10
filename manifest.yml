@@ -9,9 +9,6 @@ declared-services:
   wbc-natural-language-understanding-service:
     label: natural-language-understanding
     plan: free
-  wbc-tone-analyzer-service:
-    label: tone_analyzer
-    plan: lite
 applications:
 - path: .
   memory: 256M
@@ -22,6 +19,5 @@ applications:
   timeout: 180
   services:
   - wbc-conversation-service
-  - wbc-tone-analyzer-service
   - wbc-natural-language-understanding-service
   - wbc-discovery-service

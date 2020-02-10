@@ -28,12 +28,18 @@ const fs = require('fs'); // file system for loading JSON
 const AssistantV1 = require('ibm-watson/assistant/v1');
 const DiscoveryV1 = require('ibm-watson/discovery/v1');
 const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
-const ToneAnalyzerV3 = require('ibm-watson/tone-analyzer/v3');
 
-const assistant = new AssistantV1({ version: '2019-06-17' });
-const discovery = new DiscoveryV1({ version: '2019-04-17' }); // PRE-SDU VERSION!
-const nlu = new NaturalLanguageUnderstandingV1({ version: '2019-06-17' });
-const toneAnalyzer = new ToneAnalyzerV3({ version: '2019-06-17' });
+const assistant = new AssistantV1({
+  version: '2019-02-28'
+});
+
+const discovery = new DiscoveryV1({
+  version: '2019-04-30'
+});
+
+const  nlu = new NaturalLanguageUnderstandingV1({
+  version: '2019-07-12'
+});
 
 const bankingServicesIN = require('./banking_services');
 const bankingServicesUS = require('./banking_services_us');
@@ -41,7 +47,7 @@ const WatsonDiscoverySetup = require('./lib/watson-discovery-setup');
 const WatsonAssistantSetup = require('./lib/watson-assistant-setup');
 
 const DEFAULT_NAME = 'watson-banking-chatbot';
-const DISCOVERY_ACTION = 'rnr'; // Replaced RnR w/ Discovery but Assistant action is still 'rnr'.
+const DISCOVERY_ACTION = 'disco';
 const LOOKUP_BALANCE = 'balance';
 const LOOKUP_TRANSACTIONS = 'transactions';
 const LOOKUP_5TRANSACTIONS = '5transactions';
@@ -50,11 +56,11 @@ const WORKSPACE_FILE_US = 'data/conversation/workspaces/banking_US.json';
 const WORKSPACE_FILE_IN = 'data/conversation/workspaces/banking_IN.json';
 
 const DISCOVERY_DOCS_US = [
-  './data/discovery/docs/en_US/BankFaqRnR-DB-Failure-General_US.docx',
-  './data/discovery/docs/en_US/BankFaqRnR-DB-Terms-General_US.docx',
-  './data/discovery/docs/en_US/BankFaqRnR-e2eAO-Terms_US.docx',
-  './data/discovery/docs/en_US/BankFaqRnR-e2ePL-Terms_US.docx',
-  './data/discovery/docs/en_US/BankRnR-OMP-General_US.docx'
+  './data/discovery/docs/en_US/BankFaqRnR-DB-Failure-General.docx',
+  './data/discovery/docs/en_US/BankFaqRnR-DB-Terms-General.docx',
+  './data/discovery/docs/en_US/BankFaqRnR-e2eAO-Terms.docx',
+  './data/discovery/docs/en_US/BankFaqRnR-e2ePL-Terms.docx',
+  './data/discovery/docs/en_US/BankRnR-OMP-General.docx'
 ];
 const DISCOVERY_DOCS_IN = [
   './data/discovery/docs/en_IN/BankFaqRnR-DB-Failure-General.docx',
@@ -67,11 +73,13 @@ const DISCOVERY_DOCS_IN = [
 // TODO: Change default if we are mostly documenting US version.
 // Default to the original India version.
 const locale = process.env.LOCALE || 'EN_IN';
-const EN_US = locale.toUpperCase === 'EN_US';
+const EN_US = locale.toUpperCase() === 'EN_US';
 const WORKSPACE_FILE = EN_US ? WORKSPACE_FILE_US : WORKSPACE_FILE_IN;
 const DISCOVERY_DOCS = EN_US ? DISCOVERY_DOCS_US : DISCOVERY_DOCS_IN;
 const bankingServices = EN_US ? bankingServicesUS : bankingServicesIN;
 const workspaceJson = JSON.parse(fs.readFileSync(WORKSPACE_FILE));
+
+console.log('locale = ' + locale);
 
 const app = express();
 
@@ -84,7 +92,10 @@ let setupError = '';
 
 let discoveryParams; // discoveryParams will be set after Discovery is validated and setup.
 const discoverySetup = new WatsonDiscoverySetup(discovery);
-const discoverySetupParams = { default_name: DEFAULT_NAME, documents: DISCOVERY_DOCS };
+const discoverySetupParams = {
+  default_name: DEFAULT_NAME,
+  documents: DISCOVERY_DOCS
+};
 discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
   if (err) {
     handleSetupError(err);
@@ -94,6 +105,7 @@ discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
   }
 });
 
+// Use Watson Assistant V1 to perform any authoring of the dialog components
 let workspaceID; // workspaceID will be set when the workspace is created or validated.
 const assistantSetup = new WatsonAssistantSetup(assistant);
 const assistantSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJson };
@@ -127,7 +139,7 @@ app.post('/api/message', function(req, res) {
     }
 
     const payload = {
-      workspace_id: workspaceID,
+      workspaceId: workspaceID,
       context: {
         person: person
       },
@@ -177,88 +189,60 @@ app.post('/api/message', function(req, res) {
         if (err) {
           return res.status(err.code || 500).json(err);
         } else {
-          console.log('assistant.message :: ', JSON.stringify(data));
-          return res.json(data);
+          console.log('assistant.message1 :: ', JSON.stringify(data.result, null, 2));
+          return res.json(data.result);
         }
       });
     } else {
       const queryInput = JSON.stringify(payload.input);
+      console.log("queryInput: " + queryInput);
 
-      const toneParams = {
-        tone_input: { text: queryInput },
-        content_type: 'application/json'
-      };
-      toneAnalyzer.tone(toneParams, function(err, tone) {
-        let toneAngerScore = '';
-        if (err) {
-          console.log('Error occurred while invoking Tone analyzer. ::', err);
-        } else {
-          console.log(JSON.stringify(tone, null, 2));
-          const emotionTones = tone.document_tone.tones;
-
-          const len = emotionTones.length;
-          for (let i = 0; i < len; i++) {
-            if (emotionTones[i].tone_id === 'anger') {
-              console.log('Input = ', queryInput);
-              console.log('emotion_anger score = ', 'Emotion_anger', emotionTones[i].score);
-              toneAngerScore = emotionTones[i].score;
-              break;
-            }
+      const parameters = {
+        'text': payload.input.text,
+        'language': 'en', // To avoid language detection errors
+        'features': {
+          'entities': {
+            'sentiment': true,
+            'limit': 2
+          },
+          'keywords': {
+            'sentiment': true,
+            'limit': 2
           }
         }
+      };
 
-        payload.context['tone_anger_score'] = toneAngerScore;
+      // call NLU to check if location is included in request
+      nlu.analyze(parameters)
+        .then(response => {
+          //console.log(JSON.stringify(response, null ,2));
 
-        const parameters = {
-          text: payload.input.text,
-          language: 'en', // To avoid language detection errors
-          features: {
-            entities: {
-              emotion: true,
-              sentiment: true,
-              limit: 2
-            },
-            keywords: {
-              emotion: true,
-              sentiment: true,
-              limit: 2
+          const nluOutput = response.result;
+          payload.context['nlu_output'] = nluOutput;
+          // identify location
+          const entities = nluOutput.entities;
+          let location = entities.map(function(entry) {
+            if (entry.type == 'Location') {
+              return entry.text;
             }
-          }
-        };
+          });
+          location = location.filter(function(entry) {
+            if (entry != null) {
+              return entry;
+            }
+          });
 
-        nlu.analyze(parameters, function(err, response) {
-          if (err) {
-            console.log('error:', err);
+          if (location.length > 0) {
+            payload.context['Location'] = location[0];
+            console.log('Location = ', payload.context['Location']);
           } else {
-            const nluOutput = response;
-
-            payload.context['nlu_output'] = nluOutput;
-            // console.log('NLU = ', nlu_output);
-            // identify location
-            const entities = nluOutput.entities;
-            let location = entities.map(function(entry) {
-              if (entry.type == 'Location') {
-                return entry.text;
-              }
-            });
-            location = location.filter(function(entry) {
-              if (entry != null) {
-                return entry;
-              }
-            });
-            if (location.length > 0) {
-              payload.context['Location'] = location[0];
-              console.log('Location = ', payload.context['Location']);
-            } else {
-              payload.context['Location'] = '';
-            }
+            payload.context['Location'] = '';
           }
 
           assistant.message(payload, function(err, data) {
             if (err) {
               return res.status(err.code || 500).json(err);
             } else {
-              console.log('assistant.message :: ', JSON.stringify(data));
               // lookup actions
               checkForLookupRequests(data, function(err, data) {
                 if (err) {
@@ -270,8 +254,11 @@ app.post('/api/message', function(req, res) {
               });
             }
           });
+  
+        })
+        .catch(err => {
+          console.log('error:', err);
         });
-      });
     }
   }
 });
@@ -279,8 +266,10 @@ app.post('/api/message', function(req, res) {
 /**
  * Looks for actions requested by Assistant service and provides the requested data.
  */
-function checkForLookupRequests(data, callback) {
+function checkForLookupRequests(output, callback) {
   console.log('checkForLookupRequests');
+  var data = output.result;
+  console.log('Assistant result to act on: ' + JSON.stringify(data, null, 2));
 
   // The branchInfo intent is handled here to help keep our Assistant dialog
   // within the limits of the free plan. Could simplify this with more dialog.
@@ -297,14 +286,15 @@ function checkForLookupRequests(data, callback) {
 
   if (data.context && data.context.action && data.context.action.lookup && data.context.action.lookup != 'complete') {
     const payload = {
-      workspace_id: workspaceID,
+      workspaceId: workspaceID,
       context: data.context,
       input: data.input
     };
 
+    console.log('data.context.action.lookup: ' + data.context.action.lookup);
     // Assistant requests a data lookup action
     if (data.context.action.lookup === LOOKUP_BALANCE) {
-      console.log('Lookup Balance requested');
+      console.log('************** Lookup Balance requested **************');
       // if account type is specified (checking, savings or credit card)
       if (data.context.action.account_type && data.context.action.account_type != '') {
         // lookup account information services and update context with account data
@@ -364,7 +354,7 @@ function checkForLookupRequests(data, callback) {
         });
       }
     } else if (data.context.action.lookup === LOOKUP_TRANSACTIONS) {
-      console.log('Lookup Transactions requested');
+      console.log('************** Lookup Transactions requested **************');
       bankingServices.getTransactions(7829706, data.context.action.category, function(err, transactionResponse) {
         if (err) {
           console.log('Error while calling account services for transactions', err);
@@ -418,7 +408,7 @@ function checkForLookupRequests(data, callback) {
         }
       });
     } else if (data.context.action.lookup === LOOKUP_5TRANSACTIONS) {
-      console.log('Lookup Transactions requested');
+      console.log('************** Lookup 5 Transactions requested **************');
       bankingServices.getTransactions(7829706, data.context.action.category, function(err, transactionResponse) {
         if (err) {
           console.log('Error while calling account services for transactions', err);
@@ -500,6 +490,7 @@ function checkForLookupRequests(data, callback) {
         callback(null, data);
       });
     } else if (data.context.action.lookup === DISCOVERY_ACTION) {
+      // query to trigger this action - "can I use an atm in any city"
       console.log('************** Discovery *************** InputText : ' + payload.input.text);
       let discoveryResponse = '';
       if (!discoveryParams) {
@@ -515,40 +506,48 @@ function checkForLookupRequests(data, callback) {
         payload.context.action = {};
       } else {
         const queryParams = {
-          natural_language_query: payload.input.text,
+          naturalLanguageQuery: payload.input.text,
           passages: true
         };
         Object.assign(queryParams, discoveryParams);
+        console.log("DISCO queryParams: " + JSON.stringify(queryParams, null, 2));
         discovery.query(queryParams, (err, searchResponse) => {
+          console.log("DISCO searchResponse: " + JSON.stringify(searchResponse, null, 2));
           discoveryResponse = 'Sorry, currently I do not have a response. Our Customer representative will get in touch with you shortly.';
           if (err) {
             console.error('Error searching for documents: ' + err);
-          } else if (searchResponse.passages.length > 0) {
-            const bestPassage = searchResponse.passages[0];
-            console.log('Passage score: ', bestPassage.passage_score);
-            console.log('Passage text: ', bestPassage.passage_text);
+          } else if (searchResponse.result.matching_results > 0) {
 
-            // Trim the passage to try to get just the answer part of it.
-            const lines = bestPassage.passage_text.split('.');
+            // we have a valid response from Discovery
+            // now check if we are using SDU or just a simple document query
             let bestLine;
-            let questionFound = false;
-            for (let i = 0, size = lines.length; i < size; i++) {
-              const line = lines[i].trim();
-              if (!line) {
-                continue; // skip empty/blank lines
+            if ("answer" in searchResponse.result.results[0]) {
+              console.log('Using Discovery SDU');
+              let bestScore = 0;
+              for (let i = 0, size = searchResponse.result.results.length; i < size; i++) {
+                if (searchResponse.result.results[i].result_metadata['confidence'] > bestScore) {
+                  bestLine = searchResponse.result.results[i].answer[0];
+                  bestScore = searchResponse.result.results[i].result_metadata['confidence'];
+                }
               }
-              console.log('line: ' + line);
-              let answer = '';
-              if (line.includes('?') || line.includes('<h1')) {
-                // To get the answer we needed to know the Q/A format of the doc.
-                // Skip questions which either have a '?' or are a header '<h1'...
-                answer = line.split('?');
-                questionFound = true;
-              }
-              bestLine = answer[1]; // Best so far, but can be tail of earlier answer.
-              if (questionFound && bestLine) {
-                // We found the first non-blank answer after the end of a question. Use it.
-                break;
+            } else {
+              // use Passage feature
+              const bestPassage = searchResponse.result.passages[0];
+              console.log('Passage score: ', bestPassage.passage_score);
+              console.log('Passage text: ', bestPassage.passage_text);
+              bestLine = bestPassage.passage_text;  // default value
+
+              // Trim the passage to try to get just the answer part of it.
+              const lines = bestPassage.passage_text.split('.');
+
+              // just use the first sentence in the response.
+              // if it contains a question mark, use the portion after it
+              const line = lines[0].trim();
+              if (line.indexOf('?') > -1) {
+                const subline = line.split('?');
+                bestLine = subline[1];
+              } else {
+                bestLine = line;
               }
             }
             discoveryResponse =
@@ -558,6 +557,7 @@ function checkForLookupRequests(data, callback) {
           if (data.output.text) {
             data.output.text.push(discoveryResponse);
           }
+          console.log('Discovery response: ' + discoveryResponse);
           // Clear the context's action since the lookup and append was completed.
           data.context.action = {};
           callback(null, data);
