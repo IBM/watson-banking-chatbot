@@ -8,18 +8,20 @@ You will need a running OpenShift cluster, or OKD cluster. You can provision [Op
 
 ## Steps
 
-1. [Create Watson services on IBM Cloud](#1-create-watson-services-on-ibm-cloud)
+1. [Create Watson services](#1-create-watson-services)
 1. [Create an OpenShift project](#2-create-an-openshift-project)
 1. [Create the config map](#3-create-the-config-map)
 1. [Run the web app](#4-run-the-web-app)
 
-## 1. Create Watson services on IBM Cloud
+## 1. Create Watson services
 
-Use the following links to create the Watson services on IBM Cloud. Copy/paste the `API Key` and `URL` or keep the browser tabs open. You'll need these later.
+Create the following services:
 
-* [**Watson Assistant**](https://cloud.ibm.com/catalog/services/conversation)
-* [**Watson Discovery**](https://cloud.ibm.com/catalog/services/discovery)
-* [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
+* **Watson Assistant**
+* **Watson Discovery**
+* **Watson Natural Language Understanding**
+
+Use the instructions found for [Deploying Locally](local.md) to provision your services from IBM Cloud or from an IBM Cloud Pak for Data cluster. Once you have created the services and collected all of the service credential data, return to this page and complete the remaining steps.
 
 ## 2. Create an OpenShift project
 
@@ -46,13 +48,35 @@ Use the following links to create the Watson services on IBM Cloud. Copy/paste t
 * Click on the `Resources` tab and choose `Config Maps` and then click the `Create Config Map` button.
   * Provide a `Name` for the config map.
   * Add a key named `PORT` and paste in the `8080` under `Enter a value...`.
-  * For each of the following key/value pairs, click `Add Item` to add the key, and then paste the value in the `Enter a value...` field:
-    * `CONVERSATION_APIKEY`
-    * `CONVERSATION_URL`
-    * `DISCOVERY_APIKEY`
-    * `DISCOVERY_URL`
-    * `NATURAL_LANGUAGE_UNDERSTANDING_APIKEY`
-    * `NATURAL_LANGUAGE_UNDERSTANDING_URL`
+  * For each of the following key/value pairs, click `Add Item` to add the key, and then paste the value in the `Enter a value...` field. The list will depend on where you provisioned your Watson services, similar to how you would update your `.env` file.
+    * For IBM Cloud, the required keys are:
+      * `CONVERSATION_APIKEY`
+      * `CONVERSATION_URL`
+      * `WORKSPACE_ID`
+      * `DISCOVERY_APIKEY`
+      * `DISCOVERY_URL`
+      * `DISCOVERY_ENVIRONMENT_ID`
+      * `DISCOVERY_COLLECTION_ID`
+      * `NATURAL_LANGUAGE_UNDERSTANDING_APIKEY`
+      * `NATURAL_LANGUAGE_UNDERSTANDING_URL`
+
+    * For IBM Cloud Pak for Data, the required keys are:
+      * `CONVERSATION_AUTH_TYPE` with value `cp4d`
+      * `CONVERSATION_AUTH_URL`
+      * `CONVERSATION_APIKEY`
+      * `CONVERSATION_URL`
+      * `WORKSPACE_ID`
+      * `DISCOVERY_AUTH_TYPE` with value `cp4d`
+      * `DISCOVERY_AUTH_URL`
+      * `DISCOVERY_APIKEY`
+      * `DISCOVERY_URL`
+      * `DISCOVERY_ENVIRONMENT_ID`
+      * `DISCOVERY_COLLECTION_ID`
+      * `NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE` with value `cp4d`
+      * `NATURAL_LANGUAGE_UNDERSTANDING_AUTH_URL`
+      * `NATURAL_LANGUAGE_UNDERSTANDING_APIKEY`
+      * `NATURAL_LANGUAGE_UNDERSTANDING_URL`
+
   * Hit the `Create` button.
   * Click on your new Config Map's name.
   * Click the `Add to Application` button.

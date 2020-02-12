@@ -21,11 +21,11 @@ git clone https://github.com/IBM/watson-banking-chatbot
 
 ### 2. Create Watson services
 
-Create the following services:
+Create the following services. Note that each service can be provisioned from [IBM Cloud](https://cloud.ibm.com/catalog) or from an [IBM Cloud Pak for Data](https://www.ibm.com/products/cloud-pak-for-data) cluster:
 
-* [**Watson Assistant**](https://cloud.ibm.com/catalog/services/conversation)
-* [**Watson Discovery**](https://cloud.ibm.com/catalog/services/discovery)
-* [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
+* **Watson Assistant**
+* **Watson Discovery**
+* **Watson Natural Language Understanding**
 
 ### 3. Import the Watson Assistant skill
 
@@ -66,7 +66,7 @@ To find the `Skill_ID` for Watson Assistant:
 
 * Go back to the `Skills` tab.
 * Click on the three dots in the upper right-hand corner of the **watson-banking-chatbot** card and select `View API Details`.
-* Copy the `Skill ID` GUID.
+* Copy the `Skill ID` GUID. Use this value as the `Workspace ID` when setting up your `.env` file in the `Configure Credentials` step below.
 
   ![view_api_details](images/view_api_details.png)
 
@@ -92,7 +92,7 @@ The following instructions will depend on if you are provisioning Discovery from
   * Click `Create`
 
 * Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
-* Click on the upper-right `api` icon and save the `Environment Id` and `Collection Id` for your `.env` file in the next step.
+* Click on the upper-right `api` icon and save the `Environment ID` and `Collection ID` for your `.env` file in the next step.
 
   ![disco_guids](images/disco_guids.png)
 
@@ -113,7 +113,7 @@ The following instructions will depend on if you are provisioning Discovery from
 * Select `English` language.
 * Click `Finish` to create the collection.
 * Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
-* To get the `Collection Id` needed for your `.env` file in the next step, from Discovery Project panel, select the `Integrate and deploy` option from the left-side menu. Then select the `View API Details` tab to view the `Project Id`. Use this value for your `Collection Id`. 
+* To get the `Collection Id` needed for your `.env` file in the next step, select the `Integrate and deploy` option from the left-side menu of the Discovery panel. Then select the `View API Details` tab to view the `Project Id`. Use this value for your `Collection Id`. 
 
 > **NOTE**: The `Environment Id` for Cloud Pak for Data collections is always set to `default`.
 
