@@ -1,3 +1,8 @@
+## Feb 11, 2019
+- Uses the latest Watson SDK
+- Added support for IBM Cloud Pak for Data
+- Changed engine to Node v10.x
+
 ## Apr 14, 2017
 - Added Tone Analyzer
 - Changed engine to Node v6.x

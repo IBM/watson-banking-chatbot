@@ -8,21 +8,12 @@ You will need a running OpenShift cluster, or OKD cluster. You can provision [Op
 
 ## Steps
 
-1. [Create Watson services on IBM Cloud](#1-create-watson-services-on-ibm-cloud)
-1. [Create an OpenShift project](#2-create-an-openshift-project)
-1. [Create the config map](#3-create-the-config-map)
+1. [Create an OpenShift project](#1-create-an-openshift-project)
+1. [Create the config map](#2-create-the-config-map)
+1. [Get a secure endpoint](#3-get-a-secure-endpoint)
 1. [Run the web app](#4-run-the-web-app)
 
-## 1. Create Watson services on IBM Cloud
-
-Use the following links to create the Watson services on IBM Cloud. Copy/paste the `API Key` and `URL` or keep the browser tabs open. You'll need these later.
-
-* [**Watson Assistant**](https://cloud.ibm.com/catalog/services/conversation)
-* [**Watson Discovery**](https://cloud.ibm.com/catalog/services/discovery)
-* [**Watson Tone Analyzer**](https://cloud.ibm.com/catalog/services/tone-analyzer)
-* [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
-
-## 2. Create an OpenShift project
+## 1. Create an OpenShift project
 
 * Using the OpenShift web console, select the `Application Console` view.
 
@@ -42,28 +33,99 @@ Use the following links to create the Watson services on IBM Cloud. Copy/paste t
 
   ![Add github repo](https://raw.githubusercontent.com/IBM/pattern-utils/master/openshift/openshift-add-github-repo.png)
 
-## 3. Create the config map
+## 2. Create the config map
 
 * Click on the `Resources` tab and choose `Config Maps` and then click the `Create Config Map` button.
   * Provide a `Name` for the config map.
   * Add a key named `PORT` and paste in the `8080` under `Enter a value...`.
-  * Click `Add Item` and add a key named `ASSISTANT_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `ASSISTANT_URL` and paste in the URL from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `DISCOVERY_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `DISCOVERY_URL` and paste in the URL from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `NATURAL_LANGUAGE_UNDERSTANDING_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `NATURAL_LANGUAGE_UNDERSTANDING_URL` and paste in the URL from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `TONE_ANALYZER_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `TONE_ANALYZER_URL` and paste in the URL from step 1 under `Enter a value...`..
-  * Hit the `Create` button.
-  * Click on your new Config Map's name.
-  * Click the `Add to Application` button.
-  * Select your application from the pulldown.
-  * Click `Save`.
+  * For each of the following key/value pairs, click `Add Item` to add the key, and then paste the value in the `Enter a value...` field. The necessary keys to configure will depend on whether you are provisioning services using IBM Cloud Pak for Data or on IBM Cloud.
+
+Click to expand one:
+
+<details><summary><b>IBM Cloud Pak for Data</b></summary>
+<p>
+
+For each service (<b>ASSISTANT, DISCOVERY, and NATURAL_LANGUAGE_UNDERSTANDING</b>) the following settings are needed with the service name as a prefix:
+
+* Set <b>_AUTH_TYPE</b> to <b>cp4d</b>
+* Provide the <b>_URL</b>, <b>_USERNAME</b> and <b>_PASSWORD</b> for the user added to this service instance.
+* For the <b>_AUTH_URL</b> use the base fragment of your URL including the host and port. <i>I.e. https://{cpd_cluster_host}{:port}</i>.
+* If your CPD installation is using a self-signed certificate, you need to disable SSL verification with both <b>_AUTH_DISABLE_SSL</b> and <b>_DISABLE_SSL</b>. Disable SSL only if absolutely necessary, and take steps to enable SSL as soon as possible.
+
+  | Key | Value |
+  | --- | --- |
+  | ASSISTANT_AUTH_TYPE | cp4d |
+  | ASSISTANT_URL | https://{cpd_cluster_host}{:port}/assistant/{release}/instances/{instance_id}/api |
+  | ASSISTANT_AUTH_URL | https://{cpd_cluster_host}{:port} |
+  | ASSISTANT_USERNAME | <add_assistant_username> |
+  | ASSISTANT_PASSWORD | <add_assistant_password> |
+  | ASSISTANT_DISABLE_SSL | true or false |
+  | ASSISTANT_AUTH_DISABLE_SSL | true or false |
+  | WORKSPACE_ID | <add_assistant_workspace_id> |
+  | DISCOVERY_AUTH_TYPE | cp4d |
+  | DISCOVERY_URL | https://{cpd_cluster_host}{:port}/natural-language-understanding/{release}/instances/{instance_id}/api |
+  | DISCOVERY_AUTH_URL | https://{cpd_cluster_host}{:port} |
+  | DISCOVERY_USERNAME | <add_discovery_username> |
+  | DISCOVERY_PASSWORD | <add_discovery_password> |
+  | DISCOVERY_DISABLE_SSL | true or false |
+  | DISCOVERY_AUTH_DISABLE_SSL | true or false |
+  | DISCOVERY_COLLECTION_ID | <add_discovery_collection_id> |
+  | NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE | cp4d |
+  | NATURAL_LANGUAGE_UNDERSTANDING_URL | https://{cpd_cluster_host}{:port}/discovery/{release}/instances/{instance_id}/api |
+  | NATURAL_LANGUAGE_UNDERSTANDING_AUTH_URL | https://{cpd_cluster_host}{:port} |
+  | NATURAL_LANGUAGE_UNDERSTANDING_USERNAME | <add_nlu_username> |
+  | NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD | <add_nlu_password> |
+  | NATURAL_LANGUAGE_UNDERSTANDING_DISABLE_SSL | true or false |
+  | NATURAL_LANGUAGE_UNDERSTANDING_AUTH_DISABLE_SSL | true or false |
+
+</p>
+</details>
+
+<details><summary><b>IBM Cloud</b></summary>
+<p>
+
+For each service (<b>ASSISTANT, DISCOVERY, and NATURAL_LANGUAGE_UNDERSTANDING</b>) the following settings are needed with the service name as a prefix:
+
+* Set <b>_AUTH_TYPE</b> to <b>iam</b>
+* Provide the <b>_URL</b> and <b>_APIKEY</b> collected when you created the services.
+
+  | Key | Value |
+  | --- | --- |
+  | ASSISTANT_AUTH_TYPE | iam |
+  | ASSISTANT_APIKEY | <add_assistant_apikey> |
+  | ASSISTANT_URL | <add_assistant_url> |
+  | WORKSPACE_ID | <add_assistant_workspace_id> |
+  | DISCOVERY_AUTH_TYPE | iam |
+  | DISCOVERY_APIKEY | <add_discovery_apikey> |
+  | DISCOVERY_URL | <add_discovery_url> |
+  | DISCOVERY_ENVIRONMENT_ID | <add_discovery_environment_id> |
+  | DISCOVERY_COLLECTION_ID | <add_discovery_collection_id> |
+  | NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE | iam |
+  | NATURAL_LANGUAGE_UNDERSTANDING_APIKEY | <add_nlu_apikey> |
+  | NATURAL_LANGUAGE_UNDERSTANDING_URL | <add_nlu_url> |
+
+</p>
+</details>
+
+Create the config map and add it to your application.
+
+* Hit the `Create` button.
+* Click on your new Config Map's name.
+* Click the `Add to Application` button.
+* Select your application from the pulldown.
+* Click `Save`.
 
   ![config_map.png](images/config_map.png)
 
 * Go to the `Applications` tab, choose `Deployments` to view the status of your application.
+
+## 3. Get a secure endpoint
+
+* From the OpenShift or OKD UI, under `Applications` ▷ `Routes` you will see your app.
+  * Click on the application `Name`.
+  * Under `TLS Settings`, click on `Edit`.
+  * Under `Security`, check the box for `Secure route`.
+  * Hit `Save`.
 
 ## 4. Run the web app
 

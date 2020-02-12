@@ -64,3 +64,5 @@ typings/
 # IDEA IDE projects
 .idea
 
+# Mac files
+.DS_Store
