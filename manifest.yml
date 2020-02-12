@@ -1,7 +1,7 @@
 ---
 declared-services:
-  wbc-conversation-service:
-    label: conversation
+  wbc-assistant-service:
+    label: assistant
     plan: free
   wbc-discovery-service:
     label: discovery
@@ -18,6 +18,6 @@ applications:
   random-route: false
   timeout: 180
   services:
-  - wbc-conversation-service
+  - wbc-assistant-service
   - wbc-natural-language-understanding-service
   - wbc-discovery-service

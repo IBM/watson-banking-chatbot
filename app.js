@@ -28,9 +28,20 @@ const fs = require('fs'); // file system for loading JSON
 const AssistantV1 = require('ibm-watson/assistant/v1');
 const DiscoveryV1 = require('ibm-watson/discovery/v1');
 const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1.js');
+const { getAuthenticatorFromEnvironment } = require('ibm-watson/auth');
+
+let auth;
+try {
+  // ASSISTANT should be used
+  auth = getAuthenticatorFromEnvironment('ASSISTANT');
+} catch (e) {
+  // but handle if alternate CONVERSATION is used
+  auth = getAuthenticatorFromEnvironment('CONVERSATION');
+}
 
 const assistant = new AssistantV1({
-  version: '2019-02-28'
+  version: '2019-02-28',
+  authenticator: auth
 });
 
 const discovery = new DiscoveryV1({

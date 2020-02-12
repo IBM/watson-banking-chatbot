@@ -4,7 +4,7 @@
 
 # Create a banking chatbot with FAQ discovery, anger detection and natural language understanding
 
-In this code pattern, we will create a chatbot using Node.js and Watson Assistant. The Assistant flow will be enhanced by using Natural Language Understanding to identify location entities. For FAQs, a call to the Discovery service will use passage retrieval to pull answers from a collection of documents.
+In this code pattern, we will create a chatbot using Node.js and Watson Assistant. The Assistant flow will detect customer emotions and be enhanced by using Natural Language Understanding to identify location entities. For FAQs, a call to the Discovery service will use passage retrieval to pull answers from a collection of documents.
 
 When the reader has completed this pattern, they will understand how to:
 
@@ -38,11 +38,138 @@ When the reader has completed this pattern, they will understand how to:
 
 * [Node.js](https://nodejs.org/): An asynchronous event driven JavaScript runtime, designed to build scalable applications.
 
-### Deployment options
+## Deployment options
 
-| Cloud Foundry | OpenShift | Local |
-| :-: | :-: | :-: |
-| [![public](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/cf.png)](doc/source/cf.md) | [![openshift](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/openshift.png)](doc/source/openshift.md) | [![local](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/local.png)](doc/source/local.md) |
+There are multiple ways you can choose to deploy this code pattern. Which way you choose depends on how deep you want to get into the details. The simplest way is to click the `Deploy to Cloud Foundry on IBM Cloud` button below. It will show you how to quickly auto-generate the required Watson services and build/deploy the app to IBM Cloud.
+
+[![public](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/cf.png)](doc/source/cf.md)
+
+The other deployment options require you provision the Watson services yourself. To provision the Watson services, follow these steps:
+
+1. [Clone the repo](#1-clone-the-repo)
+1. [Create Watson services](#2-create-watson-services)
+1. [Import the Watson Assistant skill](#3-import-the-watson-assistant-skill)
+1. [Load the Discovery documents](#4-load-the-discovery-documents)
+1. [Deploy the application](#5-deploy-the-application)
+
+### 1. Clone the repo
+
+Clone the `watson-banking-chatbot` locally. In a terminal, run:
+
+```bash
+git clone https://github.com/IBM/watson-banking-chatbot
+```
+
+### 2. Create Watson services
+
+Create the following services. Note that each service can be provisioned from [IBM Cloud](https://cloud.ibm.com/catalog) or from an [IBM Cloud Pak for Data](https://www.ibm.com/products/cloud-pak-for-data) cluster:
+
+* **Watson Assistant**
+* **Watson Discovery**
+* **Watson Natural Language Understanding**
+
+### 3. Import the Watson Assistant skill
+
+The following instructions will depend on if you are provisioning Assistant from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
+
+<details><summary>Provision on IBM Cloud</summary>
+<p>
+
+* Find the Assistant service in your IBM Cloud Dashboard.
+* Click on the service and then click on `Launch tool`.
+* Go to the `Skills` tab.
+* Click `Create skill`.
+* Select the `Dialog skill` option and then click `Next`.
+* Click the `Import skill` tab.
+* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or use the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
+* Select `Everything` and click `Import`.
+
+</p>
+</details>
+
+<details><summary>Provision on IBM Cloud Pak for Data</summary>
+<p>
+
+* Find the Assistant service in your list of `Provisioned Instances` in your IBM Cloud Pak for Data Dashboard.
+* Click on `View Details` from the options menu associated with your Assistant service.
+* Click on `Open Watson Assistant`.
+* Go to the `Skills` tab.
+* Click `Create skill`
+* Select the `Dialog skill` option and then click `Next`.
+* Click the `Import skill` tab.
+* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or use the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
+* Select `Everything` and click `Import`.
+
+</p>
+</details>
+
+To find the `Skill_ID` for Watson Assistant:
+
+* Go back to the `Skills` tab.
+* Click on the three dots in the upper right-hand corner of the **watson-banking-chatbot** card and select `View API Details`.
+* Copy the `Skill ID` GUID. Use this value as the `Workspace ID` when setting up your run-time environment.
+
+  ![view_api_details](doc/source/images/view_api_details.png)
+
+*Optionally*, to view the Assistant dialog, click on the skill and choose the
+`Dialog` tab. Here's a snippet of the dialog:
+
+![dialog](doc/source/images/dialog.png)
+
+### 4. Load the Discovery documents
+
+The following instructions will depend on if you are provisioning Discovery from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
+
+<details><summary>Provision on IBM Cloud</summary>
+<p>
+
+* Find the Discovery service in your IBM Cloud Dashboard.
+* Click on the service and then click on `Launch tool`.
+* Create a new data collection by hitting the `Upload your own data` button.
+
+  ![new_collection](doc/source/images/new_collection.png)
+  * Provide a collection name
+  * Select `English` language
+  * Click `Create`
+
+* Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
+* Click on the upper-right `api` icon and save the `Environment ID` and `Collection ID` as they will be required when setting up your run-time environment.
+
+  ![disco_guids](doc/source/images/disco_guids.png)
+
+</p>
+</details>
+
+<details><summary>Provision on IBM Cloud Pak for Data</summary>
+<p>
+
+* Find the Discovery service in your list of `Provisioned Instances` in your IBM Cloud Pak for Data Dashboard.
+* Click on `View Details` from the options menu associated with your Discovery service.
+* Click on `Open Watson Discovery`.
+* Click on an existing Discovery `Project`, or create a new one.
+* From your `Project` panel, click the `Collections` tab.
+* Click on `New Collection +`.
+* Select the `Upload data` option and click `Next`.
+* Provide a collection name.
+* Select `English` language.
+* Click `Finish` to create the collection.
+* Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
+* Click on the `Integrate and deploy` option from the left-side menu of the Discovery panel. Then select the `View API Details` tab to view the `Project Id`. Use this as the `Collection ID` value which will be required when setting up your run-time environment.
+
+> **NOTE**: The `Environment Id` for Cloud Pak for Data collections is always set to `default`.
+
+  ![disco_cpd_projectid](doc/source/images/disco_cpd_projectid.png)
+
+</p>
+</details>
+
+### 5. Deploy the application
+
+Select one of the following methods for deploying your application:
+
+| OpenShift | Local |
+| :-: | :-: |
+| [![openshift](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/openshift.png)](doc/source/openshift.md) | [![local](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/local.png)](doc/source/local.md) |
 
 ## Sample output
 

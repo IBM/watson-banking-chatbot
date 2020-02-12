@@ -56,7 +56,6 @@ describe('test watson-assistant-setup', function() {
       });
 
       const cw = sinon.stub(c, 'createWorkspace');
-      // cw.yields(null, WS);
       cw.yields(null, {
         result: {
           name: WS_NAME,

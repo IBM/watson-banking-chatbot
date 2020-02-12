@@ -4,125 +4,10 @@ This document shows how to run the application using on your local machine.
 
 ## Steps
 
-1. [Clone the repo](#1-clone-the-repo)
-2. [Create Watson services](#2-create-watson-services)
-3. [Import the Watson Assistant skill](#3-import-the-watson-assistant-skill)
-4. [Load the Discovery documents](#4-load-the-discovery-documents)
-5. [Configure credentials](#5-configure-credentials)
-6. [Run the application](#6-run-the-application)
+1. [Configure credentials](#1-configure-credentials)
+1. [Run the application](#2-run-the-application)
 
-### 1. Clone the repo
-
-Clone the `watson-banking-chatbot` locally. In a terminal, run:
-
-```bash
-git clone https://github.com/IBM/watson-banking-chatbot
-```
-
-### 2. Create Watson services
-
-Create the following services. Note that each service can be provisioned from [IBM Cloud](https://cloud.ibm.com/catalog) or from an [IBM Cloud Pak for Data](https://www.ibm.com/products/cloud-pak-for-data) cluster:
-
-* **Watson Assistant**
-* **Watson Discovery**
-* **Watson Natural Language Understanding**
-
-### 3. Import the Watson Assistant skill
-
-The following instructions will depend on if you are provisioning Assistant from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
-
-<details><summary>Provision on IBM Cloud</summary>
-<p>
-
-* Find the Assistant service in your IBM Cloud Dashboard.
-* Click on the service and then click on `Launch tool`.
-* Go to the `Skills` tab.
-* Click `Create skill`.
-* Select the `Dialog skill` option and then click `Next`.
-* Click the `Import skill` tab.
-* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or use the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
-* Select `Everything` and click `Import`.
-
-</p>
-</details>
-
-<details><summary>Provision on IBM Cloud Pak for Data</summary>
-<p>
-
-* Find the Assistant service in your list of `Provisioned Instances` in your IBM Cloud Pak for Data Dashboard.
-* Click on `View Details` from the options menu associated with your Assistant service.
-* Click on `Open Watson Assistant`.
-* Go to the `Skills` tab.
-* Click `Create skill`
-* Select the `Dialog skill` option and then click `Next`.
-* Click the `Import skill` tab.
-* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or use the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
-* Select `Everything` and click `Import`.
-
-</p>
-</details>
-
-To find the `Skill_ID` for Watson Assistant:
-
-* Go back to the `Skills` tab.
-* Click on the three dots in the upper right-hand corner of the **watson-banking-chatbot** card and select `View API Details`.
-* Copy the `Skill ID` GUID. Use this value as the `Workspace ID` when setting up your `.env` file in the `Configure Credentials` step below.
-
-  ![view_api_details](images/view_api_details.png)
-
-*Optionally*, to view the Assistant dialog, click on the skill and choose the
-`Dialog` tab. Here's a snippet of the dialog:
-
-![dialog](images/dialog.png)
-
-### 4. Load the Discovery documents
-
-The following instructions will depend on if you are provisioning Discovery from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
-
-<details><summary>Provision on IBM Cloud</summary>
-<p>
-
-* Find the Discovery service in your IBM Cloud Dashboard.
-* Click on the service and then click on `Launch tool`.
-* Create a new data collection by hitting the `Upload your own data` button.
-
-  ![new_collection](images/new_collection.png)
-  * Provide a collection name
-  * Select `English` language
-  * Click `Create`
-
-* Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
-* Click on the upper-right `api` icon and save the `Environment ID` and `Collection ID` for your `.env` file in the next step.
-
-  ![disco_guids](images/disco_guids.png)
-
-</p>
-</details>
-
-<details><summary>Provision on IBM Cloud Pak for Data</summary>
-<p>
-
-* Find the Discovery service in your list of `Provisioned Instances` in your IBM Cloud Pak for Data Dashboard.
-* Click on `View Details` from the options menu associated with your Discovery service.
-* Click on `Open Watson Discovery`.
-* Click on an existing Discovery `Project`, or create a new one.
-* From your `Project` panel, click the `Collections` tab.
-* Click on `New Collection +`.
-* Select the `Upload data` option and click `Next`.
-* Provide a collection name.
-* Select `English` language.
-* Click `Finish` to create the collection.
-* Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
-* To get the `Collection Id` needed for your `.env` file in the next step, select the `Integrate and deploy` option from the left-side menu of the Discovery panel. Then select the `View API Details` tab to view the `Project Id`. Use this value for your `Collection Id`. 
-
-> **NOTE**: The `Environment Id` for Cloud Pak for Data collections is always set to `default`.
-
-  ![disco_cpd_projectid](images/disco_cpd_projectid.png)
-
-</p>
-</details>
-
-### 5. Configure credentials
+### 1. Configure credentials
 
 The following instructions will depend on if you are provisioning your services from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
 
@@ -163,9 +48,9 @@ Edit the `.env` file with the necessary credentials and settings.
 #----------------------------------------------------------
 
 # Watson Assistant
-CONVERSATION_AUTH_TYPE=iam
-CONVERSATION_APIKEY=zzZzzABCsU8DBrvi123HLZwVyHbRlBFf_97n9O123ABC
-CONVERSATION_URL=https://gateway.watsonplatform.net/assistant/api
+ASSISTANT_AUTH_TYPE=iam
+ASSISTANT_APIKEY=zzZzzABCsU8DBrvi123HLZwVyHbRlBFf_97n9O123ABC
+ASSISTANT_URL=https://gateway.watsonplatform.net/assistant/api
 # Optionally, use a non-default skill by specifying your own workspace ID.
 WORKSPACE_ID=<add_assistant_workspace_id>
 
@@ -230,15 +115,15 @@ Edit the `.env` file with the necessary credentials and settings.
 # Remove or comment out the IBM Cloud section.
 #----------------------------------------------------------
 
-CONVERSATION_AUTH_TYPE=cp4d
-CONVERSATION_AUTH_URL=https://my-cpd-cluster.ibmcodetest.us
-CONVERSATION_USERNAME=my-username
-CONVERSATION_PASSWORD=my-password
-CONVERSATION_URL=https://my-cpd-cluster.ibmcodetest.us/assistant/assistant/instances/1576274722862/api
+ASSISTANT_AUTH_TYPE=cp4d
+ASSISTANT_AUTH_URL=https://my-cpd-cluster.ibmcodetest.us
+ASSISTANT_USERNAME=my-username
+ASSISTANT_PASSWORD=my-password
+ASSISTANT_URL=https://my-cpd-cluster.ibmcodetest.us/assistant/assistant/instances/1576274722862/api
 # # If you use a self-signed certificate, you need to disable SSL verification.
 # # This is not secure and not recommended.
-## CONVERSATION_AUTH_DISABLE_SSL=true
-## CONVERSATION_DISABLE_SSL=true
+## ASSISTANT_AUTH_DISABLE_SSL=true
+## ASSISTANT_DISABLE_SSL=true
 # Optionally, use a non-default skill by specifying your own workspace ID.
 WORKSPACE_ID=<add_assistant_workspace_id>
 
@@ -277,7 +162,7 @@ LOCALE=en_US
 </p>
 </details>
 
-### 6. Run the application
+### 2. Run the application
 
 1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
 1. Start the app by running `npm install`, followed by `npm start`.
@@ -285,4 +170,4 @@ LOCALE=en_US
 
 > Note: server host can be changed as required in server.js and `PORT` can be set in `.env`.
 
-[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#deployment-options)
+[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#sample-output)
