@@ -22,41 +22,47 @@ require('dotenv').config({
 
 const chai = require('chai');
 const sinon = require('sinon');
-const sinonTest = require('sinon-test');
+const sinonTest = require('sinon-test')(sinon, { useFakeTimers: false });
 const AssistantV1 = require('ibm-watson/assistant/v1');
 
-sinon.test = sinonTest.configureTest(sinon, { useFakeTimers: false }); // For using sinon.test with async.
 const expect = chai.expect;
 
 const WatsonAssistantSetup = require('../../lib/watson-assistant-setup');
+const { IamAuthenticator } = require('ibm-watson/auth');
 
 describe('test watson-assistant-setup', function() {
   let c;
   beforeEach(function() {
     c = new AssistantV1({
-      username: 'fake',
-      password: 'fake',
+      version: '2019-02-28',
       url: 'fake',
-      version_date: '2016-07-11',
-      version: 'v1'
+      authenticator: new IamAuthenticator({
+        apikey: 'fake'
+      })
     });
   });
 
   it(
     'test create workspace',
-    sinon.test(function(done) {
-      const WS_NAME = 'test-default-name';
+    sinonTest(function(done) {
+      const WS_NAME = 'watson-banking-chatbot';
       const WS_ID = 'ws-id-to-find';
-      const WS = {
-        workspace_id: WS_ID,
-        name: WS_NAME
-      };
       const WS_JSON = { fake: 'stuff' };
-
       const lw = sinon.stub(c, 'listWorkspaces');
-      lw.yields(null, { workspaces: [{ name: 'other' }] });
+      lw.yields(null, {
+        result: {
+          workspaces: [{ name: 'other' }]
+        }
+      });
+
       const cw = sinon.stub(c, 'createWorkspace');
-      cw.yields(null, WS);
+      // cw.yields(null, WS);
+      cw.yields(null, {
+        result: {
+          name: WS_NAME,
+          workspace_id: WS_ID
+        }
+      });
 
       const wcs = new WatsonAssistantSetup(c);
 
@@ -75,12 +81,17 @@ describe('test watson-assistant-setup', function() {
   );
   it(
     'test create workspace error',
-    sinon.test(function(done) {
-      const WS_NAME = 'test-default-name';
+    sinonTest(function(done) {
+      const WS_NAME = 'watson-banking-chatbot';
       const WS_JSON = { fake: 'stuff' };
       const ERROR_MSG = 'intentional test error';
       const lw = sinon.stub(c, 'listWorkspaces');
-      lw.yields(null, { workspaces: [] });
+      lw.yields(null, {
+        result: {
+          workspaces: [{ workspaces: [] }]
+        }
+      });
+
       const cw = sinon.stub(c, 'createWorkspace');
       cw.yields(new Error(ERROR_MSG), null);
 
@@ -101,7 +112,7 @@ describe('test watson-assistant-setup', function() {
   );
   it(
     'test list workspaces error',
-    sinon.test(function(done) {
+    sinonTest(function(done) {
       const lw = sinon.stub(c, 'listWorkspaces');
       lw.yields(new Error('intentional test fail'), null);
       const cw = sinon.spy(c, 'createWorkspace');
@@ -120,10 +131,14 @@ describe('test watson-assistant-setup', function() {
   );
   it(
     'test with WORKSPACE_ID',
-    sinon.test(function(done) {
+    sinonTest(function(done) {
       const WS_ID = 'ws-id-to-find';
       const lw = sinon.stub(c, 'listWorkspaces');
-      lw.yields(null, { workspaces: [{ workspace_id: WS_ID }] });
+      lw.yields(null, {
+        result: {
+          workspaces: [{ workspace_id: WS_ID }]
+        }
+      });
       const cw = sinon.spy(c, 'createWorkspace');
       process.env.WORKSPACE_ID = WS_ID;
 
@@ -142,10 +157,14 @@ describe('test watson-assistant-setup', function() {
   );
   it(
     'test with WORKSPACE_ID not found',
-    sinon.test(function(done) {
+    sinonTest(function(done) {
       const WS_ID = 'ws-id-to-find';
       const lw = sinon.stub(c, 'listWorkspaces');
-      lw.yields(null, { workspaces: [{ workspace_id: 'other' }] });
+      lw.yields(null, {
+        result: {
+          workspaces: [{ workspace_id: 'other' }]
+        }
+      });
       const cw = sinon.spy(c, 'createWorkspace');
       process.env.WORKSPACE_ID = WS_ID;
 
@@ -163,17 +182,23 @@ describe('test watson-assistant-setup', function() {
   );
   it(
     'test with default workspace name found',
-    sinon.test(function(done) {
+    sinonTest(function(done) {
       process.env = {};
-      const WS_NAME = 'test-default-name';
+      const WS_NAME = 'watson-banking-chatbot';
       const WS_ID = 'ws-id-to-find';
-      const WS = {
-        workspace_id: WS_ID,
-        name: WS_NAME
-      };
       const testParams = { default_name: WS_NAME };
       const lw = sinon.stub(c, 'listWorkspaces');
-      lw.yields(null, { workspaces: [{ name: 'other' }, WS] });
+      lw.yields(null, {
+        result: {
+          workspaces: [
+            {
+              name: WS_NAME,
+              workspace_id: WS_ID
+            }
+          ]
+        }
+      });
+
       const cw = sinon.spy(c, 'createWorkspace');
 
       const was = new WatsonAssistantSetup(c);

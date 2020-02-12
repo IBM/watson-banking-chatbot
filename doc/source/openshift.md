@@ -19,7 +19,6 @@ Use the following links to create the Watson services on IBM Cloud. Copy/paste t
 
 * [**Watson Assistant**](https://cloud.ibm.com/catalog/services/conversation)
 * [**Watson Discovery**](https://cloud.ibm.com/catalog/services/discovery)
-* [**Watson Tone Analyzer**](https://cloud.ibm.com/catalog/services/tone-analyzer)
 * [**Watson Natural Language Understanding**](https://cloud.ibm.com/catalog/services/natural-language-understanding)
 
 ## 2. Create an OpenShift project
@@ -47,14 +46,13 @@ Use the following links to create the Watson services on IBM Cloud. Copy/paste t
 * Click on the `Resources` tab and choose `Config Maps` and then click the `Create Config Map` button.
   * Provide a `Name` for the config map.
   * Add a key named `PORT` and paste in the `8080` under `Enter a value...`.
-  * Click `Add Item` and add a key named `ASSISTANT_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `ASSISTANT_URL` and paste in the URL from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `DISCOVERY_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `DISCOVERY_URL` and paste in the URL from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `NATURAL_LANGUAGE_UNDERSTANDING_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `NATURAL_LANGUAGE_UNDERSTANDING_URL` and paste in the URL from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `TONE_ANALYZER_APIKEY` and paste in the API Key from step 1 under `Enter a value...`..
-  * Click `Add Item` and add a key named `TONE_ANALYZER_URL` and paste in the URL from step 1 under `Enter a value...`..
+  * For each of the following key/value pairs, click `Add Item` to add the key, and then paste the value in the `Enter a value...` field:
+    * `CONVERSATION_APIKEY`
+    * `CONVERSATION_URL`
+    * `DISCOVERY_APIKEY`
+    * `DISCOVERY_URL`
+    * `NATURAL_LANGUAGE_UNDERSTANDING_APIKEY`
+    * `NATURAL_LANGUAGE_UNDERSTANDING_URL`
   * Hit the `Create` button.
   * Click on your new Config Map's name.
   * Click the `Add to Application` button.

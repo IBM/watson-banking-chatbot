@@ -37,7 +37,7 @@ const discovery = new DiscoveryV1({
   version: '2019-04-30'
 });
 
-const  nlu = new NaturalLanguageUnderstandingV1({
+const nlu = new NaturalLanguageUnderstandingV1({
   version: '2019-07-12'
 });
 
@@ -195,28 +195,27 @@ app.post('/api/message', function(req, res) {
       });
     } else {
       const queryInput = JSON.stringify(payload.input);
-      console.log("queryInput: " + queryInput);
+      console.log('queryInput: ' + queryInput);
 
       const parameters = {
-        'text': payload.input.text,
-        'language': 'en', // To avoid language detection errors
-        'features': {
-          'entities': {
-            'sentiment': true,
-            'limit': 2
+        text: payload.input.text,
+        language: 'en', // To avoid language detection errors
+        features: {
+          entities: {
+            sentiment: true,
+            limit: 2
           },
-          'keywords': {
-            'sentiment': true,
-            'limit': 2
+          keywords: {
+            sentiment: true,
+            limit: 2
           }
         }
       };
 
       // call NLU to check if location is included in request
-      nlu.analyze(parameters)
+      nlu
+        .analyze(parameters)
         .then(response => {
-          //console.log(JSON.stringify(response, null ,2));
-
           const nluOutput = response.result;
           payload.context['nlu_output'] = nluOutput;
           // identify location
@@ -254,7 +253,6 @@ app.post('/api/message', function(req, res) {
               });
             }
           });
-  
         })
         .catch(err => {
           console.log('error:', err);
@@ -268,7 +266,7 @@ app.post('/api/message', function(req, res) {
  */
 function checkForLookupRequests(output, callback) {
   console.log('checkForLookupRequests');
-  var data = output.result;
+  const data = output.result;
   console.log('Assistant result to act on: ' + JSON.stringify(data, null, 2));
 
   // The branchInfo intent is handled here to help keep our Assistant dialog
@@ -510,18 +508,15 @@ function checkForLookupRequests(output, callback) {
           passages: true
         };
         Object.assign(queryParams, discoveryParams);
-        console.log("DISCO queryParams: " + JSON.stringify(queryParams, null, 2));
         discovery.query(queryParams, (err, searchResponse) => {
-          console.log("DISCO searchResponse: " + JSON.stringify(searchResponse, null, 2));
           discoveryResponse = 'Sorry, currently I do not have a response. Our Customer representative will get in touch with you shortly.';
           if (err) {
             console.error('Error searching for documents: ' + err);
           } else if (searchResponse.result.matching_results > 0) {
-
             // we have a valid response from Discovery
             // now check if we are using SDU or just a simple document query
             let bestLine;
-            if ("answer" in searchResponse.result.results[0]) {
+            if ('answer' in searchResponse.result.results[0]) {
               console.log('Using Discovery SDU');
               let bestScore = 0;
               for (let i = 0, size = searchResponse.result.results.length; i < size; i++) {
@@ -535,7 +530,8 @@ function checkForLookupRequests(output, callback) {
               const bestPassage = searchResponse.result.passages[0];
               console.log('Passage score: ', bestPassage.passage_score);
               console.log('Passage text: ', bestPassage.passage_text);
-              bestLine = bestPassage.passage_text;  // default value
+              // set a default value
+              bestLine = bestPassage.passage_text;
 
               // Trim the passage to try to get just the answer part of it.
               const lines = bestPassage.passage_text.split('.');

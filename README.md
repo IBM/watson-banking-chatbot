@@ -4,7 +4,7 @@
 
 # Create a banking chatbot with FAQ discovery, anger detection and natural language understanding
 
-In this code pattern, we will create a chatbot using Node.js and Watson Assistant. The Assistant flow will be enhanced by using Natural Language Understanding to identify location entities. For FAQs, a call to the Discovery service will use passage retrieval (or Smart Document Understanding) to pull answers from a collection of documents.
+In this code pattern, we will create a chatbot using Node.js and Watson Assistant. The Assistant flow will be enhanced by using Natural Language Understanding to identify location entities. For FAQs, a call to the Discovery service will use passage retrieval to pull answers from a collection of documents.
 
 When the reader has completed this pattern, they will understand how to:
 
