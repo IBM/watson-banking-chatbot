@@ -516,6 +516,7 @@ function checkForLookupRequests(output, callback) {
             // we have a valid response from Discovery
             // now check if we are using SDU or just a simple document query
             let bestLine;
+            console.log('Disco result: ' + JSON.stringify(searchResponse, null, 2));
             if ('answer' in searchResponse.result.results[0]) {
               console.log('Using Discovery SDU');
               let bestScore = 0;
@@ -525,7 +526,8 @@ function checkForLookupRequests(output, callback) {
                   bestScore = searchResponse.result.results[i].result_metadata['confidence'];
                 }
               }
-            } else {
+            } else if ('passages' in searchResponse.result) {
+              console.log('Using Passage feature');
               // use Passage feature
               const bestPassage = searchResponse.result.passages[0];
               console.log('Passage score: ', bestPassage.passage_score);
@@ -544,6 +546,19 @@ function checkForLookupRequests(output, callback) {
                 bestLine = subline[1];
               } else {
                 bestLine = line;
+              }
+            } else {
+              console.log('Using default response');
+              // other formats, like from CPD (non-SDU)
+              if ('text' in searchResponse.result.results[0]) {
+                const lines = searchResponse.result.results[0].text.split('.');
+                const line = lines[0].trim();
+                if (line.indexOf('?') > -1) {
+                  const subline = line.split('?');
+                  bestLine = subline[1];
+                } else {
+                  bestLine = line;
+                }
               }
             }
             discoveryResponse =

@@ -113,7 +113,11 @@ The following instructions will depend on if you are provisioning Discovery from
 * Select `English` language.
 * Click `Finish` to create the collection.
 * Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
-* GET COLLECTION ID for your .env. Note, `Environment Id` for Cloud Pak for Data collections is always set to `default`.
+* To get the `Collection Id` needed for your `.env` file in the next step, from Discovery Project panel, select the `Integrate and deploy` option from the left-side menu. Then select the `View API Details` tab to view the `Project Id`. Use this value for your `Collection Id`. 
+
+> **NOTE**: The `Environment Id` for Cloud Pak for Data collections is always set to `default`.
+
+  ![disco_cpd_projectid](images/disco_cpd_projectid.png)
 
 </p>
 </details>
@@ -233,6 +237,7 @@ CONVERSATION_PASSWORD=my-password
 CONVERSATION_URL=https://my-cpd-cluster.ibmcodetest.us/assistant/assistant/instances/1576274722862/api
 # # If you use a self-signed certificate, you need to disable SSL verification.
 # # This is not secure and not recommended.
+## CONVERSATION_AUTH_DISABLE_SSL=true
 ## CONVERSATION_DISABLE_SSL=true
 # Optionally, use a non-default skill by specifying your own workspace ID.
 WORKSPACE_ID=<add_assistant_workspace_id>
@@ -244,6 +249,7 @@ NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=my-password
 NATURAL_LANGUAGE_UNDERSTANDING_URL=https://my-cpd-cluster.ibmcodetest.us/natural-language-understanding/nlu/instances/1580832150084/api
 # # If you use a self-signed certificate, you need to disable SSL verification.
 # # This is not secure and not recommended.
+## NATURAL_LANGUAGE_UNDERSTANDING_AUTH_DISABLE_SSL=true
 ## NATURAL_LANGUAGE_UNDERSTANDING_DISABLE_SSL=true
 
 DISCOVERY_AUTH_TYPE=cp4d
@@ -253,10 +259,20 @@ DISCOVERY_PASSWORD=my-password
 DISCOVERY_URL=https://my-cpd-cluster.ibmcodetest.us/discovery/disco/instances/1576022362055/api
 # # If you use a self-signed certificate, you need to disable SSL verification.
 # # This is not secure and not recommended.
+## DISCOVERY_AUTH_DISABLE_SSL=true
 ## DISCOVERY_DISABLE_SSL=true
 DISCOVERY_ENVIRONMENT_ID=default
 # Optionally, use a non-default collection by specifying your ID.
 DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
+
+# Run locally on a non-default port (default is 3000)
+# PORT=3000
+
+# Set LOCALE=en_IN for the original India bank version.
+LOCALE=en_US
+```
+
+> Note: if you are trying to run this project as workshop in India then use `Locale=en_IN`
 
 </p>
 </details>
