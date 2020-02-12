@@ -65,6 +65,7 @@ describe('test watson-assistant-setup', function() {
       });
 
       const wcs = new WatsonAssistantSetup(c);
+      process.env.WORKSPACE_ID = '';
 
       wcs.setupAssistantWorkspace({ default_name: WS_NAME, workspace_json: WS_JSON }, (err, data) => {
         if (err) {
