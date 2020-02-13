@@ -11,84 +11,21 @@ This document shows how to run the application using on your local machine.
 
 The following instructions will depend on if you are provisioning your services from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
 
-<details><summary>Provision on IBM Cloud</summary>
-<p>
-
-Collect the credentials for the IBM Cloud services (Assistant, Discovery and Natural Language Understanding). For each of these services:
-
-* Find the service in your IBM Cloud Dashboard.
-* Click on the service.
-* Hit `Manage` in the left sidebar menu.
-* Copy the `API Key` and `URL`.
-
-The other settings for Assistant and Discovery were collected during the
-earlier setup steps (`DISCOVERY_COLLECTION_ID`, `DISCOVERY_ENVIRONMENT_ID` and
-`SKILL_ID`).
-
-Copy the [`env.sample`](../../env.sample) to `.env`.
-
-```bash
-cp env.sample .env
-```
-
-Edit the `.env` file with the necessary credentials and settings.
-
-#### `env.sample:`
-
-```bash
-# Copy this file to .env and replace the credentials with
-# your own before starting the app.
-
-#----------------------------------------------------------
-# IBM Cloud
-#
-# If your services are running on IBM Cloud,
-# uncomment and configure these.
-# Remove or comment out the IBM Cloud Pak for Data sections.
-#----------------------------------------------------------
-
-# Watson Assistant
-ASSISTANT_AUTH_TYPE=iam
-ASSISTANT_APIKEY=zzZzzABCsU8DBrvi123HLZwVyHbRlBFf_97n9O123ABC
-ASSISTANT_URL=https://gateway.watsonplatform.net/assistant/api
-# Optionally, use a non-default skill by specifying your own Skill ID.
-SKILL_ID=<add_assistant_skill_id>
-
-# Watson Natural Language Understanding
-NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE=iam
-NATURAL_LANGUAGE_UNDERSTANDING_APIKEY=A1zzzzzz5E8yFG1t9H9kFeCBR_Lq123pWj7abcdFCE11
-NATURAL_LANGUAGE_UNDERSTANDING_URL=<https://gateway.watsonplatform.net/natural-language-understanding/api
-
-# Watson Discovery
-DISCOVERY_AUTH_TYPE=iam
-DISCOVERY_APIKEY=a1b2c3JZmZZZZSq3NYabckevKa123AwqD9HlWIUvabCd
-DISCOVERY_URL=https://gateway.watsonplatform.net/discovery/api
-# Optionally, use a non-default environment and collection by specifying your IDs.
-DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment_id>
-DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
-
-# Run locally on a non-default port (default is 3000)
-# PORT=3000
-
-# Set LOCALE=en_IN for the original India bank version.
-LOCALE=en_US
-```
-
-> Note: if you are trying to run this project as workshop in India then use `Locale=en_IN`
-
-</p>
-</details>
-
 <details><summary>Provision on IBM Cloud Pak for Data</summary>
 <p>
 
 Collect the credentials for IBM Cloud Pak for Data provisioned services (Assistant, Discovery and Natural Language Understanding). For each of these services:
 
-* Hit `My instances` in the left sidebar menu of the IBM Cloud Pak for Data dashboard.
-* Click on `Provisioned Instances`.
-* For each provisioned service row, click in the far right column to display the popup menu.
-* Click`View details`.
-* From the details panel, copy the `URL`.
+<h5>Gather service credentials</h5>
+<p>
+<ol>
+    <li>For production use, create a user to use for authentication. From the main navigation menu (☰), select <b>Administer > Manage users</b> and then <b>+ New user</b>.</li>
+    <li>From the main navigation menu (☰), select <b>My instances</b>.</li>
+    <li>On the <b>Provisioned instances</b> tab, find your service instance, and then hover over the last column to find and click the ellipses icon. Choose <b>View details</b>.</li>
+    <li>Copy the <b>URL</b> to use as the <b>{SERVICE_NAME}_URL</b> when you configure credentials.</li>
+    <li><i>Optionally, copy the <b>Bearer token</b> to use in development testing only. It is not recommended to use the bearer token except during testing and development because that token does not expire.</i></li>
+    <li>Use the <b>Menu</b> and select <b>Users</b> and <b>+ Add user</b> to grant your user access to this service instance. This is the user name (and password) you will use when you configure credentials to allow the Node.js server to authenticate.</li>
+</ol>
 
 The other settings for Assistant and Discovery were collected during the
 earlier setup steps (`DISCOVERY_COLLECTION_ID` and `SKILL_ID`).
@@ -148,6 +85,75 @@ DISCOVERY_URL=https://my-cpd-cluster.ibmcodetest.us/discovery/disco/instances/15
 ## DISCOVERY_DISABLE_SSL=true
 DISCOVERY_ENVIRONMENT_ID=default
 # Optionally, use a non-default collection by specifying your ID.
+DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
+
+# Run locally on a non-default port (default is 3000)
+# PORT=3000
+
+# Set LOCALE=en_IN for the original India bank version.
+LOCALE=en_US
+```
+
+> Note: if you are trying to run this project as workshop in India then use `Locale=en_IN`
+
+</p>
+</details>
+
+<details><summary>Provision on IBM Cloud</summary>
+<p>
+
+Collect the credentials for the IBM Cloud services (Assistant, Discovery and Natural Language Understanding). For each of these services:
+
+<h5>Gather service credentials</h5>
+  <ol>
+    <li>From the main navigation menu (☰), select <b>Resource list</b> to find your services under <b>Services</b>.</li>
+    <li>Click on each service to find the <b>Manage</b> view where you can collect the <b>API Key</b> and <b>URL</b> to use for each service when you configure credentials.
+  </ol>
+
+The other settings for Assistant and Discovery were collected during the
+earlier setup steps (`DISCOVERY_COLLECTION_ID`, `DISCOVERY_ENVIRONMENT_ID` and
+`SKILL_ID`).
+
+Copy the [`env.sample`](../../env.sample) to `.env`.
+
+```bash
+cp env.sample .env
+```
+
+Edit the `.env` file with the necessary credentials and settings.
+
+#### `env.sample:`
+
+```bash
+# Copy this file to .env and replace the credentials with
+# your own before starting the app.
+
+#----------------------------------------------------------
+# IBM Cloud
+#
+# If your services are running on IBM Cloud,
+# uncomment and configure these.
+# Remove or comment out the IBM Cloud Pak for Data sections.
+#----------------------------------------------------------
+
+# Watson Assistant
+ASSISTANT_AUTH_TYPE=iam
+ASSISTANT_APIKEY=zzZzzABCsU8DBrvi123HLZwVyHbRlBFf_97n9O123ABC
+ASSISTANT_URL=https://gateway.watsonplatform.net/assistant/api
+# Optionally, use a non-default skill by specifying your own Skill ID.
+SKILL_ID=<add_assistant_skill_id>
+
+# Watson Natural Language Understanding
+NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE=iam
+NATURAL_LANGUAGE_UNDERSTANDING_APIKEY=A1zzzzzz5E8yFG1t9H9kFeCBR_Lq123pWj7abcdFCE11
+NATURAL_LANGUAGE_UNDERSTANDING_URL=<https://gateway.watsonplatform.net/natural-language-understanding/api
+
+# Watson Discovery
+DISCOVERY_AUTH_TYPE=iam
+DISCOVERY_APIKEY=a1b2c3JZmZZZZSq3NYabckevKa123AwqD9HlWIUvabCd
+DISCOVERY_URL=https://gateway.watsonplatform.net/discovery/api
+# Optionally, use a non-default environment and collection by specifying your IDs.
+DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment_id>
 DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
 
 # Run locally on a non-default port (default is 3000)
