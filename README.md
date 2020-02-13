@@ -60,30 +60,39 @@ git clone https://github.com/IBM/watson-banking-chatbot
 
 ### 2. Create Watson services
 
-Create the following services. Note that each service can be provisioned from [IBM Cloud](https://cloud.ibm.com/catalog) or from an [IBM Cloud Pak for Data](https://www.ibm.com/products/cloud-pak-for-data) cluster:
+Provision the following services:
 
 * **Watson Assistant**
 * **Watson Discovery**
 * **Watson Natural Language Understanding**
 
+The instructions will depend on whether you are provisioning services using IBM Cloud Pak for Data or on IBM Cloud.
+
+Click to expand one:
+
+<details><summary><b>IBM Cloud Pak for Data</b></summary>
+<p>
+<i>Use the following instructions for each of the three services.</i>
+<p>
+<h5>Install and provision service instances</h5>
+<p>
+The services are not available by default. An administrator must install them on the IBM Cloud Pak for Data platform, and you must be given access to the service. To determine whether the service is installed, Click the <b>Services</b> icon (<img class="lazycontent" src="doc/source/images/services_icon.png" alt="services_icon"/>) and check whether the service is enabled.
+</details>
+
+<details><summary><b>IBM Cloud</b></summary>
+<p>
+<h5>Create the service instances</h5>
+  <ul>
+    <li>If you do not have an IBM Cloud account, register for a free trial account <a href="https://cloud.ibm.com/registration">here</a>.</li>
+    <li>Create a <b>Assistant</b> instance from <a href="https://cloud.ibm.com/catalog/services/watson-assistant">the catalog</a>.</li>
+    <li>Create a <b>Discovery</b> instance from <a href="https://cloud.ibm.com/catalog/services/discovery">the catalog</a>.</li>
+    <li>Create a <b>Natural Language Understanding</b> instance from <a href="https://cloud.ibm.com/catalog/services/natural-language-understanding">the catalog</a>.</li>
+  </ul>
+</details>
+
 ### 3. Import the Watson Assistant skill
 
 The following instructions will depend on if you are provisioning Assistant from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
-
-<details><summary>Provision on IBM Cloud</summary>
-<p>
-
-* Find the Assistant service in your IBM Cloud Dashboard.
-* Click on the service and then click on `Launch tool`.
-* Go to the `Skills` tab.
-* Click `Create skill`.
-* Select the `Dialog skill` option and then click `Next`.
-* Click the `Import skill` tab.
-* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or use the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
-* Select `Everything` and click `Import`.
-
-</p>
-</details>
 
 <details><summary>Provision on IBM Cloud Pak for Data</summary>
 <p>
@@ -93,6 +102,21 @@ The following instructions will depend on if you are provisioning Assistant from
 * Click on `Open Watson Assistant`.
 * Go to the `Skills` tab.
 * Click `Create skill`
+* Select the `Dialog skill` option and then click `Next`.
+* Click the `Import skill` tab.
+* Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or use the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
+* Select `Everything` and click `Import`.
+
+</p>
+</details>
+
+<details><summary>Provision on IBM Cloud</summary>
+<p>
+
+* Find the Assistant service in your IBM Cloud Dashboard.
+* Click on the service and then click on `Launch tool`.
+* Go to the `Skills` tab.
+* Click `Create skill`.
 * Select the `Dialog skill` option and then click `Next`.
 * Click the `Import skill` tab.
 * Click `Choose JSON file`, go to your cloned repo dir, and `Open` the JSON file in `data/conversation/workspaces/banking_US.json` (or use the old full version in `full_banking.json`). `banking_IN.json` is used for content for banking in India and `banking_US.json` is used for content for banking in United States.
@@ -118,26 +142,6 @@ To find the `Skill_ID` for Watson Assistant:
 
 The following instructions will depend on if you are provisioning Discovery from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
 
-<details><summary>Provision on IBM Cloud</summary>
-<p>
-
-* Find the Discovery service in your IBM Cloud Dashboard.
-* Click on the service and then click on `Launch tool`.
-* Create a new data collection by hitting the `Upload your own data` button.
-
-  ![new_collection](doc/source/images/new_collection.png)
-  * Provide a collection name
-  * Select `English` language
-  * Click `Create`
-
-* Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
-* Click on the upper-right `api` icon and save the `Environment ID` and `Collection ID` as they will be required when setting up your run-time environment.
-
-  ![disco_guids](doc/source/images/disco_guids.png)
-
-</p>
-</details>
-
 <details><summary>Provision on IBM Cloud Pak for Data</summary>
 <p>
 
@@ -157,6 +161,26 @@ The following instructions will depend on if you are provisioning Discovery from
 > **NOTE**: The `Environment Id` for Cloud Pak for Data collections is always set to `default`.
 
   ![disco_cpd_projectid](doc/source/images/disco_cpd_projectid.png)
+
+</p>
+</details>
+
+<details><summary>Provision on IBM Cloud</summary>
+<p>
+
+* Find the Discovery service in your IBM Cloud Dashboard.
+* Click on the service and then click on `Launch tool`.
+* Create a new data collection by hitting the `Upload your own data` button.
+
+  ![new_collection](doc/source/images/new_collection.png)
+  * Provide a collection name
+  * Select `English` language
+  * Click `Create`
+
+* Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
+* Click on the upper-right `api` icon and save the `Environment ID` and `Collection ID` as they will be required when setting up your run-time environment.
+
+  ![disco_guids](doc/source/images/disco_guids.png)
 
 </p>
 </details>

@@ -45,6 +45,22 @@ Click to expand one:
 <details><summary><b>IBM Cloud Pak for Data</b></summary>
 <p>
 
+Collect the credentials for IBM Cloud Pak for Data provisioned services (Assistant, Discovery and Natural Language Understanding). For each of these services:
+
+<h5>Gather service credentials</h5>
+<p>
+<ol>
+    <li>For production use, create a user to use for authentication. From the main navigation menu (☰), select <b>Administer > Manage users</b> and then <b>+ New user</b>.</li>
+    <li>From the main navigation menu (☰), select <b>My instances</b>.</li>
+    <li>On the <b>Provisioned instances</b> tab, find your service instance, and then hover over the last column to find and click the ellipses icon. Choose <b>View details</b>.</li>
+    <li>Copy the <b>URL</b> to use as the <b>{SERVICE_NAME}_URL</b> when you configure credentials.</li>
+    <li><i>Optionally, copy the <b>Bearer token</b> to use in development testing only. It is not recommended to use the bearer token except during testing and development because that token does not expire.</i></li>
+    <li>Use the <b>Menu</b> and select <b>Users</b> and <b>+ Add user</b> to grant your user access to this service instance. This is the user name (and password) you will use when you configure credentials to allow the Node.js server to authenticate.</li>
+</ol>
+
+The other settings for Assistant and Discovery were collected during the
+earlier setup steps (`DISCOVERY_COLLECTION_ID` and `SKILL_ID`).
+
 For each service (<b>ASSISTANT, DISCOVERY, and NATURAL_LANGUAGE_UNDERSTANDING</b>) the following settings are needed with the service name as a prefix:
 
 * Set <b>_AUTH_TYPE</b> to <b>cp4d</b>
@@ -83,6 +99,18 @@ For each service (<b>ASSISTANT, DISCOVERY, and NATURAL_LANGUAGE_UNDERSTANDING</b
 
 <details><summary><b>IBM Cloud</b></summary>
 <p>
+
+Collect the credentials for the IBM Cloud services (Assistant, Discovery and Natural Language Understanding). For each of these services:
+
+<h5>Gather service credentials</h5>
+  <ol>
+    <li>From the main navigation menu (☰), select <b>Resource list</b> to find your services under <b>Services</b>.</li>
+    <li>Click on each service to find the <b>Manage</b> view where you can collect the <b>API Key</b> and <b>URL</b> to use for each service when you configure credentials.
+  </ol>
+
+The other settings for Assistant and Discovery were collected during the
+earlier setup steps (`DISCOVERY_COLLECTION_ID`, `DISCOVERY_ENVIRONMENT_ID` and
+`SKILL_ID`).
 
 For each service (<b>ASSISTANT, DISCOVERY, and NATURAL_LANGUAGE_UNDERSTANDING</b>) the following settings are needed with the service name as a prefix:
 
