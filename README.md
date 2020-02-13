@@ -105,7 +105,7 @@ To find the `Skill_ID` for Watson Assistant:
 
 * Go back to the `Skills` tab.
 * Click on the three dots in the upper right-hand corner of the **watson-banking-chatbot** card and select `View API Details`.
-* Copy the `Skill ID` GUID. Use this value as the `Workspace ID` when setting up your run-time environment.
+* Copy the `Skill ID` GUID. Use this value when setting up your run-time environment.
 
   ![view_api_details](doc/source/images/view_api_details.png)
 

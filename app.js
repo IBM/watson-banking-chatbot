@@ -31,17 +31,34 @@ const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-unde
 const { getAuthenticatorFromEnvironment } = require('ibm-watson/auth');
 
 let auth;
+
+// need to manually set url and disableSslVerification to get around
+// current Cloud Pak for Data SDK issue IF user uses
+// `CONVERSATION_` prefix in run-time environment.
+let url;
+let disableSSL = false;
+
 try {
   // ASSISTANT should be used
   auth = getAuthenticatorFromEnvironment('ASSISTANT');
+  url = process.env.ASSISTANT_URL;
+  if (process.env.ASSISTANT_DISABLE_SSL == 'true') {
+    disableSSL = true;
+  }
 } catch (e) {
   // but handle if alternate CONVERSATION is used
   auth = getAuthenticatorFromEnvironment('CONVERSATION');
+  url = process.env.CONVERSATION_URL;
+  if (process.env.CONVERSATION_DISABLE_SSL == 'true') {
+    disableSSL = true;
+  }
 }
 
 const assistant = new AssistantV1({
   version: '2019-02-28',
-  authenticator: auth
+  authenticator: auth,
+  url: url,
+  disableSslVerification: disableSSL
 });
 
 const discovery = new DiscoveryV1({
