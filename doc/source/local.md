@@ -23,7 +23,7 @@ Collect the credentials for the IBM Cloud services (Assistant, Discovery and Nat
 
 The other settings for Assistant and Discovery were collected during the
 earlier setup steps (`DISCOVERY_COLLECTION_ID`, `DISCOVERY_ENVIRONMENT_ID` and
-`WORKSPACE_ID`).
+`SKILL_ID`).
 
 Copy the [`env.sample`](../../env.sample) to `.env`.
 
@@ -51,8 +51,8 @@ Edit the `.env` file with the necessary credentials and settings.
 ASSISTANT_AUTH_TYPE=iam
 ASSISTANT_APIKEY=zzZzzABCsU8DBrvi123HLZwVyHbRlBFf_97n9O123ABC
 ASSISTANT_URL=https://gateway.watsonplatform.net/assistant/api
-# Optionally, use a non-default skill by specifying your own workspace ID.
-WORKSPACE_ID=<add_assistant_workspace_id>
+# Optionally, use a non-default skill by specifying your own Skill ID.
+SKILL_ID=<add_assistant_skill_id>
 
 # Watson Natural Language Understanding
 NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE=iam
@@ -91,7 +91,7 @@ Collect the credentials for IBM Cloud Pak for Data provisioned services (Assista
 * From the details panel, copy the `URL`.
 
 The other settings for Assistant and Discovery were collected during the
-earlier setup steps (`DISCOVERY_COLLECTION_ID` and `WORKSPACE_ID`).
+earlier setup steps (`DISCOVERY_COLLECTION_ID` and `SKILL_ID`).
 
 Copy the [`env.sample`](../../env.sample) to `.env`.
 
@@ -124,8 +124,8 @@ ASSISTANT_URL=https://my-cpd-cluster.ibmcodetest.us/assistant/assistant/instance
 # # This is not secure and not recommended.
 ## ASSISTANT_AUTH_DISABLE_SSL=true
 ## ASSISTANT_DISABLE_SSL=true
-# Optionally, use a non-default skill by specifying your own workspace ID.
-WORKSPACE_ID=<add_assistant_workspace_id>
+# Optionally, use a non-default skill by specifying your own Skill ID.
+SKILL_ID=<add_assistant_skill_id>
 
 NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE=cp4d
 NATURAL_LANGUAGE_UNDERSTANDING_AUTH_URL=https://my-cpd-cluster.ibmcodetest.us

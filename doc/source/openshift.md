@@ -61,7 +61,7 @@ For each service (<b>ASSISTANT, DISCOVERY, and NATURAL_LANGUAGE_UNDERSTANDING</b
   | ASSISTANT_PASSWORD | <add_assistant_password> |
   | ASSISTANT_DISABLE_SSL | true or false |
   | ASSISTANT_AUTH_DISABLE_SSL | true or false |
-  | WORKSPACE_ID | <add_assistant_workspace_id> |
+  | SKILL_ID | <add_assistant_skill_id> |
   | DISCOVERY_AUTH_TYPE | cp4d |
   | DISCOVERY_URL | https://{cpd_cluster_host}{:port}/natural-language-understanding/{release}/instances/{instance_id}/api |
   | DISCOVERY_AUTH_URL | https://{cpd_cluster_host}{:port} |
@@ -94,7 +94,7 @@ For each service (<b>ASSISTANT, DISCOVERY, and NATURAL_LANGUAGE_UNDERSTANDING</b
   | ASSISTANT_AUTH_TYPE | iam |
   | ASSISTANT_APIKEY | <add_assistant_apikey> |
   | ASSISTANT_URL | <add_assistant_url> |
-  | WORKSPACE_ID | <add_assistant_workspace_id> |
+  | SKILL_ID | <add_assistant_skill_id> |
   | DISCOVERY_AUTH_TYPE | iam |
   | DISCOVERY_APIKEY | <add_discovery_apikey> |
   | DISCOVERY_URL | <add_discovery_url> |
