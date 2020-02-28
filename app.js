@@ -47,7 +47,7 @@ try {
   }
 } catch (e) {
   // but handle if alternate CONVERSATION is used
-  auth = getAuthenticatorFromEnvironment('CONVERSATION');
+  auth = getAuthenticatorFromEnvironment('conversation');
   url = process.env.CONVERSATION_URL;
   if (process.env.CONVERSATION_DISABLE_SSL == 'true') {
     disableSSL = true;
