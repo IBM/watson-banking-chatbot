@@ -1143,7 +1143,7 @@
     },
     "runtime_version": "2016-09-20"
   },
-  "dialogNodes": [
+  "dialog_nodes": [
     {
       "type": "standard",
       "output": {
