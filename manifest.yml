@@ -1,7 +1,7 @@
 ---
 declared-services:
   wbc-assistant-service:
-    label: assistant
+    label: conversation
     plan: free
   wbc-discovery-service:
     label: discovery
