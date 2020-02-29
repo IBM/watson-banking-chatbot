@@ -107,6 +107,11 @@ const DISCOVERY_DOCS = EN_US ? DISCOVERY_DOCS_US : DISCOVERY_DOCS_IN;
 const bankingServices = EN_US ? bankingServicesUS : bankingServicesIN;
 const workspaceJson = JSON.parse(fs.readFileSync(WORKSPACE_FILE));
 
+// Exported JSON uses dialog_nodes but older SDK code wants dialogNodes.
+if ('dialog_nodes' in workspaceJson && !(dialogNodes in workspaceJson)) {
+  workspaceJson.dialogNodes = workspaceJson.dialog_nodes;
+}
+
 console.log('locale = ' + locale);
 
 const app = express();
