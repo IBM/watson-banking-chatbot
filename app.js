@@ -47,7 +47,7 @@ try {
   }
 } catch (e) {
   // but handle if alternate CONVERSATION is used
-  auth = getAuthenticatorFromEnvironment('CONVERSATION');
+  auth = getAuthenticatorFromEnvironment('conversation');
   url = process.env.CONVERSATION_URL;
   if (process.env.CONVERSATION_DISABLE_SSL == 'true') {
     disableSSL = true;
@@ -106,6 +106,11 @@ const WORKSPACE_FILE = EN_US ? WORKSPACE_FILE_US : WORKSPACE_FILE_IN;
 const DISCOVERY_DOCS = EN_US ? DISCOVERY_DOCS_US : DISCOVERY_DOCS_IN;
 const bankingServices = EN_US ? bankingServicesUS : bankingServicesIN;
 const workspaceJson = JSON.parse(fs.readFileSync(WORKSPACE_FILE));
+
+// Exported JSON uses dialog_nodes but older SDK code wants dialogNodes.
+if ('dialog_nodes' in workspaceJson && !('dialogNodes' in workspaceJson)) {
+  workspaceJson.dialogNodes = workspaceJson.dialog_nodes;
+}
 
 console.log('locale = ' + locale);
 
