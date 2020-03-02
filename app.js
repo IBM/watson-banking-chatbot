@@ -485,7 +485,9 @@ function checkForLookupRequests(output, callback) {
     } else if (data.context.action.lookup === 'branch') {
       console.log('************** Branch details *************** InputText : ' + payload.input.text);
       const loc = data.context.Location.toLowerCase();
-      bankingServices.getBranchInfo(loc, function(err, branchMaster) {
+      // Use the master (India) lookup for getBranchInfo
+      // It can return either India or US.
+      bankingServicesIN.getBranchInfo(loc, function(err, branchMaster) {
         if (err) {
           console.log('Error while calling bankingServices.getAccountInfo ', err);
           callback(err, null);
@@ -506,7 +508,7 @@ function checkForLookupRequests(output, callback) {
             branchMaster.hours +
             '<br/>';
         } else {
-          branchText = "Sorry currently we don't have branch details for " + data.context.action.Location;
+          branchText = "Sorry currently we don't have branch details for " + data.context.Location;
         }
 
         payload.context['branch'] = branchMaster;
