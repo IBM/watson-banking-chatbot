@@ -82,8 +82,12 @@ var Common = (function() {
 }());
 
 
+// When this old typo name got fixed it broke references in some dialog nodes.
+function accounType (response){
+  accountType(response);
+}
 
- function accountType (response){
+function accountType (response){
 var res=response;
 
    var context;
