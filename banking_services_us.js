@@ -246,37 +246,7 @@ const bankingServicesUS = {
       type: 'debit',
       date: '08-15-2016'
     }
-  ],
-
-  _branchMaster: [
-    {
-      location: 'newyork',
-      address: '460 Park Ave, New York, NY 10022, United States',
-      phone: '+1 212-000-0000',
-      hours: '10AM–4PM'
-    },
-    {
-      location: 'ny',
-      address: '460 Park Ave, New York, NY 10022, United States',
-      phone: '+1 212-000-0000',
-      hours: '10AM–4PM'
-    },
-    {
-      location: 'new york',
-      address: '460 Park Ave, New York, NY 10022, United States',
-      phone: '+1 212-000-0000',
-      hours: '10AM–4PM'
-    }
-  ],
-  getBranchInfo: function(location, callback) {
-    for (let i = 0; i < this._branchMaster.length; i++) {
-      if (this._branchMaster[i].location === location) {
-        callback(null, this._branchMaster[i]);
-        return;
-      }
-    }
-    callback(null, null);
-  }
+  ]
 };
 
 module.exports = bankingServicesUS;
