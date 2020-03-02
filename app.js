@@ -368,7 +368,7 @@ function checkForLookupRequests(output, callback) {
                 callback(err, null);
               } else {
                 console.log('checkForLookupRequests assistant.message :: ', JSON.stringify(data));
-                callback(null, data);
+                callback(null, data.result);
               }
             });
           } else {
