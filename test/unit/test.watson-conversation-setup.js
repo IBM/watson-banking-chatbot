@@ -17,7 +17,7 @@
 'use strict';
 
 require('dotenv').config({
-  silent: true
+  silent: true,
 });
 
 const chai = require('chai');
@@ -30,37 +30,37 @@ const expect = chai.expect;
 const WatsonAssistantSetup = require('../../lib/watson-assistant-setup');
 const { IamAuthenticator } = require('ibm-watson/auth');
 
-describe('test watson-assistant-setup', function() {
+describe('test watson-assistant-setup', function () {
   let c;
-  beforeEach(function() {
+  beforeEach(function () {
     c = new AssistantV1({
       version: '2019-02-28',
       url: 'fake',
       authenticator: new IamAuthenticator({
-        apikey: 'fake'
-      })
+        apikey: 'fake',
+      }),
     });
   });
 
   it(
     'test create workspace',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       const WS_NAME = 'watson-banking-chatbot';
       const WS_ID = 'ws-id-to-find';
       const WS_JSON = { fake: 'stuff' };
       const lw = sinon.stub(c, 'listWorkspaces');
       lw.yields(null, {
         result: {
-          workspaces: [{ name: 'other' }]
-        }
+          workspaces: [{ name: 'other' }],
+        },
       });
 
       const cw = sinon.stub(c, 'createWorkspace');
       cw.yields(null, {
         result: {
           name: WS_NAME,
-          workspace_id: WS_ID
-        }
+          workspace_id: WS_ID,
+        },
       });
 
       const wcs = new WatsonAssistantSetup(c);
@@ -81,15 +81,15 @@ describe('test watson-assistant-setup', function() {
   );
   it(
     'test create workspace error',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       const WS_NAME = 'watson-banking-chatbot';
       const WS_JSON = { fake: 'stuff' };
       const ERROR_MSG = 'intentional test error';
       const lw = sinon.stub(c, 'listWorkspaces');
       lw.yields(null, {
         result: {
-          workspaces: [{ workspaces: [] }]
-        }
+          workspaces: [{ workspaces: [] }],
+        },
       });
 
       const cw = sinon.stub(c, 'createWorkspace');
@@ -112,7 +112,7 @@ describe('test watson-assistant-setup', function() {
   );
   it(
     'test list workspaces error',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       const lw = sinon.stub(c, 'listWorkspaces');
       lw.yields(new Error('intentional test fail'), null);
       const cw = sinon.spy(c, 'createWorkspace');
@@ -131,13 +131,13 @@ describe('test watson-assistant-setup', function() {
   );
   it(
     'test with SKILL_ID',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       const WS_ID = 'ws-id-to-find';
       const lw = sinon.stub(c, 'listWorkspaces');
       lw.yields(null, {
         result: {
-          workspaces: [{ workspace_id: WS_ID }]
-        }
+          workspaces: [{ workspace_id: WS_ID }],
+        },
       });
       const cw = sinon.spy(c, 'createWorkspace');
       process.env.SKILL_ID = WS_ID;
@@ -157,13 +157,13 @@ describe('test watson-assistant-setup', function() {
   );
   it(
     'test with SKILL_ID not found',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       const WS_ID = 'ws-id-to-find';
       const lw = sinon.stub(c, 'listWorkspaces');
       lw.yields(null, {
         result: {
-          workspaces: [{ workspace_id: 'other' }]
-        }
+          workspaces: [{ workspace_id: 'other' }],
+        },
       });
       const cw = sinon.spy(c, 'createWorkspace');
       process.env.SKILL_ID = WS_ID;
@@ -182,7 +182,7 @@ describe('test watson-assistant-setup', function() {
   );
   it(
     'test with default workspace name found',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       process.env = {};
       const WS_NAME = 'watson-banking-chatbot';
       const WS_ID = 'ws-id-to-find';
@@ -193,10 +193,10 @@ describe('test watson-assistant-setup', function() {
           workspaces: [
             {
               name: WS_NAME,
-              workspace_id: WS_ID
-            }
-          ]
-        }
+              workspace_id: WS_ID,
+            },
+          ],
+        },
       });
 
       const cw = sinon.spy(c, 'createWorkspace');

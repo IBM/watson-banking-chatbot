@@ -7,6 +7,7 @@
     "test": "npm run unit && npm run eslint && npm run jshint",
     "jshint": "jshint public",
     "eslint": "eslint *.js lib test",
+    "eslint-fix": "eslint --fix *.js lib test",
     "unit": "istanbul cover _mocha test/unit -- -R spec"
   },
   "dependencies": {
@@ -27,15 +28,15 @@
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-config-prettier": "^6.10.0",
-    "eslint-plugin-node": "^11.0.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.2",
     "istanbul": "^0.4.5",
-    "jshint": "^2.10.3",
-    "jsondiffpatch": "^0.3.11",
-    "mocha": "^7.0.1",
-    "prettier": "^1.19.0",
-    "sinon": "^8.1.1",
-    "sinon-test": "^2.4.2"
+    "jshint": "^2.11.0",
+    "jsondiffpatch": "^0.4.1",
+    "mocha": "^7.1.1",
+    "prettier": "^2.0.4",
+    "sinon": "^9.0.2",
+    "sinon-test": "^3.0.0"
   }
 }

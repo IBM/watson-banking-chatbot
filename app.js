@@ -17,7 +17,7 @@
 'use strict';
 
 require('dotenv').config({
-  silent: true
+  silent: true,
 });
 
 const express = require('express'); // app server
@@ -58,15 +58,15 @@ const assistant = new AssistantV1({
   version: '2019-02-28',
   authenticator: auth,
   url: url,
-  disableSslVerification: disableSSL
+  disableSslVerification: disableSSL,
 });
 
 const discovery = new DiscoveryV1({
-  version: '2019-04-30'
+  version: '2019-04-30',
 });
 
 const nlu = new NaturalLanguageUnderstandingV1({
-  version: '2019-07-12'
+  version: '2019-07-12',
 });
 
 const bankingServicesIN = require('./banking_services');
@@ -88,14 +88,14 @@ const DISCOVERY_DOCS_US = [
   './data/discovery/docs/en_US/BankFaqRnR-DB-Terms-General.docx',
   './data/discovery/docs/en_US/BankFaqRnR-e2eAO-Terms.docx',
   './data/discovery/docs/en_US/BankFaqRnR-e2ePL-Terms.docx',
-  './data/discovery/docs/en_US/BankRnR-OMP-General.docx'
+  './data/discovery/docs/en_US/BankRnR-OMP-General.docx',
 ];
 const DISCOVERY_DOCS_IN = [
   './data/discovery/docs/en_IN/BankFaqRnR-DB-Failure-General.docx',
   './data/discovery/docs/en_IN/BankFaqRnR-DB-Terms-General.docx',
   './data/discovery/docs/en_IN/BankFaqRnR-e2eAO-Terms.docx',
   './data/discovery/docs/en_IN/BankFaqRnR-e2ePL-Terms.docx',
-  './data/discovery/docs/en_IN/BankRnR-OMP-General.docx'
+  './data/discovery/docs/en_IN/BankRnR-OMP-General.docx',
 ];
 
 // TODO: Change default if we are mostly documenting US version.
@@ -127,7 +127,7 @@ let discoveryParams; // discoveryParams will be set after Discovery is validated
 const discoverySetup = new WatsonDiscoverySetup(discovery);
 const discoverySetupParams = {
   default_name: DEFAULT_NAME,
-  documents: DISCOVERY_DOCS
+  documents: DISCOVERY_DOCS,
 };
 discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
   if (err) {
@@ -152,7 +152,7 @@ assistantSetup.setupAssistantWorkspace(assistantSetupParams, (err, data) => {
 });
 
 // Endpoint to be called from the client side
-app.post('/api/message', function(req, res) {
+app.post('/api/message', function (req, res) {
   if (setupError) {
     return res.json({ output: { text: 'The app failed to initialize properly. Setup and restart needed.' + setupError } });
   }
@@ -160,12 +160,12 @@ app.post('/api/message', function(req, res) {
   if (!workspaceID) {
     return res.json({
       output: {
-        text: 'Assistant initialization in progress. Please try again.'
-      }
+        text: 'Assistant initialization in progress. Please try again.',
+      },
     });
   }
 
-  bankingServices.getPerson(7829706, function(err, person) {
+  bankingServices.getPerson(7829706, function (err, person) {
     if (err) {
       console.log('Error occurred while getting person data ::', err);
       return res.status(err.code || 500).json(err);
@@ -174,9 +174,9 @@ app.post('/api/message', function(req, res) {
     const payload = {
       workspaceId: workspaceID,
       context: {
-        person: person
+        person: person,
       },
-      input: {}
+      input: {},
     };
 
     // common regex patterns
@@ -218,7 +218,7 @@ app.post('/api/message', function(req, res) {
    */
   function callAssistant(payload) {
     if (!('text' in payload.input) || payload.input.text == '') {
-      assistant.message(payload, function(err, data) {
+      assistant.message(payload, function (err, data) {
         if (err) {
           return res.status(err.code || 500).json(err);
         } else {
@@ -236,29 +236,29 @@ app.post('/api/message', function(req, res) {
         features: {
           entities: {
             sentiment: true,
-            limit: 2
+            limit: 2,
           },
           keywords: {
             sentiment: true,
-            limit: 2
-          }
-        }
+            limit: 2,
+          },
+        },
       };
 
       // call NLU to check if location is included in request
       nlu
         .analyze(parameters)
-        .then(response => {
+        .then((response) => {
           const nluOutput = response.result;
           payload.context['nlu_output'] = nluOutput;
           // identify location
           const entities = nluOutput.entities;
-          let location = entities.map(function(entry) {
+          let location = entities.map(function (entry) {
             if (entry.type == 'Location') {
               return entry.text;
             }
           });
-          location = location.filter(function(entry) {
+          location = location.filter(function (entry) {
             if (entry != null) {
               return entry;
             }
@@ -271,12 +271,12 @@ app.post('/api/message', function(req, res) {
             payload.context['Location'] = '';
           }
 
-          assistant.message(payload, function(err, data) {
+          assistant.message(payload, function (err, data) {
             if (err) {
               return res.status(err.code || 500).json(err);
             } else {
               // lookup actions
-              checkForLookupRequests(data, function(err, data) {
+              checkForLookupRequests(data, function (err, data) {
                 if (err) {
                   console.log(err);
                   return res.status(err.code || 500).json(err);
@@ -287,7 +287,7 @@ app.post('/api/message', function(req, res) {
             }
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log('error:', err);
         });
     }
@@ -319,7 +319,7 @@ function checkForLookupRequests(output, callback) {
     const payload = {
       workspaceId: workspaceID,
       context: data.context,
-      input: data.input
+      input: data.input,
     };
 
     console.log('data.context.action.lookup: ' + data.context.action.lookup);
@@ -329,7 +329,7 @@ function checkForLookupRequests(output, callback) {
       // if account type is specified (checking, savings or credit card)
       if (data.context.action.account_type && data.context.action.account_type != '') {
         // lookup account information services and update context with account data
-        bankingServices.getAccountInfo(7829706, data.context.action.account_type, function(err, accounts) {
+        bankingServices.getAccountInfo(7829706, data.context.action.account_type, function (err, accounts) {
           if (err) {
             console.log('Error while calling bankingServices.getAccountInfo ', err);
             callback(err, null);
@@ -362,7 +362,7 @@ function checkForLookupRequests(output, callback) {
 
           if (!appendAccountResponse) {
             console.log('call assistant.message with lookup results.');
-            assistant.message(payload, function(err, data) {
+            assistant.message(payload, function (err, data) {
               if (err) {
                 console.log('Error while calling assistant.message with lookup result', err);
                 callback(err, null);
@@ -386,7 +386,7 @@ function checkForLookupRequests(output, callback) {
       }
     } else if (data.context.action.lookup === LOOKUP_TRANSACTIONS) {
       console.log('************** Lookup Transactions requested **************');
-      bankingServices.getTransactions(7829706, data.context.action.category, function(err, transactionResponse) {
+      bankingServices.getTransactions(7829706, data.context.action.category, function (err, transactionResponse) {
         if (err) {
           console.log('Error while calling account services for transactions', err);
           callback(err, null);
@@ -440,7 +440,7 @@ function checkForLookupRequests(output, callback) {
       });
     } else if (data.context.action.lookup === LOOKUP_5TRANSACTIONS) {
       console.log('************** Lookup 5 Transactions requested **************');
-      bankingServices.getTransactions(7829706, data.context.action.category, function(err, transactionResponse) {
+      bankingServices.getTransactions(7829706, data.context.action.category, function (err, transactionResponse) {
         if (err) {
           console.log('Error while calling account services for transactions', err);
           callback(err, null);
@@ -450,7 +450,7 @@ function checkForLookupRequests(output, callback) {
             responseTxtAppend += 'Total = <b>' + numeral(transactionResponse.total).format('INR 0,0.00') + '</b>';
           }
 
-          transactionResponse.transactions.sort(function(a1, b1) {
+          transactionResponse.transactions.sort(function (a1, b1) {
             const a = new Date(a1.date);
             const b = new Date(b1.date);
             return a > b ? -1 : a < b ? 1 : 0;
@@ -487,7 +487,7 @@ function checkForLookupRequests(output, callback) {
       const loc = data.context.Location.toLowerCase();
       // Use the master (India) lookup for getBranchInfo
       // It can return either India or US.
-      bankingServicesIN.getBranchInfo(loc, function(err, branchMaster) {
+      bankingServicesIN.getBranchInfo(loc, function (err, branchMaster) {
         if (err) {
           console.log('Error while calling bankingServices.getAccountInfo ', err);
           callback(err, null);
@@ -540,7 +540,7 @@ function checkForLookupRequests(output, callback) {
       } else {
         const queryParams = {
           naturalLanguageQuery: payload.input.text,
-          passages: true
+          passages: true,
         };
         Object.assign(queryParams, discoveryParams);
         discovery.query(queryParams, (err, searchResponse) => {
