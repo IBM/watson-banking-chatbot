@@ -80,8 +80,8 @@ const LOOKUP_BALANCE = 'balance';
 const LOOKUP_TRANSACTIONS = 'transactions';
 const LOOKUP_5TRANSACTIONS = '5transactions';
 
-const WORKSPACE_FILE_US = 'data/conversation/workspaces/banking_US.json';
-const WORKSPACE_FILE_IN = 'data/conversation/workspaces/banking_IN.json';
+const SKILL_FILE_US = 'data/conversation/workspaces/banking_US.json';
+const SKILL_FILE_IN = 'data/conversation/workspaces/banking_IN.json';
 
 const DISCOVERY_DOCS_US = [
   './data/discovery/docs/en_US/BankFaqRnR-DB-Failure-General.docx',
@@ -102,14 +102,14 @@ const DISCOVERY_DOCS_IN = [
 // Default to the original India version.
 const locale = process.env.LOCALE || 'EN_IN';
 const EN_US = locale.toUpperCase() === 'EN_US';
-const WORKSPACE_FILE = EN_US ? WORKSPACE_FILE_US : WORKSPACE_FILE_IN;
+const SKILL_FILE = EN_US ? SKILL_FILE_US : SKILL_FILE_IN;
 const DISCOVERY_DOCS = EN_US ? DISCOVERY_DOCS_US : DISCOVERY_DOCS_IN;
 const bankingServices = EN_US ? bankingServicesUS : bankingServicesIN;
-const workspaceJson = JSON.parse(fs.readFileSync(WORKSPACE_FILE));
+const skillJson = JSON.parse(fs.readFileSync(SKILL_FILE));
 
 // Exported JSON uses dialog_nodes but older SDK code wants dialogNodes.
-if ('dialog_nodes' in workspaceJson && !('dialogNodes' in workspaceJson)) {
-  workspaceJson.dialogNodes = workspaceJson.dialog_nodes;
+if ('dialog_nodes' in skillJson && !('dialogNodes' in skillJson)) {
+  skillJson.dialogNodes = skillJson.dialog_nodes;
 }
 
 console.log('locale = ' + locale);
@@ -139,15 +139,15 @@ discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
 });
 
 // Use Watson Assistant V1 to perform any authoring of the dialog components
-let workspaceID; // workspaceID will be set when the workspace is created or validated.
+let skillID; // skillID will be set when the skill is created or validated.
 const assistantSetup = new WatsonAssistantSetup(assistant);
-const assistantSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJson };
+const assistantSetupParams = { default_name: DEFAULT_NAME, skill_json: skillJson };
 assistantSetup.setupAssistantWorkspace(assistantSetupParams, (err, data) => {
   if (err) {
     handleSetupError(err);
   } else {
     console.log('Watson Assistant is ready!');
-    workspaceID = data;
+    skillID = data;
   }
 });
 
@@ -157,7 +157,7 @@ app.post('/api/message', function (req, res) {
     return res.json({ output: { text: 'The app failed to initialize properly. Setup and restart needed.' + setupError } });
   }
 
-  if (!workspaceID) {
+  if (!skillID) {
     return res.json({
       output: {
         text: 'Assistant initialization in progress. Please try again.',
@@ -172,7 +172,7 @@ app.post('/api/message', function (req, res) {
     }
 
     const payload = {
-      workspaceId: workspaceID,
+      workspaceId: skillID,
       context: {
         person: person,
       },
@@ -317,7 +317,7 @@ function checkForLookupRequests(output, callback) {
 
   if (data.context && data.context.action && data.context.action.lookup && data.context.action.lookup != 'complete') {
     const payload = {
-      workspaceId: workspaceID,
+      workspaceId: skillID,
       context: data.context,
       input: data.input,
     };

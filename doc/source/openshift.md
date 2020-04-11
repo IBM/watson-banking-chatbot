@@ -158,6 +158,6 @@ Create the config map and add it to your application.
 ## 4. Run the web app
 
 * Under `Applications` ▷ `Routes` you will see your app. Click on the `Hostname` to see your Watson banking chatbot in action.
-* Go back to the README to see an example using the bot.
+* Go back to the README.md for instructions on how to use the web app.
 
-[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#sample-output)
+[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](../../README.md#4-use-the-web-app)

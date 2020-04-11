@@ -2,13 +2,9 @@
 
 This document shows how to run the application using Cloud Foundry on IBM Cloud.
 
-## Steps
+[![Deploy to IBM Cloud](https://cloud.ibm.com/devops/setup/deploy/button_x2.png)](https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/watson-banking-chatbot.git)
 
-<p align="center">
-    <a href="https://cloud.ibm.com/devops/setup/deploy?repository=https://github.com/IBM/watson-banking-chatbot">
-    <img src="https://cloud.ibm.com/devops/setup/deploy/button_x2.png" alt="Deploy to IBM Cloud">
-    </a>
-</p>
+## Steps
 
 1. Press the above `Deploy to IBM Cloud` button and then...
 
@@ -18,22 +14,26 @@ This document shows how to run the application using Cloud Foundry on IBM Cloud.
    * Select your region, organization, and space (or use the defaults).
    * Click `Create` at the top of the panel to start the deployment process.
 
-2. From the Toolchains view, click on the `Delivery Pipeline` to watch while the app is deployed. Here you'll be able to see logs about the deployment. Once deployed, the app can be viewed by clicking `Visit App URL`.  Note: You may need to re-run the deploy stage (see [Troubleshooting](https://github.com/IBM/watson-banking-chatbot#Troubleshooting)).
+2. From the Toolchains view, click on the `Delivery Pipeline` to watch while the app is deployed. Here you'll be able to see logs about the deployment.
 
    ![toolchain-pipeline](images/toolchain-pipeline.png)
 
-3. To see the app and services created and configured for this code pattern, use the IBM Cloud dashboard. The app is named `watson-banking-chatbot` with a unique suffix. The following services are created and easily identified by the `wbc-` prefix:
+3. Go to your IBM Cloud resource list and find the Assistant service. There will be a Cloud Foundry service named `wbc-assistant-service` which is linked to the actual service. Click on the Assistant service and you will see a `Manage` tab showing an `API key` and a `URL`. Go back to your resource list and click on the Cloud Foundry application named `watson-banking-chatbot` (with a timestamp suffix). Click on `Runtime environment` and add `ASSISTANT_APIKEY` and `ASSISTANT_URL` with the above values. The app will restart with the new runtime environment.
 
-    * `wbc-assistant-service`
-    * `wbc-discovery-service`
-    * `wbc-natural-language-understanding-service`
+> Note: You may need to re-run the deploy stage (see [Troubleshooting](https://github.com/IBM/watson-banking-chatbot#Troubleshooting)).
 
-4. Run the web app
+## Run the web app
 
-* Go back to `Applications` ▷ `Routes`. You will see your app.
-* Click your app's `Hostname`. This will open the Watson Banking Chatbot web app in your browser.
-* Go back to the README.md for instructions on how to use the app.
+To see the app and services created and configured for this code pattern, use the IBM Cloud dashboard. The Cloud Foundry app is named `watson-banking-chatbot` with a timestamp suffix. Click on the app and then click on `Visit App URL`.
 
-> NOTE: The Watson Assistant dialog has been reduced to work with Lite plans. If you are looking for all of the previous functionality, you can manually import [`full_banking.json`](../../data/conversation/workspaces/full_banking.json). Follow the instructions in [3. Import the Watson Assistant skill](../../README.md#3-import-the-watson-assistant-skill) to import it, delete the Lite version that was automatically uploaded, and restart the app. The app will recognize the skill by name if only one is available.
+The following services are created and easily identified by the `wbc-` prefix:
 
-[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#sample-output)
+* `wbc-assistant-service`
+* `wbc-discovery-service`
+* `wbc-natural-language-understanding-service`
+
+Go back to the README.md for instructions on how to use the web app.
+
+> NOTE: The Watson Assistant dialog has been reduced to work with Lite plans. If you are looking for all of the previous functionality, you can manually import [`full_banking.json`](../../data/conversation/workspaces/full_banking.json). Follow the instructions in [5. Customize the Watson Assistant skill](../../README.md#5-customize-the-watson-assistant-skill) to import and configure it.
+
+[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](../../README.md#4-use-the-web-app)
