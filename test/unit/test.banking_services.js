@@ -20,19 +20,19 @@ const chai = require('chai');
 const expect = chai.expect;
 const bankingServices = require('../../banking_services');
 
-describe('banking_services', function() {
-  it('#getPerson()', function(done) {
-    bankingServices.getPerson(7829706, function(err, person) {
+describe('banking_services', function () {
+  it('#getPerson()', function (done) {
+    bankingServices.getPerson(7829706, function (err, person) {
       if (err) done(err);
       expect(person.fname).to.equal('Krishna');
       done();
     });
   });
 
-  it('#getAccountInfo()', function(done) {
+  it('#getAccountInfo()', function (done) {
     const customerID = 'ignored';
     const type = 'savings';
-    bankingServices.getAccountInfo(customerID, type, function(err, account) {
+    bankingServices.getAccountInfo(customerID, type, function (err, account) {
       if (err) done(err);
       expect(account.length).to.equal(1);
       expect(account[0].type).to.equal('savings');
@@ -40,8 +40,8 @@ describe('banking_services', function() {
     });
   });
 
-  it('#getBeneficiaryInfo()', function(done) {
-    bankingServices.getBeneficiaryInfo('savings', function(err, beneficiary) {
+  it('#getBeneficiaryInfo()', function (done) {
+    bankingServices.getBeneficiaryInfo('savings', function (err, beneficiary) {
       if (err) done(err);
       expect(beneficiary.length).to.equal(3);
       expect(beneficiary[0].name).to.equal('Saurav');
@@ -52,10 +52,10 @@ describe('banking_services', function() {
     });
   });
 
-  it('#getTransactions()', function(done) {
+  it('#getTransactions()', function (done) {
     const customerID = 'ignored';
     const category = 'dining';
-    bankingServices.getTransactions(customerID, category, function(err, transactions) {
+    bankingServices.getTransactions(customerID, category, function (err, transactions) {
       if (err) done(err);
       expect(transactions.category).to.equal(category);
       expect(transactions.transactions.length).to.equal(2);
@@ -66,8 +66,8 @@ describe('banking_services', function() {
     });
   });
 
-  it('#getBranchInfo()', function(done) {
-    bankingServices.getBranchInfo('mumbai', function(err, location) {
+  it('#getBranchInfo()', function (done) {
+    bankingServices.getBranchInfo('mumbai', function (err, location) {
       if (err) done(err);
       expect(location.phone).to.equal('022 1111 1111');
       done();

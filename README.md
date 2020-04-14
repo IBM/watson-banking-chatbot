@@ -36,19 +36,14 @@ When the reader has completed this pattern, they will understand how to:
 
 * [Node.js](https://nodejs.org/): An asynchronous event driven JavaScript runtime, designed to build scalable applications.
 
-## Deployment options
-
-There are multiple ways you can choose to deploy this code pattern. Which way you choose depends on how deep you want to get into the details. The simplest way is to click the `Deploy to Cloud Foundry on IBM Cloud` button below. It will show you how to quickly auto-generate the required Watson services and build/deploy the app to IBM Cloud.
-
-[![public](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/cf.png)](doc/source/cf.md)
-
-The other deployment options require you provision the Watson services yourself. To provision the Watson services, follow these steps:
+## Steps
 
 1. [Clone the repo](#1-clone-the-repo)
 1. [Create Watson services](#2-create-watson-services)
-1. [Import the Watson Assistant skill](#3-import-the-watson-assistant-skill)
-1. [Load the Discovery documents](#4-load-the-discovery-documents)
-1. [Deploy the application](#5-deploy-the-application)
+1. [Deploy the application](#3-deploy-the-application)
+1. [Use the web app](#4-use-the-web-app)
+1. [Customize the Watson Assistant skill](#5-customize-the-watson-assistant-skill)
+1. [Load Discovery documents](#6-load-discovery-documents)
 
 ### 1. Clone the repo
 
@@ -65,6 +60,8 @@ Provision the following services:
 * **Watson Assistant**
 * **Watson Discovery**
 * **Watson Natural Language Understanding**
+
+> **NOTE**: If you will be using the `Deploy to Cloud Foundry on IBM Cloud` deployment option, then you can skip this step. That deployment option automatically creates the services and links them to your application.
 
 The instructions will depend on whether you are provisioning services using IBM Cloud Pak for Data or on IBM Cloud.
 
@@ -83,14 +80,28 @@ The services are not available by default. An administrator must install them on
 <p>
 <h5>Create the service instances</h5>
   <ul>
-    <li>If you do not have an IBM Cloud account, register for a free trial account <a href="https://cloud.ibm.com/registration">here</a>.</li>
-    <li>Create a <b>Assistant</b> instance from <a href="https://cloud.ibm.com/catalog/services/watson-assistant">the catalog</a>.</li>
-    <li>Create a <b>Discovery</b> instance from <a href="https://cloud.ibm.com/catalog/services/discovery">the catalog</a>.</li>
-    <li>Create a <b>Natural Language Understanding</b> instance from <a href="https://cloud.ibm.com/catalog/services/natural-language-understanding">the catalog</a>.</li>
+    <li>If you do not have an IBM Cloud account, register for a free trial account <a href="https://cloud.ibm.com/login">here</a>.</li>
+    <li>Click <a href="https://cloud.ibm.com/catalog/services/watson-assistant">here</a> to create a <b>Watson Assistant</b> instance.</li>
+    <li>Click <a href="https://cloud.ibm.com/catalog/services/discovery">here</a> to create a <b>Discovery</b> instance.</li>
+    <li>Click <a href="https://cloud.ibm.com/catalog/services/natural-language-understanding">here</a> to create a <b>Natural Language Understanding</b> instance.</li>
   </ul>
 </details>
 
-### 3. Import the Watson Assistant skill
+### 3. Deploy the application
+
+Click on one of the options below for instructions on deploying the Node.js server.
+
+| | | |
+| :-: | :-: | :-: |
+| [![local](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/local.png)](doc/source/local.md) | [![openshift](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/openshift.png)](doc/source/openshift.md) | [![public](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/cf.png)](doc/source/cf.md) |
+
+### 4. Use the web app
+
+The web app presents a customer service chatbot. Interact with the chatbot by pressing the buttons when prompted or use the `Type something` box. The chatbot is powered by Watson Assistant with additional information coming from Discovery and Natural Language Understanding.
+
+![demo](doc/source/images/demo.gif)
+
+### 5. Customize the Watson Assistant skill
 
 The following instructions will depend on if you are provisioning Assistant from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
 
@@ -125,20 +136,23 @@ The following instructions will depend on if you are provisioning Assistant from
 </p>
 </details>
 
-To find the `Skill_ID` for Watson Assistant:
+To find the `Skill ID` for Watson Assistant:
 
 * Go back to the `Skills` tab.
-* Click on the three dots in the upper right-hand corner of the **watson-banking-chatbot** card and select `View API Details`.
+* Click on the three dots in the upper right-hand corner of a card and select `View API Details`.
 * Copy the `Skill ID` GUID. Use this value when setting up your run-time environment.
+* By default the application will import and use the skill named **watson-banking-chatbot**, but you can configure it to use another skill by setting the run-time environment variable `SKILL_ID`.
 
   ![view_api_details](doc/source/images/view_api_details.png)
 
-*Optionally*, to view the Assistant dialog, click on the skill and choose the
+To view the Assistant dialog, click on the skill and choose the
 `Dialog` tab. Here's a snippet of the dialog:
 
 ![dialog](doc/source/images/dialog.png)
 
-### 4. Load the Discovery documents
+### 5. Load Discovery documents
+
+By default, the application will create a collection named **watson-banking-chatbot**, but you can configure it to use another collection by setting the run-time environment variables `DISCOVERY_COLLECTION_ID` and `DISCOVERY_ENVIRONMENT_ID`.
 
 The following instructions will depend on if you are provisioning Discovery from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
 
@@ -156,7 +170,7 @@ The following instructions will depend on if you are provisioning Discovery from
 * Select `English` language.
 * Click `Finish` to create the collection.
 * Use `Drag and drop your documents here or select documents` to seed the content with the five documents in `data/discovery/docs` of your cloned repo.
-* Click on the `Integrate and deploy` option from the left-side menu of the Discovery panel. Then select the `View API Details` tab to view the `Project Id`. Use this as the `Collection ID` value which will be required when setting up your run-time environment.
+* Click on the `Integrate and deploy` option from the left-side menu of the Discovery panel. Then select the `View API Details` tab to view the `Project Id`. Use this as the `Collection ID` value when setting up your run-time environment.
 
 > **NOTE**: The `Environment Id` for Cloud Pak for Data collections is always set to `default`.
 
@@ -185,19 +199,11 @@ The following instructions will depend on if you are provisioning Discovery from
 </p>
 </details>
 
-### 5. Deploy the application
-
-Select one of the following methods for deploying your application:
-
-| OpenShift | Local |
-| :-: | :-: |
-| [![openshift](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/openshift.png)](doc/source/openshift.md) | [![local](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/local.png)](doc/source/local.md) |
-
-## Sample output
-
-![demo](doc/source/images/demo.gif)
-
 ## Troubleshooting
+
+* Error: Unable to list workspaces for Watson Assistant: Forbidden: Access is denied due to invalid credentials.
+
+  > This error occurs with `Deploy to IBM Cloud` button. Configure a runtime environment variable for `ASSISTANT_APIKEY` to allow automatic configuration of the default skill or configure `SKILL_ID` to use another skill.
 
 * Fail: An operation for service instance wbc-discovery-service is in progress.
 
