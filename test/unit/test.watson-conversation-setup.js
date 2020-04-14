@@ -66,7 +66,7 @@ describe('test watson-assistant-setup', function () {
       const wcs = new WatsonAssistantSetup(c);
       process.env.SKILL_ID = '';
 
-      wcs.setupAssistantWorkspace({ default_name: WS_NAME, workspace_json: WS_JSON }, (err, data) => {
+      wcs.setupAssistantWorkspace({ default_name: WS_NAME, skill_json: WS_JSON }, (err, data) => {
         if (err) {
           done(err);
         } else {
@@ -97,7 +97,7 @@ describe('test watson-assistant-setup', function () {
 
       const wcs = new WatsonAssistantSetup(c);
 
-      wcs.setupAssistantWorkspace({ default_name: WS_NAME, workspace_json: WS_JSON }, (err, data) => {
+      wcs.setupAssistantWorkspace({ default_name: WS_NAME, skill_json: WS_JSON }, (err, data) => {
         if (err) {
           sinon.assert.calledWith(lw, null);
           sinon.assert.calledWithMatch(cw, WS_JSON);
@@ -147,35 +147,9 @@ describe('test watson-assistant-setup', function () {
         if (err) {
           done(err);
         } else {
-          sinon.assert.calledWith(lw, null);
+          sinon.assert.notCalled(lw);
           sinon.assert.notCalled(cw);
-          expect(data).to.equal(WS_ID);
           done();
-        }
-      });
-    })
-  );
-  it(
-    'test with SKILL_ID not found',
-    sinonTest(function (done) {
-      const WS_ID = 'ws-id-to-find';
-      const lw = sinon.stub(c, 'listWorkspaces');
-      lw.yields(null, {
-        result: {
-          workspaces: [{ workspace_id: 'other' }],
-        },
-      });
-      const cw = sinon.spy(c, 'createWorkspace');
-      process.env.SKILL_ID = WS_ID;
-
-      const was = new WatsonAssistantSetup(c);
-      was.setupAssistantWorkspace({}, (err, data) => {
-        if (err) {
-          sinon.assert.calledWith(lw, null);
-          sinon.assert.notCalled(cw);
-          done(); // Expected err
-        } else {
-          done(new Error('Expected error for SKILL_ID not found'));
         }
       });
     })
