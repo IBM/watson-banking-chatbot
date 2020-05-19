@@ -110,8 +110,7 @@ Collect the credentials for the IBM Cloud services (Assistant, Discovery and Nat
   </ol>
 
 The other settings for Assistant and Discovery were collected during the
-earlier setup steps (`DISCOVERY_COLLECTION_ID`, `DISCOVERY_ENVIRONMENT_ID` and
-`SKILL_ID`).
+earlier setup steps detailed in the main [README](https://github.com/IBM/watson-banking-chatbot/blob/master/README.md) page. See the setup sections for each service to determine where to find `DISCOVERY_COLLECTION_ID`,  `DISCOVERY_ENVIRONMENT_ID` and Assistant `SKILL_ID`.
 
 Copy the [`env.sample`](../../env.sample) to `.env`.
 
