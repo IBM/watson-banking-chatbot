@@ -17,7 +17,7 @@
 'use strict';
 
 require('dotenv').config({
-  silent: true
+  silent: true,
 });
 
 const express = require('express'); // app server
@@ -47,7 +47,7 @@ try {
   }
 } catch (e) {
   // but handle if alternate CONVERSATION is used
-  auth = getAuthenticatorFromEnvironment('CONVERSATION');
+  auth = getAuthenticatorFromEnvironment('conversation');
   url = process.env.CONVERSATION_URL;
   if (process.env.CONVERSATION_DISABLE_SSL == 'true') {
     disableSSL = true;
@@ -58,15 +58,15 @@ const assistant = new AssistantV1({
   version: '2019-02-28',
   authenticator: auth,
   url: url,
-  disableSslVerification: disableSSL
+  disableSslVerification: disableSSL,
 });
 
 const discovery = new DiscoveryV1({
-  version: '2019-04-30'
+  version: '2019-04-30',
 });
 
 const nlu = new NaturalLanguageUnderstandingV1({
-  version: '2019-07-12'
+  version: '2019-07-12',
 });
 
 const bankingServicesIN = require('./banking_services');
@@ -80,32 +80,37 @@ const LOOKUP_BALANCE = 'balance';
 const LOOKUP_TRANSACTIONS = 'transactions';
 const LOOKUP_5TRANSACTIONS = '5transactions';
 
-const WORKSPACE_FILE_US = 'data/conversation/workspaces/banking_US.json';
-const WORKSPACE_FILE_IN = 'data/conversation/workspaces/banking_IN.json';
+const SKILL_FILE_US = 'data/conversation/workspaces/banking_US.json';
+const SKILL_FILE_IN = 'data/conversation/workspaces/banking_IN.json';
 
 const DISCOVERY_DOCS_US = [
   './data/discovery/docs/en_US/BankFaqRnR-DB-Failure-General.docx',
   './data/discovery/docs/en_US/BankFaqRnR-DB-Terms-General.docx',
   './data/discovery/docs/en_US/BankFaqRnR-e2eAO-Terms.docx',
   './data/discovery/docs/en_US/BankFaqRnR-e2ePL-Terms.docx',
-  './data/discovery/docs/en_US/BankRnR-OMP-General.docx'
+  './data/discovery/docs/en_US/BankRnR-OMP-General.docx',
 ];
 const DISCOVERY_DOCS_IN = [
   './data/discovery/docs/en_IN/BankFaqRnR-DB-Failure-General.docx',
   './data/discovery/docs/en_IN/BankFaqRnR-DB-Terms-General.docx',
   './data/discovery/docs/en_IN/BankFaqRnR-e2eAO-Terms.docx',
   './data/discovery/docs/en_IN/BankFaqRnR-e2ePL-Terms.docx',
-  './data/discovery/docs/en_IN/BankRnR-OMP-General.docx'
+  './data/discovery/docs/en_IN/BankRnR-OMP-General.docx',
 ];
 
 // TODO: Change default if we are mostly documenting US version.
 // Default to the original India version.
 const locale = process.env.LOCALE || 'EN_IN';
 const EN_US = locale.toUpperCase() === 'EN_US';
-const WORKSPACE_FILE = EN_US ? WORKSPACE_FILE_US : WORKSPACE_FILE_IN;
+const SKILL_FILE = EN_US ? SKILL_FILE_US : SKILL_FILE_IN;
 const DISCOVERY_DOCS = EN_US ? DISCOVERY_DOCS_US : DISCOVERY_DOCS_IN;
 const bankingServices = EN_US ? bankingServicesUS : bankingServicesIN;
-const workspaceJson = JSON.parse(fs.readFileSync(WORKSPACE_FILE));
+const skillJson = JSON.parse(fs.readFileSync(SKILL_FILE));
+
+// Exported JSON uses dialog_nodes but older SDK code wants dialogNodes.
+if ('dialog_nodes' in skillJson && !('dialogNodes' in skillJson)) {
+  skillJson.dialogNodes = skillJson.dialog_nodes;
+}
 
 console.log('locale = ' + locale);
 
@@ -122,7 +127,7 @@ let discoveryParams; // discoveryParams will be set after Discovery is validated
 const discoverySetup = new WatsonDiscoverySetup(discovery);
 const discoverySetupParams = {
   default_name: DEFAULT_NAME,
-  documents: DISCOVERY_DOCS
+  documents: DISCOVERY_DOCS,
 };
 discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
   if (err) {
@@ -134,44 +139,44 @@ discoverySetup.setupDiscovery(discoverySetupParams, (err, data) => {
 });
 
 // Use Watson Assistant V1 to perform any authoring of the dialog components
-let workspaceID; // workspaceID will be set when the workspace is created or validated.
+let skillID; // skillID will be set when the skill is created or validated.
 const assistantSetup = new WatsonAssistantSetup(assistant);
-const assistantSetupParams = { default_name: DEFAULT_NAME, workspace_json: workspaceJson };
+const assistantSetupParams = { default_name: DEFAULT_NAME, skill_json: skillJson };
 assistantSetup.setupAssistantWorkspace(assistantSetupParams, (err, data) => {
   if (err) {
     handleSetupError(err);
   } else {
     console.log('Watson Assistant is ready!');
-    workspaceID = data;
+    skillID = data;
   }
 });
 
 // Endpoint to be called from the client side
-app.post('/api/message', function(req, res) {
+app.post('/api/message', function (req, res) {
   if (setupError) {
     return res.json({ output: { text: 'The app failed to initialize properly. Setup and restart needed.' + setupError } });
   }
 
-  if (!workspaceID) {
+  if (!skillID) {
     return res.json({
       output: {
-        text: 'Assistant initialization in progress. Please try again.'
-      }
+        text: 'Assistant initialization in progress. Please try again.',
+      },
     });
   }
 
-  bankingServices.getPerson(7829706, function(err, person) {
+  bankingServices.getPerson(7829706, function (err, person) {
     if (err) {
       console.log('Error occurred while getting person data ::', err);
       return res.status(err.code || 500).json(err);
     }
 
     const payload = {
-      workspaceId: workspaceID,
+      workspaceId: skillID,
       context: {
-        person: person
+        person: person,
       },
-      input: {}
+      input: {},
     };
 
     // common regex patterns
@@ -213,7 +218,7 @@ app.post('/api/message', function(req, res) {
    */
   function callAssistant(payload) {
     if (!('text' in payload.input) || payload.input.text == '') {
-      assistant.message(payload, function(err, data) {
+      assistant.message(payload, function (err, data) {
         if (err) {
           return res.status(err.code || 500).json(err);
         } else {
@@ -231,29 +236,29 @@ app.post('/api/message', function(req, res) {
         features: {
           entities: {
             sentiment: true,
-            limit: 2
+            limit: 2,
           },
           keywords: {
             sentiment: true,
-            limit: 2
-          }
-        }
+            limit: 2,
+          },
+        },
       };
 
       // call NLU to check if location is included in request
       nlu
         .analyze(parameters)
-        .then(response => {
+        .then((response) => {
           const nluOutput = response.result;
           payload.context['nlu_output'] = nluOutput;
           // identify location
           const entities = nluOutput.entities;
-          let location = entities.map(function(entry) {
+          let location = entities.map(function (entry) {
             if (entry.type == 'Location') {
               return entry.text;
             }
           });
-          location = location.filter(function(entry) {
+          location = location.filter(function (entry) {
             if (entry != null) {
               return entry;
             }
@@ -266,12 +271,12 @@ app.post('/api/message', function(req, res) {
             payload.context['Location'] = '';
           }
 
-          assistant.message(payload, function(err, data) {
+          assistant.message(payload, function (err, data) {
             if (err) {
               return res.status(err.code || 500).json(err);
             } else {
               // lookup actions
-              checkForLookupRequests(data, function(err, data) {
+              checkForLookupRequests(data, function (err, data) {
                 if (err) {
                   console.log(err);
                   return res.status(err.code || 500).json(err);
@@ -282,7 +287,7 @@ app.post('/api/message', function(req, res) {
             }
           });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log('error:', err);
         });
     }
@@ -312,9 +317,9 @@ function checkForLookupRequests(output, callback) {
 
   if (data.context && data.context.action && data.context.action.lookup && data.context.action.lookup != 'complete') {
     const payload = {
-      workspaceId: workspaceID,
+      workspaceId: skillID,
       context: data.context,
-      input: data.input
+      input: data.input,
     };
 
     console.log('data.context.action.lookup: ' + data.context.action.lookup);
@@ -324,7 +329,7 @@ function checkForLookupRequests(output, callback) {
       // if account type is specified (checking, savings or credit card)
       if (data.context.action.account_type && data.context.action.account_type != '') {
         // lookup account information services and update context with account data
-        bankingServices.getAccountInfo(7829706, data.context.action.account_type, function(err, accounts) {
+        bankingServices.getAccountInfo(7829706, data.context.action.account_type, function (err, accounts) {
           if (err) {
             console.log('Error while calling bankingServices.getAccountInfo ', err);
             callback(err, null);
@@ -357,13 +362,13 @@ function checkForLookupRequests(output, callback) {
 
           if (!appendAccountResponse) {
             console.log('call assistant.message with lookup results.');
-            assistant.message(payload, function(err, data) {
+            assistant.message(payload, function (err, data) {
               if (err) {
                 console.log('Error while calling assistant.message with lookup result', err);
                 callback(err, null);
               } else {
                 console.log('checkForLookupRequests assistant.message :: ', JSON.stringify(data));
-                callback(null, data);
+                callback(null, data.result);
               }
             });
           } else {
@@ -381,7 +386,7 @@ function checkForLookupRequests(output, callback) {
       }
     } else if (data.context.action.lookup === LOOKUP_TRANSACTIONS) {
       console.log('************** Lookup Transactions requested **************');
-      bankingServices.getTransactions(7829706, data.context.action.category, function(err, transactionResponse) {
+      bankingServices.getTransactions(7829706, data.context.action.category, function (err, transactionResponse) {
         if (err) {
           console.log('Error while calling account services for transactions', err);
           callback(err, null);
@@ -435,7 +440,7 @@ function checkForLookupRequests(output, callback) {
       });
     } else if (data.context.action.lookup === LOOKUP_5TRANSACTIONS) {
       console.log('************** Lookup 5 Transactions requested **************');
-      bankingServices.getTransactions(7829706, data.context.action.category, function(err, transactionResponse) {
+      bankingServices.getTransactions(7829706, data.context.action.category, function (err, transactionResponse) {
         if (err) {
           console.log('Error while calling account services for transactions', err);
           callback(err, null);
@@ -445,7 +450,7 @@ function checkForLookupRequests(output, callback) {
             responseTxtAppend += 'Total = <b>' + numeral(transactionResponse.total).format('INR 0,0.00') + '</b>';
           }
 
-          transactionResponse.transactions.sort(function(a1, b1) {
+          transactionResponse.transactions.sort(function (a1, b1) {
             const a = new Date(a1.date);
             const b = new Date(b1.date);
             return a > b ? -1 : a < b ? 1 : 0;
@@ -480,7 +485,9 @@ function checkForLookupRequests(output, callback) {
     } else if (data.context.action.lookup === 'branch') {
       console.log('************** Branch details *************** InputText : ' + payload.input.text);
       const loc = data.context.Location.toLowerCase();
-      bankingServices.getBranchInfo(loc, function(err, branchMaster) {
+      // Use the master (India) lookup for getBranchInfo
+      // It can return either India or US.
+      bankingServicesIN.getBranchInfo(loc, function (err, branchMaster) {
         if (err) {
           console.log('Error while calling bankingServices.getAccountInfo ', err);
           callback(err, null);
@@ -501,7 +508,7 @@ function checkForLookupRequests(output, callback) {
             branchMaster.hours +
             '<br/>';
         } else {
-          branchText = "Sorry currently we don't have branch details for " + data.context.action.Location;
+          branchText = "Sorry currently we don't have branch details for " + data.context.Location;
         }
 
         payload.context['branch'] = branchMaster;
@@ -533,7 +540,7 @@ function checkForLookupRequests(output, callback) {
       } else {
         const queryParams = {
           naturalLanguageQuery: payload.input.text,
-          passages: true
+          passages: true,
         };
         Object.assign(queryParams, discoveryParams);
         discovery.query(queryParams, (err, searchResponse) => {

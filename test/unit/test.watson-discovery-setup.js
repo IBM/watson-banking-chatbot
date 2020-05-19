@@ -17,7 +17,7 @@
 'use strict';
 
 require('dotenv').config({
-  silent: true
+  silent: true,
 });
 
 const fs = require('fs');
@@ -30,33 +30,33 @@ const { IamAuthenticator } = require('ibm-watson/auth');
 
 const DEFAULT_NAME = 'test-default-name';
 
-describe('test watson-discovery-setup', function() {
-  beforeEach(function() {
+describe('test watson-discovery-setup', function () {
+  beforeEach(function () {
     process.env = {};
   });
-  afterEach(function() {
+  afterEach(function () {
     process.env = {};
   });
   it(
     'test initial path',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       const discoveryClient = new DiscoveryV1({
         authenticator: new IamAuthenticator({
-          apikey: 'fake'
+          apikey: 'fake',
         }),
         url: 'fake',
-        version: '2019-04-30'
+        version: '2019-04-30',
       });
       const expectedCreateEnv = {
         description: 'Discovery environment created by ' + DEFAULT_NAME,
         name: DEFAULT_NAME,
-        size: 'LT'
+        size: 'LT',
       };
 
       const fakeEnvironment = { environment_id: 'fake-env-id', read_only: true };
       const fakeConfiguration = {
         name: 'Default Configuration',
-        configuration_id: 'fake-config-id'
+        configuration_id: 'fake-config-id',
       };
 
       // Stub the Watson SDK methods that need stubbing
@@ -72,29 +72,29 @@ describe('test watson-discovery-setup', function() {
       createEnvironment.yields(null, fakeEnvironment);
       listEnvironments.yields(null, {
         result: {
-          environments: [fakeEnvironment]
-        }
+          environments: [fakeEnvironment],
+        },
       });
       listCollections.yields(null, {
         result: {
-          collections: []
-        }
+          collections: [],
+        },
       });
       listConfigurations.yields(null, {
         result: {
-          configurations: [fakeConfiguration]
-        }
+          configurations: [fakeConfiguration],
+        },
       });
       createCollection.yields(null, {
         result: {
-          collection_id: 'test-collection'
-        }
+          collection_id: 'test-collection',
+        },
       });
       getCollection.yields(null, {
         result: {
           collection_id: 'test-collection-id',
-          document_counts: { available: 0, processing: 0, failed: 0 }
-        }
+          document_counts: { available: 0, processing: 0, failed: 0 },
+        },
       });
 
       const discoverySetup = new WatsonDiscoverySetup(discoveryClient);
@@ -104,12 +104,12 @@ describe('test watson-discovery-setup', function() {
         './data/discovery/docs/en_IN/BankFaqRnR-DB-Terms-General.docx',
         './data/discovery/docs/en_IN/BankFaqRnR-e2eAO-Terms.docx',
         './data/discovery/docs/en_IN/BankFaqRnR-e2ePL-Terms.docx',
-        './data/discovery/docs/en_IN/BankRnR-OMP-General.docx'
+        './data/discovery/docs/en_IN/BankRnR-OMP-General.docx',
       ];
       discoverySetup.setupDiscovery(
         {
           default_name: 'test-default-name',
-          documents: testDocuments
+          documents: testDocuments,
         },
         (err, data) => {
           if (err) {
@@ -126,7 +126,7 @@ describe('test watson-discovery-setup', function() {
             const partialMatch = {
               collectionId: 'test-collection',
               environmentId: 'fake-env-id',
-              file: sinon.match.instanceOf(fs.ReadStream)
+              file: sinon.match.instanceOf(fs.ReadStream),
             };
             sinon.assert.calledWithMatch(addDocument, partialMatch);
             done();
@@ -137,26 +137,26 @@ describe('test watson-discovery-setup', function() {
   );
   it(
     'test restart path',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       const discoveryClient = new DiscoveryV1({
         authenticator: new IamAuthenticator({
-          apikey: 'fake'
+          apikey: 'fake',
         }),
         url: 'fake',
-        version: '2019-04-30'
+        version: '2019-04-30',
       });
 
       const fakeCollection = {
         collection_id: 'fake-col-id',
-        name: DEFAULT_NAME
+        name: DEFAULT_NAME,
       };
       const fakeEnvironment = {
         environment_id: 'fake-env-id',
-        name: DEFAULT_NAME
+        name: DEFAULT_NAME,
       };
       const fakeConfiguration = {
         name: 'Default Configuration',
-        configuration_id: 'fake-config-id'
+        configuration_id: 'fake-config-id',
       };
 
       // Stub the Watson SDK methods that need stubbing
@@ -171,37 +171,37 @@ describe('test watson-discovery-setup', function() {
       // Make the callbacks yield with the test data.
       listEnvironments.yields(null, {
         result: {
-          environments: [fakeEnvironment]
-        }
+          environments: [fakeEnvironment],
+        },
       });
       listCollections.yields(null, {
         result: {
-          collections: [fakeCollection]
-        }
+          collections: [fakeCollection],
+        },
       });
       listConfigurations.yields(null, {
         result: {
-          configurations: [fakeConfiguration]
-        }
+          configurations: [fakeConfiguration],
+        },
       });
       createCollection.yields(null, {
         result: {
-          collection_id: 'test-collection'
-        }
+          collection_id: 'test-collection',
+        },
       });
       const testDocuments = ['d1', 'd2', 'd3', 'd4', 'd5', 'dSIX'];
       getCollection.yields(null, {
         result: {
           collection_id: 'test-collection-id',
-          document_counts: { available: testDocuments.length, processing: 0, failed: 0 }
-        }
+          document_counts: { available: testDocuments.length, processing: 0, failed: 0 },
+        },
       });
 
       const discoverySetup = new WatsonDiscoverySetup(discoveryClient);
       discoverySetup.setupDiscovery(
         {
           default_name: 'test-default-name',
-          documents: testDocuments
+          documents: testDocuments,
         },
         (err, data) => {
           if (err) {
@@ -220,23 +220,23 @@ describe('test watson-discovery-setup', function() {
   );
   it(
     'test with ENVIRONMENT_ID to use',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       const ENV_ID = 'env-id-to-find';
       process.env.DISCOVERY_ENVIRONMENT_ID = 'env-id-to-find';
       const testDocuments = ['test.docx'];
 
       const discoveryClient = new DiscoveryV1({
         authenticator: new IamAuthenticator({
-          apikey: 'fake'
+          apikey: 'fake',
         }),
         url: 'fake',
-        version: '2019-04-30'
+        version: '2019-04-30',
       });
 
       const fakeEnvironment = { environment_id: ENV_ID };
       const fakeConfiguration = {
         name: 'Default Configuration',
-        configuration_id: 'fake-config-id'
+        configuration_id: 'fake-config-id',
       };
 
       // Stub the Watson SDK methods that need stubbing
@@ -251,36 +251,36 @@ describe('test watson-discovery-setup', function() {
       // Make the callbacks yield with the test data.
       listEnvironments.yields(null, {
         result: {
-          environments: [fakeEnvironment]
-        }
+          environments: [fakeEnvironment],
+        },
       });
       listCollections.yields(null, {
         result: {
-          collections: []
-        }
+          collections: [],
+        },
       });
       listConfigurations.yields(null, {
         result: {
-          configurations: [fakeConfiguration]
-        }
+          configurations: [fakeConfiguration],
+        },
       });
       createCollection.yields(null, {
         result: {
-          collection_id: 'test-collection'
-        }
+          collection_id: 'test-collection',
+        },
       });
       getCollection.yields(null, {
         result: {
           collection_id: 'test-collection-id',
-          document_counts: { available: testDocuments.length, processing: 0, failed: 0 }
-        }
+          document_counts: { available: testDocuments.length, processing: 0, failed: 0 },
+        },
       });
 
       const discoverySetup = new WatsonDiscoverySetup(discoveryClient);
       discoverySetup.setupDiscovery(
         {
           default_name: 'test-default-name',
-          documents: testDocuments
+          documents: testDocuments,
         },
         (err, data) => {
           if (err) {
@@ -299,14 +299,14 @@ describe('test watson-discovery-setup', function() {
   );
   it(
     'test with ENVIRONMENT_ID to validate and fail',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       process.env.DISCOVERY_ENVIRONMENT_ID = 'bogus';
       const discoveryClient = new DiscoveryV1({
         authenticator: new IamAuthenticator({
-          apikey: 'fake'
+          apikey: 'fake',
         }),
         url: 'fake',
-        version: '2019-04-30'
+        version: '2019-04-30',
       });
 
       // Stub the Watson SDK methods that need stubbing
@@ -330,7 +330,7 @@ describe('test watson-discovery-setup', function() {
   );
   it(
     'test finding collection by ENVIRONMENT_ID',
-    sinonTest(function(done) {
+    sinonTest(function (done) {
       const COL_ID = 'col-id-to-find';
       const ENV_ID = 'env-id-to-find';
       process.env = {};
@@ -340,17 +340,17 @@ describe('test watson-discovery-setup', function() {
 
       const discoveryClient = new DiscoveryV1({
         authenticator: new IamAuthenticator({
-          apikey: 'fake'
+          apikey: 'fake',
         }),
         url: 'fake',
-        version: '2019-04-30'
+        version: '2019-04-30',
       });
 
       const fakeEnvironment = { environment_id: ENV_ID };
       const fakeCollections = { collection_id: COL_ID };
       const fakeConfiguration = {
         name: 'Default Configuration',
-        configuration_id: 'fake-config-id'
+        configuration_id: 'fake-config-id',
       };
 
       // Stub the Watson SDK methods that need stubbing
@@ -365,36 +365,36 @@ describe('test watson-discovery-setup', function() {
       // Make the callbacks yield with the test data.
       listEnvironments.yields(null, {
         result: {
-          environments: [fakeEnvironment]
-        }
+          environments: [fakeEnvironment],
+        },
       });
       listCollections.yields(null, {
         result: {
-          collections: [fakeCollections]
-        }
+          collections: [fakeCollections],
+        },
       });
       listConfigurations.yields(null, {
         result: {
-          configurations: [fakeConfiguration]
-        }
+          configurations: [fakeConfiguration],
+        },
       });
       createCollection.yields(null, {
         result: {
-          collection_id: 'test-collection'
-        }
+          collection_id: 'test-collection',
+        },
       });
       getCollection.yields(null, {
         result: {
           collection_id: 'test-collection-id',
-          document_counts: { available: testDocuments.length, processing: 0, failed: 0 }
-        }
+          document_counts: { available: testDocuments.length, processing: 0, failed: 0 },
+        },
       });
 
       const discoverySetup = new WatsonDiscoverySetup(discoveryClient);
       discoverySetup.setupDiscovery(
         {
           default_name: 'test-default-name',
-          documents: testDocuments
+          documents: testDocuments,
         },
         (err, data) => {
           if (err) {

@@ -26,13 +26,13 @@ const bankingServices = {
       city: 'Mumbai',
       state: 'MH',
       zip: 400001,
-      country: 'India'
+      country: 'India',
     },
     customer_id: 7829706,
-    tone_anger_threshold: 0.7
+    tone_anger_threshold: 0.7,
   },
 
-  getPerson: function(customerId, callback) {
+  getPerson: function (customerId, callback) {
     callback(null, this._person);
   },
 
@@ -40,12 +40,12 @@ const bankingServices = {
     {
       balance: 12800,
       number: 'xxx8990',
-      type: 'savings'
+      type: 'savings',
     },
     {
       balance: 7600,
       number: 'xxx0744',
-      type: 'current'
+      type: 'current',
     },
     {
       balance: 550,
@@ -53,17 +53,17 @@ const bankingServices = {
       type: 'CC',
       available_credit: 4450,
       payment_due_date: '25 March, 2016',
-      last_statement_balance: 550
+      last_statement_balance: 550,
     },
     {
       balance: 50000,
       number: 'xxx7685',
       type: 'FD',
-      maturity_date: '25 Nov, 2017'
-    }
+      maturity_date: '25 Nov, 2017',
+    },
   ],
 
-  getAccountInfo: function(customerId, accountType, callback) {
+  getAccountInfo: function (customerId, accountType, callback) {
     // console.log('getAccountInfo :: start');
     let accounts = [];
 
@@ -94,32 +94,32 @@ const bankingServices = {
       name: 'Saurav',
       number: 'xxx0744',
       type: 'savings',
-      bank: 'ING'
+      bank: 'ING',
     },
     {
       name: 'Rajesh',
       number: 'xxx0744',
       type: 'savings',
-      bank: 'Finance Bank'
+      bank: 'Finance Bank',
     },
     {
       name: 'Ramesh',
       number: 'xxx7685',
       type: 'savings',
-      bank: 'Citi'
-    }
+      bank: 'Citi',
+    },
   ],
-  getBeneficiaryInfo: function(customerId, callback) {
+  getBeneficiaryInfo: function (customerId, callback) {
     // console.log('getAccountInfo :: start');
     let beneficiaries = [];
     beneficiaries = this._beneficiary.slice();
     callback(null, beneficiaries);
   },
-  getTransactions: function(customerId, category, callback) {
+  getTransactions: function (customerId, category, callback) {
     const response = {
       total: '',
       category: 'all',
-      transactions: []
+      transactions: [],
     };
 
     const len = this._transactions ? this._transactions.length : 0;
@@ -156,7 +156,7 @@ const bankingServices = {
       category: 'dining',
       description: 'Sweekar Restaurant',
       type: 'debit',
-      date: '08-29-2016'
+      date: '08-29-2016',
     },
     {
       amount: 500.0,
@@ -164,7 +164,7 @@ const bankingServices = {
       category: 'dining',
       description: 'McDonalds',
       type: 'debit',
-      date: '08-27-2016'
+      date: '08-27-2016',
     },
     {
       amount: 2000.9,
@@ -172,7 +172,7 @@ const bankingServices = {
       category: 'grocery',
       description: 'DMart',
       type: 'debit',
-      date: '08-26-2016'
+      date: '08-26-2016',
     },
     {
       amount: 1500,
@@ -180,7 +180,7 @@ const bankingServices = {
       category: 'grocery',
       description: 'Hyper City',
       type: 'debit',
-      date: '08-24-2016'
+      date: '08-24-2016',
     },
     {
       amount: 5000.0,
@@ -188,7 +188,7 @@ const bankingServices = {
       category: 'travel',
       description: 'Air India',
       type: 'debit',
-      date: '08-24-2016'
+      date: '08-24-2016',
     },
     {
       amount: 1000.0,
@@ -196,7 +196,7 @@ const bankingServices = {
       category: 'fuel',
       description: 'Indian Oil',
       type: 'debit',
-      date: '08-20-2016'
+      date: '08-20-2016',
     },
     {
       amount: 800.0,
@@ -204,7 +204,7 @@ const bankingServices = {
       category: 'utility',
       description: 'Reliance Energy',
       type: 'debit',
-      date: '09-16-2016'
+      date: '09-16-2016',
     },
     {
       amount: 700.0,
@@ -212,7 +212,7 @@ const bankingServices = {
       category: 'utility',
       description: 'BSNL',
       type: 'debit',
-      date: '08-16-2016'
+      date: '08-16-2016',
     },
     {
       amount: 500.0,
@@ -220,7 +220,7 @@ const bankingServices = {
       category: 'utility',
       description: 'Mahanagar Gas Ltd',
       type: 'debit',
-      date: '08-16-2016'
+      date: '08-16-2016',
     },
     {
       amount: 1000.0,
@@ -228,7 +228,7 @@ const bankingServices = {
       category: 'utility',
       description: 'Mahanagar Gas Ltd',
       type: 'debit',
-      date: '09-16-2016'
+      date: '09-16-2016',
     },
     {
       amount: 6000.0,
@@ -236,7 +236,7 @@ const bankingServices = {
       category: 'investment',
       description: 'Open Finance Mutual Fund',
       type: 'debit',
-      date: '09-25-2016'
+      date: '09-25-2016',
     },
     {
       amount: 10000.0,
@@ -244,8 +244,8 @@ const bankingServices = {
       category: 'education',
       description: 'Annual Fee',
       type: 'debit',
-      date: '08-15-2016'
-    }
+      date: '08-15-2016',
+    },
   ],
 
   _branchMaster: [
@@ -253,52 +253,52 @@ const bankingServices = {
       location: 'newyork',
       address: '460 Park Ave, New York, NY 10022, United States',
       phone: '+1 212-000-0000',
-      hours: '10AM–4PM'
+      hours: '10AM–4PM',
     },
     {
       location: 'ny',
       address: '460 Park Ave, New York, NY 10022, United States',
       phone: '+1 212-000-0000',
-      hours: '10AM–4PM'
+      hours: '10AM–4PM',
     },
     {
       location: 'new york',
       address: '460 Park Ave, New York, NY 10022, United States',
       phone: '+1 212-000-0000',
-      hours: '10AM–4PM'
+      hours: '10AM–4PM',
     },
     {
       location: 'cochin',
       address: 'Cochin Shipyard, Mahatma Gandhi Rd, Ernakulam, Kerala 682015',
       phone: '0484 0000 0000',
-      hours: '10AM–4PM'
+      hours: '10AM–4PM',
     },
     {
       location: 'andheri',
       address: 'Swami Vivekanand Road, Andheri West, Mumbai, Maharashtra 400058',
       phone: '022 0000 0000',
-      hours: '10AM–5PM'
+      hours: '10AM–5PM',
     },
     {
       location: 'delhi',
       address: 'Rohini, Delhi, 110042',
       phone: '011 0000 0000',
-      hours: '10AM–5PM'
+      hours: '10AM–5PM',
     },
     {
       location: 'bangalore',
       address: 'Bangalore Airport Exit Road, Bengaluru, Karnataka 560017',
       phone: '080 0000 0000',
-      hours: '10AM–5PM'
+      hours: '10AM–5PM',
     },
     {
       location: 'mumbai',
       address: 'Nariman point, Mumbai, Maharashtra 400023',
       phone: '022 1111 1111',
-      hours: '10AM–5PM'
-    }
+      hours: '10AM–5PM',
+    },
   ],
-  getBranchInfo: function(location, callback) {
+  getBranchInfo: function (location, callback) {
     for (let i = 0; i < this._branchMaster.length; i++) {
       if (this._branchMaster[i].location === location) {
         callback(null, this._branchMaster[i]);
@@ -306,7 +306,7 @@ const bankingServices = {
       }
     }
     callback(null, null);
-  }
+  },
 };
 
 module.exports = bankingServices;

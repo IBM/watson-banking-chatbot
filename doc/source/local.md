@@ -27,8 +27,7 @@ Collect the credentials for IBM Cloud Pak for Data provisioned services (Assista
     <li>Use the <b>Menu</b> and select <b>Users</b> and <b>+ Add user</b> to grant your user access to this service instance. This is the user name (and password) you will use when you configure credentials to allow the Node.js server to authenticate.</li>
 </ol>
 
-The other settings for Assistant and Discovery were collected during the
-earlier setup steps (`DISCOVERY_COLLECTION_ID` and `SKILL_ID`).
+The other settings for Assistant and Discovery (`SKILL_ID`, `DISCOVERY_ENVIRONMENT_ID`, and `DISCOVERY_COLLECTION_ID`) can be used to configure a specific skill or collection.
 
 Copy the [`env.sample`](../../env.sample) to `.env`.
 
@@ -173,7 +172,8 @@ LOCALE=en_US
 1. Install [Node.js](https://nodejs.org/en/) runtime or NPM.
 1. Start the app by running `npm install`, followed by `npm start`.
 1. Use the chatbot at `localhost:3000`.
+1. Go back to the README.md for instructions on how to use the web app.
 
 > Note: server host can be changed as required in server.js and `PORT` can be set in `.env`.
 
-[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](https://github.com/IBM/watson-banking-chatbot#sample-output)
+[![return](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/return.png)](../../README.md#4-use-the-web-app)
