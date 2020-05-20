@@ -40,10 +40,10 @@ When the reader has completed this pattern, they will understand how to:
 
 1. [Clone the repo](#1-clone-the-repo)
 1. [Create Watson services](#2-create-watson-services)
-1. [Deploy the application](#3-deploy-the-application)
-1. [Use the web app](#4-use-the-web-app)
-1. [Customize the Watson Assistant skill](#5-customize-the-watson-assistant-skill)
-1. [Load Discovery documents](#6-load-discovery-documents)
+1. [Customize the Watson Assistant skill](#3-customize-the-watson-assistant-skill)
+1. [Load Discovery documents](#4-load-discovery-documents)
+1. [Deploy the application](#5-deploy-the-application)
+1. [Use the web app](#6-use-the-web-app)
 
 ### 1. Clone the repo
 
@@ -61,7 +61,7 @@ Provision the following services:
 * **Watson Discovery**
 * **Watson Natural Language Understanding**
 
-> **NOTE**: If you will be using the `Deploy to Cloud Foundry on IBM Cloud` deployment option, then you can skip this step. That deployment option automatically creates the services and links them to your application.
+> **NOTE**: If you will be using the `Deploy to Cloud Foundry on IBM Cloud` deployment option, then you can skip these next steps and jump right to the [Deploy the Application](#5-deploy-the-application) section. That deployment option automatically creates the services and links them to your application.
 
 The instructions will depend on whether you are provisioning services using IBM Cloud Pak for Data or on IBM Cloud.
 
@@ -87,21 +87,7 @@ The services are not available by default. An administrator must install them on
   </ul>
 </details>
 
-### 3. Deploy the application
-
-Click on one of the options below for instructions on deploying the Node.js server.
-
-| | | |
-| :-: | :-: | :-: |
-| [![local](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/local.png)](doc/source/local.md) | [![openshift](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/openshift.png)](doc/source/openshift.md) | [![public](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/cf.png)](doc/source/cf.md) |
-
-### 4. Use the web app
-
-The web app presents a customer service chatbot. Interact with the chatbot by pressing the buttons when prompted or use the `Type something` box. The chatbot is powered by Watson Assistant with additional information coming from Discovery and Natural Language Understanding.
-
-![demo](doc/source/images/demo.gif)
-
-### 5. Customize the Watson Assistant skill
+### 3. Customize the Watson Assistant skill
 
 The following instructions will depend on if you are provisioning Assistant from IBM Cloud or from an IBM Cloud Pak for Data cluster. Choose one:
 
@@ -150,7 +136,7 @@ To view the Assistant dialog, click on the skill and choose the
 
 ![dialog](doc/source/images/dialog.png)
 
-### 5. Load Discovery documents
+### 4. Load Discovery documents
 
 By default, the application will create a collection named **watson-banking-chatbot**, but you can configure it to use another collection by setting the run-time environment variables `DISCOVERY_COLLECTION_ID` and `DISCOVERY_ENVIRONMENT_ID`.
 
@@ -198,6 +184,20 @@ The following instructions will depend on if you are provisioning Discovery from
 
 </p>
 </details>
+
+### 5. Deploy the application
+
+Click on one of the options below for instructions on deploying the Node.js server.
+
+| | | |
+| :-: | :-: | :-: |
+| [![local](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/local.png)](doc/source/local.md) | [![openshift](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/openshift.png)](doc/source/openshift.md) | [![public](https://raw.githubusercontent.com/IBM/pattern-utils/master/deploy-buttons/cf.png)](doc/source/cf.md) |
+
+### 6. Use the web app
+
+The web app presents a customer service chatbot. Interact with the chatbot by pressing the buttons when prompted or use the `Type something` box. The chatbot is powered by Watson Assistant with additional information coming from Discovery and Natural Language Understanding.
+
+![demo](doc/source/images/demo.gif)
 
 ## Troubleshooting
 
