@@ -1666,7 +1666,7 @@
       "output": {
         "text": {
           "values": [
-            "Hi, I'm Watson. Welcome to Open Financial Bank. You have some notifications. Want to have a look? <br> <input type=\"submit\"  class=\"btn-primary\" onclick=\"accountType('YES')\" value=\"Yes\" />   <input type=\"submit\"  class=\"btn-primary\"  onclick=\"accountType('NO')\"   value=\"No\" />"
+            "Hi, I'm Watson. Welcome to Megabank. You have some notifications. Want to have a look? <br> <input type=\"submit\"  class=\"btn-primary\" onclick=\"accountType('YES')\" value=\"Yes\" />   <input type=\"submit\"  class=\"btn-primary\"  onclick=\"accountType('NO')\"   value=\"No\" />"
           ],
           "selection_policy": "sequential"
         }
