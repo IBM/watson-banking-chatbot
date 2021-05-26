@@ -51,40 +51,45 @@ Edit the `.env` file with the necessary credentials and settings.
 # Remove or comment out the IBM Cloud section.
 #----------------------------------------------------------
 
-ASSISTANT_AUTH_TYPE=cp4d
-ASSISTANT_AUTH_URL=https://my-cpd-cluster.ibmcodetest.us
-ASSISTANT_USERNAME=my-username
-ASSISTANT_PASSWORD=my-password
-ASSISTANT_URL=https://my-cpd-cluster.ibmcodetest.us/assistant/assistant/instances/1576274722862/api
+## CPD Cluster URL should be in the form:
+## https://{cpd_cluster_host}{:port}
+## Service URLs should be in the form:
+## https://{cpd_cluster_host}{:port}/{service}/{release}/instances/{instance_id}/api
+
+# ASSISTANT_AUTH_TYPE=cp4d
+# ASSISTANT_AUTH_URL=<add_cpd_url>
+# ASSISTANT_USERNAME=<add_cpd_username>
+# ASSISTANT_PASSWORD=<add_cpd_password>
+# ASSISTANT_URL=<add_assistant_instance_url>
 # # If you use a self-signed certificate, you need to disable SSL verification.
 # # This is not secure and not recommended.
 ## ASSISTANT_AUTH_DISABLE_SSL=true
 ## ASSISTANT_DISABLE_SSL=true
-# Optionally, use a non-default skill by specifying your own Skill ID.
-SKILL_ID=<add_assistant_skill_id>
+# Optionally, use a non-default skill by specifying your own skill ID.
+# SKILL_ID=<add_assistant_skill_id>
 
-NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE=cp4d
-NATURAL_LANGUAGE_UNDERSTANDING_AUTH_URL=https://my-cpd-cluster.ibmcodetest.us
-NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=my-username
-NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=my-password
-NATURAL_LANGUAGE_UNDERSTANDING_URL=https://my-cpd-cluster.ibmcodetest.us/natural-language-understanding/nlu/instances/1580832150084/api
+# NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE=cp4d
+# NATURAL_LANGUAGE_UNDERSTANDING_AUTH_URL=<add_cpd_url>
+# NATURAL_LANGUAGE_UNDERSTANDING_USERNAME=<add_cpd_username>
+# NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD=<add_cpd_password>
+# NATURAL_LANGUAGE_UNDERSTANDING_URL=<add_nlu_instance_url>
 # # If you use a self-signed certificate, you need to disable SSL verification.
 # # This is not secure and not recommended.
 ## NATURAL_LANGUAGE_UNDERSTANDING_AUTH_DISABLE_SSL=true
 ## NATURAL_LANGUAGE_UNDERSTANDING_DISABLE_SSL=true
 
-DISCOVERY_AUTH_TYPE=cp4d
-DISCOVERY_AUTH_URL=https://my-cpd-cluster.ibmcodetest.us
-DISCOVERY_USERNAME=my-username
-DISCOVERY_PASSWORD=my-password
-DISCOVERY_URL=https://my-cpd-cluster.ibmcodetest.us/discovery/disco/instances/1576022362055/api
+# DISCOVERY_AUTH_TYPE=cp4d
+# DISCOVERY_AUTH_URL=<add_cpd_url>
+# DISCOVERY_USERNAME=<add_cpd_username>
+# DISCOVERY_PASSWORD=<add_cpd_password>
+# DISCOVERY_URL=<add_discovery_instance_url>
 # # If you use a self-signed certificate, you need to disable SSL verification.
 # # This is not secure and not recommended.
 ## DISCOVERY_AUTH_DISABLE_SSL=true
 ## DISCOVERY_DISABLE_SSL=true
-DISCOVERY_ENVIRONMENT_ID=default
+# DISCOVERY_ENVIRONMENT_ID=default
 # Optionally, use a non-default collection by specifying your ID.
-DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
+# DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
 
 # Run locally on a non-default port (default is 3000)
 # PORT=3000
@@ -135,24 +140,24 @@ Edit the `.env` file with the necessary credentials and settings.
 #----------------------------------------------------------
 
 # Watson Assistant
-ASSISTANT_AUTH_TYPE=iam
-ASSISTANT_APIKEY=zzZzzABCsU8DBrvi123HLZwVyHbRlBFf_97n9O123ABC
-ASSISTANT_URL=https://gateway.watsonplatform.net/assistant/api
-# Optionally, use a non-default skill by specifying your own Skill ID.
-SKILL_ID=<add_assistant_skill_id>
+# ASSISTANT_AUTH_TYPE=iam
+# ASSISTANT_APIKEY=<add_assistant_apikey>
+# ASSISTANT_URL=<add_assistant_url>
+# Optionally, use a non-default skill by specifying your own skill ID.
+# SKILL_ID=<add_assistant_skill_id>
 
 # Watson Natural Language Understanding
-NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE=iam
-NATURAL_LANGUAGE_UNDERSTANDING_APIKEY=A1zzzzzz5E8yFG1t9H9kFeCBR_Lq123pWj7abcdFCE11
-NATURAL_LANGUAGE_UNDERSTANDING_URL=<https://gateway.watsonplatform.net/natural-language-understanding/api
+# NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE=iam
+# NATURAL_LANGUAGE_UNDERSTANDING_APIKEY=<add_nlu_apikey>
+# NATURAL_LANGUAGE_UNDERSTANDING_URL=<add_nlu_url>
 
 # Watson Discovery
-DISCOVERY_AUTH_TYPE=iam
-DISCOVERY_APIKEY=a1b2c3JZmZZZZSq3NYabckevKa123AwqD9HlWIUvabCd
-DISCOVERY_URL=https://gateway.watsonplatform.net/discovery/api
+# DISCOVERY_AUTH_TYPE=iam
+# DISCOVERY_APIKEY=<add_discovery_apikey>
+# DISCOVERY_URL=<add_discovery_url>
 # Optionally, use a non-default environment and collection by specifying your IDs.
-DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment_id>
-DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
+# DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment_id>
+# DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
 
 # Run locally on a non-default port (default is 3000)
 # PORT=3000
