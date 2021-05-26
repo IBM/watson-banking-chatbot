@@ -91,38 +91,6 @@ Edit the `.env` file with the necessary credentials and settings.
 # Optionally, use a non-default collection by specifying your ID.
 # DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
 
-##
-# # Optional: Instead of the above IBM Cloud Pak for Data credentials...
-# # For testing and development, you can use the bearer token that's displayed
-# # in the IBM Cloud Pak for Data web client. To find this token, view the
-# # details for the provisioned service instance. The details also include the
-# # service endpoint URL. Only disable SSL if necessary (insecure).
-# # Don't use this token in production because it does not expire.
-# #
-
-# ASSISTANT_AUTH_TYPE=bearertoken
-# ASSISTANT_BEARER_TOKEN=<add_speech-to-text_bearertoken>
-# ASSISTANT_AUTH_URL=<add_cpd_url>
-# ASSISTANT_URL=<add_assistant_instance_url>
-## ASSISTANT_DISABLE_SSL=true
-# Optionally, use a non-default skill by specifying your own skill ID.
-# SKILL_ID=<add_assistant_skill_id>
-
-# NATURAL_LANGUAGE_UNDERSTANDING_AUTH_TYPE=bearertoken
-# NATURAL_LANGUAGE_UNDERSTANDING_BEARER_TOKEN=<add_speech-to-text_bearertoken>
-# NATURAL_LANGUAGE_UNDERSTANDING_AUTH_URL=<add_cpd_url>
-# NATURAL_LANGUAGE_UNDERSTANDING_URL=<add_nlu_instance_url>
-## NATURAL_LANGUAGE_UNDERSTANDING_DISABLE_SSL=true
-
-# DISCOVERY_AUTH_TYPE=bearertoken
-# DISCOVERY_BEARER_TOKEN=<add_speech-to-text_bearertoken>
-# DISCOVERY_AUTH_URL=<add_cpd_url>
-# DISCOVERY_URL=<add_discovery_instance_url>
-## DISCOVERY_DISABLE_SSL=true
-# DISCOVERY_ENVIRONMENT_ID=default
-# Optionally, use a non-default collection by specifying your ID.
-# DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
-
 # Run locally on a non-default port (default is 3000)
 # PORT=3000
 
@@ -190,6 +158,12 @@ Edit the `.env` file with the necessary credentials and settings.
 # Optionally, use a non-default environment and collection by specifying your IDs.
 # DISCOVERY_ENVIRONMENT_ID=<add_discovery_environment_id>
 # DISCOVERY_COLLECTION_ID=<add_discovery_collection_id>
+
+# Run locally on a non-default port (default is 3000)
+# PORT=3000
+
+# Set LOCALE=en_IN for the original India bank version.
+LOCALE=en_US
 ```
 
 > Note: if you are trying to run this project as workshop in India then use `Locale=en_IN`
