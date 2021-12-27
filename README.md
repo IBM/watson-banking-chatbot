@@ -1,4 +1,6 @@
-[![Build Status](https://api.travis-ci.org/IBM/watson-banking-chatbot.svg?branch=master)](https://travis-ci.org/IBM/watson-banking-chatbot)
+# WARNING: This repository is no longer maintained :warning:
+
+> This repository will not be updated. The repository will be kept available in read-only mode. 
 
 # Create a banking chatbot with FAQ discovery, anger detection and natural language understanding
 
